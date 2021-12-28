@@ -1,12 +1,12 @@
 import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
-import type { Item } from '../../entities/economy/item';
+import type { Item } from '../../../entities/economy/item';
 import type { Message } from 'discord.js';
 
 
 import { MessageEmbed } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { User } from '../../entities/economy/user';
+import { User } from '../../../entities/economy/user';
 
 @ApplyOptions<CommandOptions>({
 	name: 'inventory',

@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { fetchInventory, fetchUser, findItemByName } from '../../helpers/dbHelper';
+import { fetchInventory, fetchUser, findItemByName } from '../../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
