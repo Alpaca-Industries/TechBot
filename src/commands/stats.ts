@@ -7,7 +7,7 @@ import momentDurationFormatSetup from 'moment-duration-format';
 
 @ApplyOptions<CommandOptions>({
 	name: 'stats',
-	description: 'Shows some stats about the bot'
+	description: 'Shows some intresting stats about the bot.'
 })
 export class StatsCommand extends Command {
 	async messageRun(

@@ -10,7 +10,7 @@ import { User } from '../../entities/economy/user';
 
 @ApplyOptions<CommandOptions>({
 	name: 'inventory',
-	description: 'Shows inventory'
+	description: 'Shows your item inventory.'
 })
 export default class InventoryCommand extends Command {
 	async messageRun(

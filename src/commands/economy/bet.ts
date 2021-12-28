@@ -7,7 +7,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'bet',
-	description: 'Gives you a 50/50 chance to earn double what you bet'
+	description: 'Gives you a 50/50 chance to earn double what you bet.'
 })
 export default class BetCommand extends Command {
 	async messageRun(

@@ -7,7 +7,7 @@ import { fetchInventory, fetchUser, findItemByName } from '../../helpers/dbHelpe
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
-	description: 'Gives you the ability to buy items from the store'
+	description: 'Gives you the ability to buy items from the store.'
 })
 export default class BuyCommand extends Command {
 	async messageRun(

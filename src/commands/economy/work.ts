@@ -7,7 +7,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'work',
-	description: 'Makes you slave away your final days on earth'
+	description: 'Makes you slave away your final days on earth :)'
 })
 export default class WorkCommand extends Command {
 	async messageRun(

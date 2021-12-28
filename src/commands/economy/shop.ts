@@ -7,7 +7,7 @@ import { Item } from '../../entities/economy/item';
 
 @ApplyOptions<CommandOptions>({
 	name: 'shop',
-	description: 'Gives you a list of the buyable items and their prices'
+	description: 'Gives you a list of the buyable items and their prices.'
 })
 export default class ShopCommand extends Command {
 	async messageRun(

@@ -7,8 +7,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'balance',
-	aliases: ['bal', 'money', 'balance'],
-	description: 'Changes the server prefix'
+	aliases: ['bal', 'money', 'balance', 'cash'],
+	description: 'Returns a user\'s current balance.'
 })
 export default class BalanceCommand extends Command {
 	async messageRun(

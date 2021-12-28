@@ -7,7 +7,7 @@ import { User } from '../../entities/economy/user';
 
 @ApplyOptions<CommandOptions>({
 	name: 'leaderboard',
-	description: "Show's the global economy leaderboard"
+	description: "Shows the global economy leaderboard."
 })
 export default class LeaderboardCommand extends Command {
 	private numToEnglish(number: number): string {
