@@ -20,7 +20,7 @@ export default class DogCommand extends Command {
 		const dogEmbed = new MessageEmbed();
 		const dog: Dog[] = await axios.get(
 			'https://api.thedogapi.com/v1/images/search'
-		).then(res => res.data());
+		).then(res => res.data);
 
 		dogEmbed.setImage(dog[0].url);
 

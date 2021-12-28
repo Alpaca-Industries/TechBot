@@ -20,7 +20,7 @@ export default class CatCommand extends Command {
 		const catEmbed = new MessageEmbed();
 		const cat: Cat[] = await axios.get(
 			'https://api.thecatapi.com/v1/images/search'
-		).then(res => res.data());
+		).then(res => res.data);
 
 		catEmbed.setImage(cat[0].url);
 
