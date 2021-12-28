@@ -17,7 +17,7 @@ export default class BetCommand extends Command {
 	): Promise<unknown> {
 		const betAmount = (await args.pickResult('integer')).value || 0;
 		if (betAmount > 10 || isNaN(betAmount)) {
-			return message.reply('Please bet a valid amount: eg: "bet 20"');
+			return message.reply('Please bet a valid amount above 10!');
 		}
 
 		const userDetails = await fetchUser(message.author);
@@ -34,13 +34,13 @@ export default class BetCommand extends Command {
 			userDetails.wallet += betAmount;
 			userDetails.save();
 			return message.channel.send(
-				`Congrats ${message.author.username}, you have won $${betAmount}`
+				`Congrats ${message.author.username}, you won **$${betAmount}**!`
 			);
 		} else {
 			userDetails.wallet -= betAmount;
 			userDetails.save();
 			return message.channel.send(
-				`Congrats ${message.author.username}, you have lost $${betAmount}`
+				`${message.author.username}, you lost **$${betAmount}**!`
 			);
 		}
 	}
