@@ -21,8 +21,8 @@ export default class InventoryCommand extends Command {
 		const userToCheck =
 			(await args.pickResult('user')).value || message.author;
 
-		let items: Item[] = await User.getRepository().manager.query(`
-			SELECT item.* FROM item
+		let items: ItemDataExtended[] = await User.getRepository().manager.query(`
+			SELECT item.*, inventory.amount FROM item
 			JOIN inventory ON inventory.itemID = item.id
 			WHERE inventory.userId = ${userToCheck.id}
 			`);
@@ -35,10 +35,14 @@ export default class InventoryCommand extends Command {
 
 		let itemNumber = 1;
 		for (const item of items) {
-			inventoryEmbed.addField(`${itemNumber}: item.name`,`Price: ${item.price}\nRarity: ${item.rarity}`);
+			inventoryEmbed.addField(`${itemNumber}: ${item.name}`,`Price: ${item.price}\nRarity: ${item.rarity}\nAmount: ${item.amount}`);
 			itemNumber++;
 		}
 
 		return message.channel.send({ embeds: [inventoryEmbed] });
 	}
+}
+
+interface ItemDataExtended extends Item {
+	amount: number;
 }

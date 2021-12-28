@@ -34,12 +34,13 @@ export const fetchUser = async (user: User): Promise<EconomyUser> => {
 export const fetchInventory = async (user: User, item: Item): Promise<Inventory> => {
 	const userData = await fetchUser(user);
 	let inventory = await Inventory.findOne({ where: { userId: userData.id, itemID: item.id } });
-	if (inventory === null) {
+	if (inventory === undefined) {
 		inventory = new Inventory();
 		inventory.userId = userData.id;
 		inventory.itemID = item.id;
 		inventory.amount = 0;
-		return inventory;
+		inventory.save();
+		return fetchInventory(user, item);
 	}
 	return inventory;
 }
