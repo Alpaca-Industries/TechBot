@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { fetchInventory, fetchUser, findItemByName } from '../../../helpers/dbHelper';
+import { fetchInventory, fetchUser, fetchItemByName } from '../../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -17,7 +17,7 @@ export default class BuyCommand extends Command {
 	): Promise<unknown> {
 		const itemToBuy = await args.restResult('string');
 
-		const item = await findItemByName(itemToBuy.value.replaceAll(' ', '_'));
+		const item = await fetchItemByName(itemToBuy.value.replaceAll(' ', '_'));
 
 		if (item === null) return message.reply('Please specify a valid item');
 

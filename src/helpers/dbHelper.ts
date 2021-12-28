@@ -17,7 +17,7 @@ const ItemRegistry = {
 };
 */
 
-export const findItemByName = (name: string): Promise<Item> => {
+export const fetchItemByName = (name: string): Promise<Item> => {
     return Item.findOne({ where: { name: name } });
 };
 
