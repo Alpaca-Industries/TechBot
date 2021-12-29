@@ -3,7 +3,6 @@ import { Args, Command, CommandContext, CommandOptions } from '@sapphire/framewo
 import { stripIndents } from 'common-tags';
 import { Message, version } from 'discord.js';
 import moment from 'moment';
-import momentDurationFormatSetup from 'moment-duration-format';
 
 @ApplyOptions<CommandOptions>({
 	name: 'stats',
@@ -15,8 +14,6 @@ export class StatsCommand extends Command {
 		args: Args,
 		context: CommandContext
 	): Promise<unknown> {
-		momentDurationFormatSetup(moment as any);
-
 		const duration = moment
 			.duration(this.container.client.uptime)
 			.format(' D [days], H [hrs], m [mins], s [secs]');

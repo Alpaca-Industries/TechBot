@@ -9,6 +9,12 @@ import { SapphireClient } from '@sapphire/framework';
 // Global Imports
 import { config } from './config';
 
+// Moment
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+
+momentDurationFormatSetup(moment as any);
+
 const client = new SapphireClient({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
 export let connection: Connection;
