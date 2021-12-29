@@ -16,7 +16,7 @@ export default class BetCommand extends Command {
 		context: CommandContext
 	): Promise<unknown> {
 		const betAmount = (await args.pickResult('integer')).value || 0;
-		if (betAmount > 10 || isNaN(betAmount)) {
+		if (betAmount < 10 || isNaN(betAmount)) {
 			return message.reply('Please bet a valid amount above 10!');
 		}
 
