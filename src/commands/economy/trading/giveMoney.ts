@@ -7,7 +7,8 @@ import { fetchUser } from '../../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'giveMoney',
-	description: 'Lets you give money to another user',
+	aliases: ['give', 'share'],
+	description: 'Allows you give money to another user.',
 })
 export default class giveMoneyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
