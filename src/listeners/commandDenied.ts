@@ -3,6 +3,10 @@ import { Listener } from '@sapphire/framework';
 
 export class CommandDeniedListener extends Listener {
   public run(error: UserError, { message }: CommandDeniedPayload) {
-    message.channel.send(error.message);
+    if (error.name == "Cooldown") {   
+        message.channel.send(`You must wait <t:${Math.floor(error.context.remaining / 1000)}:f> (<t:${Math.floor(error.context.remaining / 1000)}:R>) before using that command again.`)
+    } else {
+        message.channel.send(error.message);
+    }
   }
 }
