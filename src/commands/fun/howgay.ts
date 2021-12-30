@@ -4,6 +4,7 @@ import type { Message } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'howgay',
+	aliases: ['how-gay'],
 	description: 'How gay are you?',
 	detailedDescription: 'howgay [user]'
 })

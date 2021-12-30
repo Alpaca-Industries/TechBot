@@ -7,7 +7,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'beg',
-	description: 'Begs people for cash.'
+	description: 'Begs people for cash.',
+	detailedDescription: 'beg'
 })
 export default class BegCommand extends Command {
 	messageRun(

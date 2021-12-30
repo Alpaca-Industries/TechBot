@@ -8,7 +8,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'daily',
 	description: 'Get those yummy pepe coins, I know you want them.',
-    cooldownDelay: 86_400_000
+    cooldownDelay: 86_400_000,
+	detailedDescription: 'daily'
 })
 export default class DailyCommand extends Command {
 	async messageRun(

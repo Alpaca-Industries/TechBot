@@ -9,7 +9,8 @@ import axios from 'axios';
 
 @ApplyOptions<CommandOptions>({
 	name: 'cat',
-	description: 'Shows a cute cat image.'
+	description: 'Shows a cute cat image.',
+	detailedDescription: 'cat'
 })
 export default class CatCommand extends Command {
 	async messageRun(

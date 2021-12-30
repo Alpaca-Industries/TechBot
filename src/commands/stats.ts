@@ -6,7 +6,8 @@ import moment from 'moment';
 
 @ApplyOptions<CommandOptions>({
 	name: 'stats',
-	description: 'Shows some intresting stats about the bot.'
+	description: 'Shows some intresting stats about the bot.',
+	detailedDescription: 'stats'
 })
 export class StatsCommand extends Command {
 	async messageRun(

@@ -4,7 +4,8 @@ import { Message } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'ping',
-	description: 'Pong!'
+	description: 'Pong!',
+	detailedDescription: 'ping'
 })
 export class PingCommand extends Command {
 	async messageRun(
