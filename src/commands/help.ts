@@ -37,11 +37,11 @@ export default class helpCommand extends Command {
 			for (const [_, command] of filteredCommands) {
 				fields.push({
 					name: `${command.name}`,
-					value: `Description: ${command.description}\nUsage: ${command.detailedDescription}`
+					value: `\nDescription: ${command.description}\nUsage: ${command.detailedDescription}`
 				});
 			}
 
-			paginatedMessage.addPageEmbed(new MessageEmbed().setTitle(category).setDescription(fields.map(f => `${f.name}: ${f.value}`).join('\n')));
+			paginatedMessage.addPageEmbed(new MessageEmbed().setTitle(category).setDescription(fields.map(f => `**${f.name}:** ${f.value}`).join('\n')));
 		}
 
 		return await paginatedMessage.run(message, message.author);
