@@ -23,8 +23,8 @@ export default class BalanceCommand extends Command {
 
 		balanceEmbed
 			.setTitle(`${message.author.username}, This is your balance!`)
-			.addField('Wallet: ', balance.wallet.toString())
-			.addField('Bank: ', balance.bank.toString())
+			.addField('Wallet: ', balance.wallet.toLocaleString())
+			.addField('Bank: ', balance.bank.toLocaleString())
 			.setColor('#20ce1f');
 
 		return message.channel.send({ embeds: [balanceEmbed] });
