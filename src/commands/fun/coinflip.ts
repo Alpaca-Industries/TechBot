@@ -6,7 +6,7 @@ import type { Message } from 'discord.js';
 	name: 'coinflip',
 	description: 'Flip a coin!'
 })
-export class PingCommand extends Command {
+export class CoinFlipCommand extends Command {
 	async messageRun(
 		message: Message<boolean>,
 		args: Args,
