@@ -29,7 +29,7 @@ export default class DailyCommand extends Command {
 
 		embed
 			.setTitle('Daily Coins :D')
-			.setDescription(`Ayyy! You earned **$${moneyEarned}**, see ya tommorow.`)
+			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
 			.setColor('BLUE')
 
 		return message.channel.send({ embeds: [embed] });

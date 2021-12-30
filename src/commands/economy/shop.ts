@@ -23,7 +23,7 @@ export default class ShopCommand extends Command {
 
 		for (const item of items) {
 			const itemName = item.name.replaceAll('_', ' ');
-			embed.addField(itemName, `Price: ${item.price}\nRarity: ${item.rarity}`);
+			embed.addField(itemName, `Price: ${item.price.toLocaleString()}\nRarity: ${item.rarity}`);
 		}
 
 		return message.channel.send({ embeds: [embed] });

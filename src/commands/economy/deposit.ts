@@ -19,6 +19,6 @@ export default class depositCommand extends Command {
 		user.bank += amountToDeposit.value;
 		user.save();
 
-		return message.reply(`You deposited ${amountToDeposit.value} coins into your bank account`);
+		return message.reply(`You deposited ${amountToDeposit.value.toLocaleString()} coins into your bank account`);
 	}
 }

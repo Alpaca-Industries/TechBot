@@ -35,7 +35,7 @@ export default class InventoryCommand extends Command {
 
 		let itemNumber = 1;
 		for (const item of items) {
-			inventoryEmbed.addField(`${itemNumber}: ${item.name}`,`Price: ${item.price}\nRarity: ${item.rarity}\nAmount: ${item.amount}`);
+			inventoryEmbed.addField(`${itemNumber}: ${item.name}`,`Price: ${item.price.toLocaleString()}\nRarity: ${item.rarity}\nAmount: ${item.amount.toLocaleString()}`);
 			itemNumber++;
 		}
 

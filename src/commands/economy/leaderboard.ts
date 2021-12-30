@@ -86,21 +86,21 @@ export default class LeaderboardCommand extends Command {
 					// Made all lines single lines so its actually readable, for the love of god change your max line length
 					leaderboardData.push(
 						`:first_place: • ${userInformation.tag} - ${
-							user.wallet ? user.wallet : 0
+							user.wallet ? user.wallet.toLocaleString() : 0
 						}`
 					);
 					break;
 				case 2:
 					leaderboardData.push(
 						`:second_place: • ${userInformation.tag} - ${
-							user.wallet ? user.wallet : 0
+							user.wallet ? user.wallet.toLocaleString() : 0
 						}`
 					);
 					break;
 				case 3:
 					leaderboardData.push(
 						`:third_place: • ${userInformation.tag} - ${
-							user.wallet ? user.wallet : 0
+							user.wallet ? user.wallet.toLocaleString() : 0
 						}`
 					);
 					break;
@@ -108,7 +108,7 @@ export default class LeaderboardCommand extends Command {
 					leaderboardData.push(
 						`:${this.numToEnglish(counter)}: • ${
 							userInformation.tag
-						} - ${user.wallet ? user.wallet : 0}`
+						} - ${user.wallet ? user.wallet.toLocaleString() : 0}`
 					);
 			}
 			counter++;

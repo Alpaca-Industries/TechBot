@@ -19,6 +19,6 @@ export default class withdrawCommand extends Command {
 		user.wallet += amountToWithdraw.value;
 		user.save();
 
-		return message.reply(`You withdrew ${amountToWithdraw.value} coins from your bank account`);
+		return message.reply(`You withdrew ${amountToWithdraw.value.toLocaleString()} coins from your bank account`);
 	}
 }

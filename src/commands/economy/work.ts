@@ -52,7 +52,7 @@ export default class WorkCommand extends Command {
 
 		workEmbed
 			.setTitle(`You worked as a ${job}`)
-			.setDescription(`💰While working you earned $${moneyEarned}💰`)
+			.setDescription(`💰While working you earned $${moneyEarned.toLocaleString()}💰`)
 			.setColor('BLUE');
 
 		return message.channel.send({ embeds: [workEmbed] });

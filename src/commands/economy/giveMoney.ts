@@ -30,6 +30,6 @@ export default class giveMoneyCommand extends Command {
 		giver.save();
 		receiver.save();
 
-		return message.reply(`You gave ${amountToGive.value} coins to ${userToGiveTo.username}`);
+		return message.reply(`You gave ${amountToGive.value.toLocaleString()} coins to ${userToGiveTo.username}`);
 	}
 }

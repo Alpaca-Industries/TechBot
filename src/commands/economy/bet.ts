@@ -34,13 +34,13 @@ export default class BetCommand extends Command {
 			userDetails.wallet += betAmount;
 			userDetails.save();
 			return message.channel.send(
-				`Congrats ${message.author.username}, you won **$${betAmount}**!`
+				`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`
 			);
 		} else {
 			userDetails.wallet -= betAmount;
 			userDetails.save();
 			return message.channel.send(
-				`${message.author.username}, you lost **$${betAmount}**!`
+				`${message.author.username}, you lost **$${betAmount.toLocaleString()}**!`
 			);
 		}
 	}

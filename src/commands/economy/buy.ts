@@ -33,6 +33,6 @@ export default class BuyCommand extends Command {
 		inventory.amount += 1;
 		inventory.save();
 
-		return message.reply(`You bought ${item.name} for ${item.price}`);
+		return message.reply(`You bought ${item.name} for ${item.price.toLocaleString()}`);
 	}
 }

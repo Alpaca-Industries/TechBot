@@ -64,7 +64,7 @@ export default class BegCommand extends Command {
 				people[Math.floor(Math.random() * people.length)]
 			} for money`
 		)
-			.setDescription(`💰While begging you earned $${moneyEarned}💰`)
+			.setDescription(`💰While begging you earned $${moneyEarned.toLocaleString()}💰`)
 			.setColor('BLUE');
 
 		return message.channel.send({ embeds: [BegEmbed] });
