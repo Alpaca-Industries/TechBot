@@ -59,7 +59,7 @@ export default class BegCommand extends Command {
 			user.save();
 		});
 
-		BegEmbed.setAuthor(
+		BegEmbed.setTitle(
 			`You begged ${
 				people[Math.floor(Math.random() * people.length)]
 			} for money`

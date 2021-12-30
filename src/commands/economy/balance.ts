@@ -22,7 +22,7 @@ export default class BalanceCommand extends Command {
 		const balance = await fetchUser(user);
 
 		balanceEmbed
-			.setAuthor(`${message.author.username}, This is your balance!`)
+			.setTitle(`${message.author.username}, This is your balance!`)
 			.addField('Wallet: ', balance.wallet.toString())
 			.addField('Bank: ', balance.bank.toString())
 			.setColor('#20ce1f');

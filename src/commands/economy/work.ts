@@ -51,7 +51,7 @@ export default class WorkCommand extends Command {
 		});
 
 		workEmbed
-			.setAuthor(`You worked as a ${job}`)
+			.setTitle(`You worked as a ${job}`)
 			.setDescription(`💰While working you earned $${moneyEarned}💰`)
 			.setColor('BLUE');
 
