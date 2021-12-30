@@ -7,7 +7,9 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'withdraw',
-	description: 'Lets your withdraw coins into your bank account'
+	description: 'Allows you withdraw coins into your bank account.',
+	aliases: ['with', 'withdrow'],
+	detailedDescription: 'with <amount>'
 })
 export default class withdrawCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {

@@ -8,6 +8,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'deposit',
 	description: 'Lets your deposit coins into your bank account',
+	aliases: ['dep', 'depos'],
+	detailedDescription: 'deposit <amount>'
 })
 export default class depositCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {

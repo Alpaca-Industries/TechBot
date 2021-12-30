@@ -9,6 +9,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	name: 'giveMoney',
 	aliases: ['give', 'share'],
 	description: 'Allows you give money to another user.',
+	detailedDescription: 'share <user> <amount>'
 })
 export default class giveMoneyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {

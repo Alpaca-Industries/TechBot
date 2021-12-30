@@ -8,7 +8,8 @@ import { fetchInventory, fetchItemByName } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'giveItem',
 	aliases: ["give-item", "shareItem", "share-item"],
-	description: 'Allows you to give items to another user.'
+	description: 'Allows you to give items to another user.',
+	detailedDescription: 'give-item <user> <item> <amount>'
 })
 export default class giveItemCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
