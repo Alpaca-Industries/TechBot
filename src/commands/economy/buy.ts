@@ -16,10 +16,10 @@ export default class BuyCommand extends Command {
 		context: CommandContext
 	): Promise<unknown> {
 		const itemToBuy = await args.restResult('string');
+		if (itemToBuy.success === false) return message.reply('Please specify a valid item');
+
 
 		const item = await fetchItemByName(itemToBuy.value.replaceAll(' ', '_'));
-
-		if (item === null) return message.reply('Please specify a valid item');
 
 		const user = await fetchUser(message.author);
 
