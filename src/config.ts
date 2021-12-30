@@ -1,6 +1,7 @@
-import { ClientOptions } from "discord.js";
-import path from "path";
+import type { ClientOptions } from "discord.js";
 import type{ ConnectionOptions } from "typeorm";
+
+import path from "path";
 
 const typeORMConfig: ConnectionOptions = {
 	type: 'mariadb',
