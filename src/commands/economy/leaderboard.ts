@@ -71,13 +71,14 @@ export default class LeaderboardCommand extends Command {
 			.limit(10)
 			.getMany();
 		const leaderboardEmbed = new MessageEmbed();
-		const leaderboardData = [];
+		const leaderboardData: string[] = [];
 
 		let counter = 1;
 		for (const user of topUsers) {
-			const userInformation = this.container.client.users.cache.get(
+			const userInformation = await this.container.client.users.fetch(
 				user.id
 			);
+
 
 			switch (counter) {
 				// Removed unecceary {} around case statements
