@@ -1,5 +1,5 @@
 import type { ClientOptions } from "discord.js";
-import type{ ConnectionOptions } from "typeorm";
+import type { ConnectionOptions } from "typeorm";
 
 import path from "path";
 
