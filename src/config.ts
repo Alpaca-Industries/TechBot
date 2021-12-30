@@ -18,7 +18,7 @@ const typeORMConfig: ConnectionOptions = {
 }
 
 const sapphireConfig: ClientOptions = {
-	intents: 0,
+	intents: ['GUILDS', 'GUILD_MESSAGES'],
 	defaultPrefix: '-'
 }
 
