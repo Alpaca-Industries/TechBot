@@ -20,9 +20,7 @@ const client = new SapphireClient(config.sapphireConfig);
 export let connection: Connection;
 
 const startBot = async () => {
-	client.login(config.token).then(() => {
-		client.logger.info('Bot is now running!');
-	});
+	client.login(config.token);
 
 	connection = await createConnection(config.typeORMConfig);
 }
