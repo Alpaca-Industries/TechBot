@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { fetchUser } from '../../../helpers/dbHelper';
+import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'withdraw',

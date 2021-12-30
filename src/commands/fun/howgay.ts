@@ -12,7 +12,7 @@ export class HowGayCommand extends Command {
 		args: Args,
 		context: CommandContext
 	): Promise<unknown> {
-        const user = await args.pick('member').catch(() => message.author);
+        const user = await args.pick('user').catch(() => message.author);
         if (user.id == "296042121297788931") return message.channel.send('Greysilly is sussy wussy uwu')
         return message.channel.send(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay!`)
 	}
