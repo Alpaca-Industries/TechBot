@@ -5,7 +5,7 @@ import type { Message } from 'discord.js';
 @ApplyOptions<CommandOptions>({
 	name: 'howgay',
 	description: 'How gay are you?',
-	usage: 'howgay [user]'
+	detailedDescription: 'howgay [user]'
 })
 export class HowGayCommand extends Command {
 	async messageRun(

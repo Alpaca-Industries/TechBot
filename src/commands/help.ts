@@ -37,7 +37,7 @@ export default class helpCommand extends Command {
 			for (const [_, command] of filteredCommands) {
 				fields.push({
 					name: `${command.name}`,
-					value: command.detailedDescription || command.description
+					value: `Description: ${command.description}\nUsage: ${command.detailedDescription}`
 				});
 			}
 
