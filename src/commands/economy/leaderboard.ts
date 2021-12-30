@@ -74,7 +74,7 @@ export default class LeaderboardCommand extends Command {
 		const leaderboardData: string[] = [];
 
 		let counter = 1;
-		for (const user of topUsers) {
+		for (const user of topUsers.filter(user => user.wallet > 0)) {
 			const userInformation = await this.container.client.users.fetch(
 				user.id
 			);
