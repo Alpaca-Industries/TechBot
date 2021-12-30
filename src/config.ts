@@ -1,3 +1,4 @@
+import { ClientOptions } from "discord.js";
 import path from "path";
 import type{ ConnectionOptions } from "typeorm";
 
@@ -15,12 +16,18 @@ const typeORMConfig: ConnectionOptions = {
 	]
 }
 
+const sapphireConfig: ClientOptions = {
+	intents: 0,
+	defaultPrefix: '-'
+}
+
 export const config = {
 	economyDefaults: {
 		items: [],
 		wallet: 0,
 		bank: 0
 	},
-	token: 'NzcyNjMyNzk0OTI0ODQzMDM4.X59gXQ.j9mHMU15a23LSAwoTcSV_D58cIM',
-	typeORMConfig
+	typeORMConfig,
+	sapphireConfig,
+	token: 'NzcyNjMyNzk0OTI0ODQzMDM4.X59gXQ.j9mHMU15a23LSAwoTcSV_D58cIM'
 };

@@ -15,7 +15,7 @@ import momentDurationFormatSetup from 'moment-duration-format';
 
 momentDurationFormatSetup(moment as any);
 
-const client = new SapphireClient({ intents: ['GUILDS', 'GUILD_MESSAGES'], defaultPrefix: '-' });
+const client = new SapphireClient(config.sapphireConfig);
 
 export let connection: Connection;
 
