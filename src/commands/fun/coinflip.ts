@@ -4,6 +4,7 @@ import type { Message } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'coinflip',
+	aliases: ['flip'],
 	description: 'Flip a coin!'
 })
 export class CoinFlipCommand extends Command {
