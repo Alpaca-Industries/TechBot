@@ -20,6 +20,7 @@ export default class BuyCommand extends Command {
 
 
 		const item = await fetchItemByName(itemToBuy.value.replaceAll(' ', '_'));
+		if (item === undefined) return message.reply('That item does not exist');
 
 		const user = await fetchUser(message.author);
 
@@ -30,7 +31,7 @@ export default class BuyCommand extends Command {
 
 		const inventory = await fetchInventory(message.author, item);
 
-		inventory.amount += 1;
+		inventory.amount++;
 		inventory.save();
 
 		return message.reply(`You bought ${item.name} for ${item.price.toLocaleString()}`);
