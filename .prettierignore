@@ -1,0 +1,8 @@
+dist/
+node_modules/
+package-lock.json
+tsconfig.json
+tsconfig.tsbuildinfo
+.gitignore
+.eslintignore
+.eslintrc.js
