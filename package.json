@@ -33,8 +33,6 @@
 		"@types/lodash": "^4.14.168",
 		"@types/moment-duration-format": "^2.2.3",
 		"@types/node": "^16.11.12",
-		"@typescript-eslint/eslint-plugin": "^5.8.1",
-		"@typescript-eslint/parser": "^5.8.1",
 		"husky": "^7.0.4",
 		"lint-staged": "^12.1.4",
 		"prettier": "^2.2.1"
