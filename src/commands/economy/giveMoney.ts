@@ -1,50 +1,36 @@
-import type { Args, CommandContext, CommandOptions } from "@sapphire/framework";
-import type { Message } from "discord.js";
+import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Message } from 'discord.js';
 
-import { Command } from "@sapphire/framework";
-import { ApplyOptions } from "@sapphire/decorators";
-import { fetchUser } from "../../helpers/dbHelper";
+import { Command } from '@sapphire/framework';
+import { ApplyOptions } from '@sapphire/decorators';
+import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
-  name: "giveMoney",
-  aliases: ["give", "share"],
-  description: "Allows you give money to another user.",
-  detailedDescription: "share <user> <amount>",
+	name: 'giveMoney',
+	aliases: ['give', 'share'],
+	description: 'Allows you give money to another user.',
+	detailedDescription: 'share <user> <amount>'
 })
 export default class giveMoneyCommand extends Command {
-  async messageRun(
-    message: Message<boolean>,
-    args: Args,
-    context: CommandContext
-  ): Promise<unknown> {
-    const userToGiveTo = await args.pick("user");
-    const amountToGive = await args.restResult("integer");
+	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+		const userToGiveTo = await args.pickResult('user');
+		const amountToGive = await args.restResult('integer');
 
-    if (userToGiveTo === null || userToGiveTo.bot === true)
-      return message.reply("Please specify a valid user");
-    if (amountToGive.value < 0 || amountToGive.success === false)
-      return message.reply(
-        "Please specify a valid amount of money to withdraw"
-      );
-    if (userToGiveTo.id === message.author.id)
-      return message.reply("You cannot give money to yourself");
+		if (!userToGiveTo.success || userToGiveTo.value.bot) return message.reply('Please specify a valid user');
+		if (amountToGive.value < 0 || !amountToGive.success) return message.reply('Please specify a valid amount of money to withdraw');
+		if (userToGiveTo.value.id === message.author.id) return message.reply('You cannot give money to yourself');
 
-    const giver = await fetchUser(message.author);
-    const receiver = await fetchUser(userToGiveTo);
+		const giver = await fetchUser(message.author);
+		const receiver = await fetchUser(userToGiveTo.value);
 
-    if (giver.wallet < amountToGive.value)
-      return message.reply("You do not have that much money");
+		if (giver.wallet < amountToGive.value) return message.reply('You do not have that much money');
 
-    giver.wallet -= amountToGive.value;
-    receiver.wallet += amountToGive.value;
+		giver.wallet -= amountToGive.value;
+		receiver.wallet += amountToGive.value;
 
-    giver.save();
-    receiver.save();
+		giver.save();
+		receiver.save();
 
-    return message.reply(
-      `You gave ${amountToGive.value.toLocaleString()} coins to ${
-        userToGiveTo.username
-      }`
-    );
-  }
+		return message.reply(`You gave ${amountToGive.value.toLocaleString()} coins to ${userToGiveTo.value.username}`);
+	}
 }

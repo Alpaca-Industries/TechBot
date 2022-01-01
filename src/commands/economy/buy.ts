@@ -11,14 +11,9 @@ import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelp
 	detailedDescription: 'buy <item>'
 })
 export default class BuyCommand extends Command {
-	async messageRun(
-		message: Message<boolean>,
-		args: Args,
-		context: CommandContext
-	): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const itemToBuy = await args.restResult('string');
-		if (itemToBuy.success === false) return message.reply('Please specify a valid item');
-
+		if (!itemToBuy) return message.reply('Please specify a valid item');
 
 		const item = await fetchItemByName(itemToBuy.value.replaceAll(' ', '_'));
 		if (item === undefined) return message.reply('That item does not exist');
@@ -30,10 +25,10 @@ export default class BuyCommand extends Command {
 		user.wallet -= item.price;
 		user.save();
 
-		const inventory = await fetchInventory(message.author, item);
-
-		inventory.amount++;
-		inventory.save();
+		fetchInventory(message.author, item).then((inventory) => {
+			inventory.amount++;
+			inventory.save();
+		});
 
 		return message.reply(`You bought ${item.name} for ${item.price.toLocaleString()}`);
 	}

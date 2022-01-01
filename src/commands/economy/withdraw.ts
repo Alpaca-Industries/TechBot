@@ -16,10 +16,11 @@ export default class withdrawCommand extends Command {
 		const amountToWithdraw = await args.restResult('integer');
 		if (amountToWithdraw.value < 0 || amountToWithdraw.success === false) return message.reply('Please specify a valid amount of money to withdraw');
 
-		const user = await fetchUser(message.author);
-		user.bank -= amountToWithdraw.value;
-		user.wallet += amountToWithdraw.value;
-		user.save();
+		fetchUser(message.author).then((user) => {
+			user.bank -= amountToWithdraw.value;
+			user.wallet += amountToWithdraw.value;
+			user.save();
+		});
 
 		return message.reply(`You withdrew ${amountToWithdraw.value.toLocaleString()} coins from your bank account`);
 	}

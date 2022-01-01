@@ -11,15 +11,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'beg'
 })
 export default class BegCommand extends Command {
-	messageRun(
-		message: Message<boolean>,
-		args: Args,
-		context: CommandContext
-	): unknown {
-		if (Math.random() > 0.5)
-			return message.channel.send(
-				'Random Man: Your pathetic poor person'
-			);
+	messageRun(message: Message<boolean>, args: Args, context: CommandContext): unknown {
+		if (Math.random() > 0.5) return message.channel.send('Random Man: Your pathetic poor person');
 		const BegEmbed = new MessageEmbed();
 
 		const people = [
@@ -55,16 +48,12 @@ export default class BegCommand extends Command {
 			Math.random() * (600 - people.length) + (people.length - 1)
 		);
 
-		fetchUser(message.author).then(user => {
+		fetchUser(message.author).then((user) => {
 			user.wallet += moneyEarned;
 			user.save();
 		});
 
-		BegEmbed.setTitle(
-			`You begged ${
-				people[Math.floor(Math.random() * people.length)]
-			} for money`
-		)
+		BegEmbed.setTitle(`You begged ${people[Math.floor(Math.random() * people.length)]} for money`)
 			.setDescription(`💰While begging you earned $${moneyEarned.toLocaleString()}💰`)
 			.setColor('BLUE');
 

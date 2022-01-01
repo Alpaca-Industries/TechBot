@@ -14,12 +14,13 @@ import { fetchUser } from '../../helpers/dbHelper';
 export default class depositCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const amountToDeposit = await args.restResult('number');
-		if (amountToDeposit.value < 0 || amountToDeposit.success === false) return message.reply('Please specify a valid amount of money to deposit');
+		if (amountToDeposit.value < 0 || !amountToDeposit.success) return message.reply('Please specify a valid amount of money to deposit');
 
-		const user = await fetchUser(message.author);
-		user.wallet -= amountToDeposit.value;
-		user.bank += amountToDeposit.value;
-		user.save();
+		fetchUser(message.author).then((user) => {
+			user.wallet -= amountToDeposit.value;
+			user.bank += amountToDeposit.value;
+			user.save();
+		});
 
 		return message.reply(`You deposited ${amountToDeposit.value.toLocaleString()} coins into your bank account`);
 	}

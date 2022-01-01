@@ -11,11 +11,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'bet <bet amount>'
 })
 export default class BetCommand extends Command {
-	async messageRun(
-		message: Message<boolean>,
-		args: Args,
-		context: CommandContext
-	): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const betAmount = (await args.pickResult('integer')).value || 0;
 		if (betAmount < 10 || isNaN(betAmount)) {
 			return message.reply('Please bet a valid amount above 10!');
@@ -24,9 +20,7 @@ export default class BetCommand extends Command {
 		const userDetails = await fetchUser(message.author);
 
 		if (userDetails.wallet < betAmount) {
-			return message.reply(
-				`Sorry ${message.author.username}, you don't have enough money!`
-			);
+			return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
 		}
 
 		const chance = Math.random() < 0.5 ? true : false;
@@ -34,15 +28,11 @@ export default class BetCommand extends Command {
 		if (chance) {
 			userDetails.wallet += betAmount;
 			userDetails.save();
-			return message.channel.send(
-				`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`
-			);
+			return message.channel.send(`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`);
 		} else {
 			userDetails.wallet -= betAmount;
 			userDetails.save();
-			return message.channel.send(
-				`${message.author.username}, you lost **$${betAmount.toLocaleString()}**!`
-			);
+			return message.channel.send(`${message.author.username}, you lost **$${betAmount.toLocaleString()}**!`);
 		}
 	}
 }
