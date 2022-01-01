@@ -7,7 +7,8 @@ import { findGuild } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'prefix',
-	description: 'Allows you to change the prefix of the bot.'
+	description: 'Allows you to change the prefix of the bot.',
+	requiredUserPermissions: ['MANAGE_GUILD']
 })
 export default class prefixCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
