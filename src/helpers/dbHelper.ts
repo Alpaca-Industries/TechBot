@@ -1,5 +1,4 @@
 import { Guild as DiscordGuild, User as DiscordUser } from 'discord.js';
-import prefix from '../commands/guildOwnerOnly/prefix';
 import { Inventory } from '../entities/economy/inventory';
 import { Item } from '../entities/economy/item';
 import { User as EconomyUser } from '../entities/economy/user';
