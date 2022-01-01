@@ -1,8 +1,8 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { Args, Command, CommandContext, CommandOptions } from '@sapphire/framework';
 import { stripIndents } from 'common-tags';
+import dayjs from 'dayjs';
 import { Message, version } from 'discord.js';
-import moment from 'moment';
 
 @ApplyOptions<CommandOptions>({
 	name: 'stats',
@@ -10,14 +10,8 @@ import moment from 'moment';
 	detailedDescription: 'stats'
 })
 export class StatsCommand extends Command {
-	async messageRun(
-		message: Message<boolean>,
-		args: Args,
-		context: CommandContext
-	): Promise<unknown> {
-		const duration = moment
-			.duration(this.container.client.uptime)
-			.format(' D [days], H [hrs], m [mins], s [secs]');
+	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+		const duration = dayjs(this.container.client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
 
 		const string = `
 			= STATISTICS =
