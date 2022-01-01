@@ -40,17 +40,20 @@ export default class LeaderboardCommand extends Command {
 		const leaderboardData: string[] = [];
 
 		let counter = 1;
-		for (const user of topUsers.filter((user) => {
-			const filterOutUsersBelow0Condition = user.wallet + user.bank > 0;
-			const guildOnlyCondition = guildOnly === true ? message.guild.members.fetch(user.id) : true;
-			return filterOutUsersBelow0Condition && guildOnlyCondition;
-		})) {
+
+		const validUsers = topUsers.filter((user) => {
+			if (user.wallet + user.bank < 0) return false;
+			if (!guildOnly) return false;
+			return true;
+		});
+
+		for (const user of validUsers) {
 			const userInformation = await this.container.client.users.fetch(user.id);
 
 			const valueForEmbed = () => {
-				if (overallMoney === true) return user.wallet + user.bank;
-				if (walletOnly === true) return user.wallet;
-				if (bankOnly === true) return user.bank;
+				if (overallMoney) return user.wallet + user.bank;
+				if (walletOnly) return user.wallet;
+				if (bankOnly) return user.bank;
 				return user.wallet;
 			};
 
