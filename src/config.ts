@@ -1,7 +1,8 @@
-import type { ClientOptions } from "discord.js";
-import type { ConnectionOptions } from "typeorm";
+import type { ClientOptions } from 'discord.js';
+import type { ConnectionOptions } from 'typeorm';
 
-import path from "path";
+import path from 'path';
+import { Guild } from './entities/guild';
 
 const typeORMConfig: ConnectionOptions = {
 	type: 'mariadb',
@@ -12,15 +13,18 @@ const typeORMConfig: ConnectionOptions = {
 	database: 'economy',
 	synchronize: true,
 	logging: false,
-	entities: [
-		path.join(__dirname + '/entities/**/*.{ts,js}')
-	]
-}
+	entities: [path.join(__dirname + '/entities/**/*.{ts,js}')]
+};
 
 const sapphireConfig: ClientOptions = {
 	intents: ['GUILDS', 'GUILD_MESSAGES'],
-	defaultPrefix: '-'
-}
+	fetchPrefix: (message) => {
+		return Guild.findOne({ where: { id: message.guild.id } }).then((guild) => {
+			if (guild === undefined) return '-';
+			return guild.prefix;
+		});
+	}
+};
 
 export const config = {
 	economyDefaults: {
