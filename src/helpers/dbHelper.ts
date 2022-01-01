@@ -1,7 +1,9 @@
-import { User } from "discord.js";
-import { Inventory } from "../entities/economy/inventory";
-import { Item } from "../entities/economy/item";
-import { User as EconomyUser } from "../entities/economy/user";
+import { Guild as DiscordGuild, User as DiscordUser } from 'discord.js';
+import prefix from '../commands/guildOwnerOnly/prefix';
+import { Inventory } from '../entities/economy/inventory';
+import { Item } from '../entities/economy/item';
+import { User as EconomyUser } from '../entities/economy/user';
+import { Guild as DBGuild } from '../entities/guild';
 
 /*
 const ItemRegistry = {
@@ -18,20 +20,20 @@ const ItemRegistry = {
 */
 
 export const fetchItemByName = (name: string): Promise<Item> => {
-    return Item.findOne({ where: { name: name } });
+	return Item.findOne({ where: { name: name } });
 };
 
-export const fetchUser = async (user: User): Promise<EconomyUser> => {
+export const fetchUser = async (user: DiscordUser): Promise<EconomyUser> => {
 	// Look for user if not exist make new one and return
 	const userData = await EconomyUser.findOne({ where: { id: user.id } });
-	if (!userData) {
+	if (userData === undefined) {
 		await EconomyUser.insert({ id: user.id });
 		return fetchUser(user);
 	}
 	return userData;
-}
+};
 
-export const fetchInventory = async (user: User, item: Item): Promise<Inventory> => {
+export const fetchInventory = async (user: DiscordUser, item: Item): Promise<Inventory> => {
 	const userData = await fetchUser(user);
 	let inventory = await Inventory.findOne({ where: { userId: userData.id, itemID: item.id } });
 	if (inventory === undefined) {
@@ -43,4 +45,13 @@ export const fetchInventory = async (user: User, item: Item): Promise<Inventory>
 		return fetchInventory(user, item);
 	}
 	return inventory;
-}
+};
+
+export const findGuild = async (guild: DiscordGuild) => {
+	const guildData = await DBGuild.findOne({ where: { id: guild.id } });
+	if (guildData === undefined) {
+		await DBGuild.insert({ id: guild.id, prefix: '-' });
+		return findGuild(guild);
+	}
+	return guildData;
+};
