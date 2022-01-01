@@ -50,9 +50,8 @@ export default class LeaderboardCommand extends Command {
 		for (const user of validUsers) {
 			const userInformation = await this.container.client.users.fetch(user.id);
 
-			const valueForEmbed = () => {
+			const valueForEmbed = (): number => {
 				if (overallMoney) return user.wallet + user.bank;
-				if (walletOnly) return user.wallet;
 				if (bankOnly) return user.bank;
 				return user.wallet;
 			};
