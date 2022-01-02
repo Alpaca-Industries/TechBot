@@ -1,16 +1,23 @@
-
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Item extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-    @Column()
-    name: string;
+	@Column()
+	name: string;
 
-    @Column()
-    price: number;
+	@Column()
+	price: number;
 
-    @Column()
-    rarity: string;
+	@Column()
+	rarity: string;
+
+	@Column()
+	emoji: string;
+
+	@Column({
+		default: 'I was forgotten about by the devs ;('
+	})
+	description: string;
 }

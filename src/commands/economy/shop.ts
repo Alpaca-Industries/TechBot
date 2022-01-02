@@ -1,5 +1,6 @@
 import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
-import { Message, MessageEmbed } from 'discord.js';
+import type { Message } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -22,34 +23,9 @@ export default class ShopCommand extends Command {
 		}
 		const items = await Item.createQueryBuilder('item').orderBy('item.price', 'ASC').getMany();
 
-		const generateEmbedItemData = (item: Item): string => {
-			switch (item.name) {
-				case 'Fishing_Pole':
-					return '🎣 Fishing Pole | Price: ' + item.price.toLocaleString();
-				case 'Scissors':
-					return `✂️ Scissors | Price: ${item.price.toLocaleString()}`;
-				case 'TV':
-					return '📺 TV | Price: ' + item.price.toLocaleString();
-				case 'Laptop':
-					return '💻 MacBook | Price: ' + item.price.toLocaleString();
-				case 'Grilled_Cheese':
-					return '🍕 Grilled Cheese | Price: ' + item.price.toLocaleString();
-				case 'Hunting_Rifle':
-					return '🔫 Hunting Rifle | Price: ' + item.price.toLocaleString();
-				case 'IPhone':
-					return '📱 Phone | Price: ' + item.price.toLocaleString();
-				case 'Helicopter':
-					return '🚁 Helicopter | Price: ' + item.price.toLocaleString();
-				case 'Golden_Chicken_Nuggets':
-					return '🐔 Golden Chicken Nuggets | Price: ' + item.price.toLocaleString();
-				default:
-					return `${item.name.replaceAll('_', ' ')} | Price: ' + ${item.price.toLocaleString()}`;
-			}
-		};
-
 		const embed = new MessageEmbed()
 			.setTitle('Items For Sale')
-			.setDescription(items.map((item) => generateEmbedItemData(item)).join('\n'))
+			.setDescription(items.map((item) => `${item.emoji} **${item.name}** - $${item.price.toLocaleString()}`).join('\n'))
 			.setColor(0x00ff00);
 
 		return message.channel.send({ embeds: [embed] });
