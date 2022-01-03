@@ -12,13 +12,11 @@ import { findGuild } from '../../helpers/dbHelper';
 })
 export default class prefixCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const prefix = await args.pickResult('string');
-		if (prefix.success === true) {
-			const guild = findGuild(message.guild);
-			guild.prefix = prefix.value;
-			await guild.save();
-			return message.channel.send(`Prefix changed to ${prefix.value}`);
-		}
-		return;
+		const prefix = await args.pick('string').catch(() => '-');
+		findGuild(message.guild).then((guild) => {
+			guild.prefix = prefix;
+			guild.save();
+		});
+		return message.channel.send(`Prefix changed to ${prefix}`);
 	}
 }

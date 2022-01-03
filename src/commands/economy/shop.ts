@@ -13,9 +13,9 @@ import { Item } from '../../entities/economy/item';
 })
 export default class ShopCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const specificItem = await args.pickResult('string');
-		if (specificItem.success) {
-			const item = await Item.findOne({ where: { name: specificItem.value } });
+		const specificItem = await args.pick('string').catch(() => '');
+		if (specificItem.length > 0) {
+			const item = await Item.findOne({ where: { name: specificItem } });
 			if (item !== undefined) {
 				const embed = new MessageEmbed().setTitle(item.name).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
 				return message.channel.send({ embeds: [embed] });

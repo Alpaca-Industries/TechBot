@@ -13,15 +13,15 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class withdrawCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const amountToWithdraw = await args.restResult('integer');
-		if (amountToWithdraw.value < 0 || amountToWithdraw.success === false) return message.reply('Please specify a valid amount of money to withdraw');
+		const amountToWithdraw = await args.pick('integer').catch(() => 1);
+		if (amountToWithdraw < 0) return message.reply('Please specify a valid amount of money to withdraw');
 
 		fetchUser(message.author).then((user) => {
-			user.bank -= amountToWithdraw.value;
-			user.wallet += amountToWithdraw.value;
+			user.bank -= amountToWithdraw;
+			user.wallet += amountToWithdraw;
 			user.save();
 		});
 
-		return message.reply(`You withdrew ${amountToWithdraw.value.toLocaleString()} coins from your bank account`);
+		return message.reply(`You withdrew ${amountToWithdraw.toLocaleString()} coins from your bank account`);
 	}
 }

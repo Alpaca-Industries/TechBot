@@ -12,7 +12,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class BetCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const betAmount = (await args.pickResult('integer')).value || 0;
+		const betAmount = await args.pick('integer').catch(() => 0);
 		if (betAmount < 10 || isNaN(betAmount)) {
 			return message.reply('Please bet a valid amount above 10!');
 		}

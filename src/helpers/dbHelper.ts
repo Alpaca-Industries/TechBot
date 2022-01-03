@@ -46,7 +46,7 @@ export const fetchInventory = async (user: DiscordUser, item: Item): Promise<Inv
 	return inventory;
 };
 
-export const findGuild = async (guild: DiscordGuild) => {
+export const findGuild = async (guild: DiscordGuild): Promise<DBGuild> => {
 	const guildData = await DBGuild.findOne({ where: { id: guild.id } });
 	if (guildData === undefined) {
 		await DBGuild.insert({ id: guild.id, prefix: '-' });

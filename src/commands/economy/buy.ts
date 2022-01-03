@@ -12,10 +12,9 @@ import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelp
 })
 export default class BuyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const itemToBuy = await args.restResult('string');
-		if (!itemToBuy) return message.reply('Please specify a valid item');
+		const itemToBuy = await args.rest('string').catch(() => '');
 
-		const item = await fetchItemByName(itemToBuy.value.replaceAll(' ', '_'));
+		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined) return message.reply('That item does not exist');
 
 		const user = await fetchUser(message.author);

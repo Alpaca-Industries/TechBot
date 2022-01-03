@@ -14,7 +14,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 export default class BalanceCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const balanceEmbed = new MessageEmbed();
-		const user = (await args.pickResult('user')).value || message.author;
+		const user = await args.pick('user').catch(() => message.author);
 
 		const balance = await fetchUser(user);
 

@@ -15,7 +15,7 @@ import { User } from '../../entities/economy/user';
 })
 export default class InventoryCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const userToCheck = (await args.pickResult('user')).value || message.author;
+		const userToCheck = await args.pick('user').catch(() => message.author);
 
 		let items: ItemDataWithAmount[] = await User.getRepository().manager.query(`
 			SELECT item.*, inventory.amount FROM item
