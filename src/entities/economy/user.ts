@@ -1,4 +1,5 @@
 import { Entity, PrimaryColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Advertisement } from './ad';
 import { Inventory } from './inventory';
 
 @Entity()
@@ -23,4 +24,7 @@ export class User extends BaseEntity {
 		default: false
 	})
 	premium: boolean;
+
+	@OneToMany((type) => Advertisement, (ad) => ad.userID)
+	ads: Advertisement[];
 }
