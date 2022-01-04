@@ -4,6 +4,7 @@ import type { Message } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelper';
+import { generateErrorEmbed } from '../../helpers/logging';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -15,8 +16,7 @@ export default class BuyCommand extends Command {
 		const itemToBuy = await args.rest('string').catch(() => '');
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
-		if (item === undefined) return message.reply('That item does not exist');
-
+		if (item === undefined) return message.channel.send({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
 		const user = await fetchUser(message.author);
 
 		if (user.wallet < item.price) return message.reply('You do not have enough money');

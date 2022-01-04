@@ -4,6 +4,7 @@ import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
+import { generateErrorEmbed } from '../../helpers/logging';
 
 @ApplyOptions<CommandOptions>({
 	name: 'giveMoney',
@@ -16,9 +17,8 @@ export default class giveMoneyCommand extends Command {
 		const userToGiveTo = await args.pickResult('user');
 		const amountToGive = await args.pick('integer').catch(() => 1);
 
-		if (!userToGiveTo.success || userToGiveTo.value.bot) return message.reply('Please specify a valid user');
-		if (amountToGive < 0) return message.reply('Please specify a valid amount of money to withdraw');
-		if (userToGiveTo.value.id === message.author.id) return message.reply('You cannot give money to yourself');
+		if (!userToGiveTo.success || userToGiveTo.value.bot || userToGiveTo.value.id === message.author.id) return message.channel.send({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+		if (amountToGive < 0) return message.channel.send({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
 		const giver = await fetchUser(message.author);
 		const receiver = await fetchUser(userToGiveTo.value);

@@ -4,6 +4,7 @@ import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
+import { generateErrorEmbed } from '../../helpers/logging';
 
 @ApplyOptions<CommandOptions>({
 	name: 'withdraw',
@@ -14,7 +15,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 export default class withdrawCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const amountToWithdraw = await args.pick('integer').catch(() => 1);
-		if (amountToWithdraw < 0) return message.reply('Please specify a valid amount of money to withdraw');
+		if (amountToWithdraw < 0) return message.channel.send({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
 		fetchUser(message.author).then((user) => {
 			user.bank -= amountToWithdraw;

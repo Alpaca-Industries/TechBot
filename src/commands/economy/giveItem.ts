@@ -4,6 +4,7 @@ import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchItemByName } from '../../helpers/dbHelper';
+import { generateErrorEmbed } from '../../helpers/logging';
 
 @ApplyOptions<CommandOptions>({
 	name: 'giveItem',
@@ -17,12 +18,11 @@ export default class giveItemCommand extends Command {
 		const itemToGive = await args.restResult('string');
 		const amount = await args.pick('integer').catch(() => 1);
 
-		if (userToGiveTo.value.id === message.author.id) return message.reply('You cannot give money to yourself');
+		if (userToGiveTo.value.id === message.author.id) return message.channel.send({ embeds: [generateErrorEmbed('You cannot give money to yourself!')] });
 
-		if (!userToGiveTo.success || userToGiveTo.value.bot) return message.reply('Please specify a valid user');
-		if (itemToGive.value === null) return message.reply('Please specify a valid item');
-		if (amount < 0) return message.reply('Please specify a valid amount of money to withdraw');
-		if (userToGiveTo.value.id === message.author.id) return message.reply('You cannot give money to yourself');
+		if (!userToGiveTo.success || userToGiveTo.value.bot) return message.channel.send({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+		if (itemToGive.value === null) return message.channel.send({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+		if (amount < 0) return message.channel.send({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] }); // return message.reply('Please specify a valid amount of money to withdraw');
 		const giverInventory = await fetchInventory(message.author, await fetchItemByName(itemToGive.value));
 		const receiverInventory = await fetchInventory(userToGiveTo.value, await fetchItemByName(itemToGive.value));
 
