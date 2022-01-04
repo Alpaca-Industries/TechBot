@@ -40,7 +40,7 @@ export default class giveItemCommand extends Command {
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User gave item!').setDescription(`${message.author.tag} has given ${amount} ${itemToGive.value} to ${userToGiveTo.value.tag}.`).setColor('#00ff00').setTimestamp();
+		const embed = new MessageEmbed().setTitle('User gave item!').setDescription(`${message.author.tag} has given ${amount.toLocaleString()} ${itemToGive.value} to ${userToGiveTo.value.tag}.`).setColor('#00ff00').setTimestamp();
 		webhook.send({ embeds: [embed] });
 
 		return message.reply(`You gave ${amount} ${itemToGive.value} to ${userToGiveTo.value.username}`);
