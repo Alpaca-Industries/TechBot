@@ -27,4 +27,9 @@ export class User extends BaseEntity {
 
 	@OneToMany((type) => Advertisement, (ad) => ad.userID)
 	ads: Advertisement[];
+
+	@Column({
+		default: 0
+	})
+	adCount: number;
 }
