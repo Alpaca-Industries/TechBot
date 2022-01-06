@@ -20,4 +20,19 @@ export class Item extends BaseEntity {
 		default: 'I was forgotten about by the devs ;('
 	})
 	description: string;
+
+	@Column({
+		default: false
+	})
+	sellable: boolean;
+
+	@Column({
+		default: false
+	})
+	tradeable: boolean;
+
+	@Column({
+		default: false
+	})
+	collectable: boolean;
 }
