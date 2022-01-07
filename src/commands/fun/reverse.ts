@@ -5,7 +5,7 @@ import type { Message } from 'discord.js';
 @ApplyOptions<CommandOptions>({
 	name: 'reverse',
 	description: 'Reverse your text.',
-	detailedDescription: 'reverse [string]'
+	detailedDescription: 'reverse <string>'
 })
 export class ReverseCommand extends Command {
 	async messageRun(
