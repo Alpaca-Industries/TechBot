@@ -3,19 +3,19 @@ import { Args, Command, CommandContext, CommandOptions } from '@sapphire/framewo
 import type { Message } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
-	name: 'reverse',
-	description: 'Reverse your text.',
-	detailedDescription: 'reverse <string>'
+	name: 'owofy',
+	description: 'Only for the true owoers.',
+	detailedDescription: 'owo <string>'
 })
-export class ReverseCommand extends Command {
+export class OwOCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const arg = await args.rest('string').catch(() => 'spen! fuck wanna I');
+		const arg = await args.rest('string').catch(() => 'Provide text to OwOfy.');
+		const emoticonOptions = [':3', ':V', 'ʕ •ᴥ•ʔ', ':d'];
 		return message.channel.send(
 			arg
-				.split('')
-				.reverse()
-				.join('')
+				.replace(/(l|r)/gi, 'w')
 				.replace(/@everyone|@here|<@&?(\d{17,19})>/g, '<mention>')
+				.trim() + ` OwO ${emoticonOptions[Math.floor(Math.random() * emoticonOptions.length)]}`
 		);
 	}
 }
