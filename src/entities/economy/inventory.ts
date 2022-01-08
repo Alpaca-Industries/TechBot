@@ -1,18 +1,17 @@
-
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Inventory extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-    @Column()
-    userId: string;
+	@Column()
+	userId: string;
 
-    @Column()
-    itemID: number;
+	@Column()
+	itemID: number;
 
-    @Column({
-        default: 0
-    })
-    amount: number;
+	@Column({
+		default: 0
+	})
+	amount: number;
 }

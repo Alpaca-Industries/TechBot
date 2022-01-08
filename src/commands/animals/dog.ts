@@ -13,22 +13,16 @@ import axios from 'axios';
 	detailedDescription: 'dog'
 })
 export default class DogCommand extends Command {
-	async messageRun(
-		message: Message<boolean>,
-		args: Args,
-		context: CommandContext
-	): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const dogEmbed = new MessageEmbed();
-		const dog: Dog[] = await axios.get(
-			'https://api.thedogapi.com/v1/images/search'
-		).then(res => res.data);
+		const dog: Dog[] = await axios.get('https://api.thedogapi.com/v1/images/search').then((res) => res.data);
 
 		dogEmbed.setImage(dog[0].url);
 
 		if (!isNil(dog[0].breeds[0]))
-			dogEmbed.setFooter(
-				`Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
-			);
+			dogEmbed.setFooter({
+				text: `Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
+			});
 
 		return message.channel.send({ embeds: [dogEmbed] });
 	}
