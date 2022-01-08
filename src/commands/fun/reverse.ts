@@ -10,6 +10,6 @@ import type { Message } from 'discord.js';
 export class ReverseCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const arg = await args.rest('string').catch(() => 'spen! fuck wanna I');
-		return message.channel.send(arg.split(' ').reverse().join(' '));
+		return message.channel.send(arg.split('').reverse().join(''));
 	}
 }
