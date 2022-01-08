@@ -11,7 +11,7 @@ export class ChooseCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		let arg = await args.restResult('string');
 		if (!arg.success) return message.reply('Please specify a string to choose options from!');
-		arg = arg.split(', ');
-		return message.channel.send(arg[Math.floor(Math.random() * arg.length)]);
+		const splitArg = arg.value.split(', ');
+		return message.channel.send(splitArg[Math.floor(Math.random() * splitArg.length)]);
 	}
 }
