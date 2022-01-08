@@ -17,7 +17,7 @@ export default class InventoryCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const userToCheck = await args.pick('user').catch(() => message.author);
 
-		let items: ItemDataWithAmount[] = await User.getRepository().manager.query(`
+		const items: ItemDataWithAmount[] = await User.getRepository().manager.query(`
 			SELECT item.*, inventory.amount FROM item
 			JOIN inventory ON inventory.itemID = item.id
 			WHERE inventory.userId = ${userToCheck.id}
