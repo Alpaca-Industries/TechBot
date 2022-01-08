@@ -20,16 +20,19 @@ export default class giveMoneyCommand extends Command {
 		if (!userToGiveTo.success || userToGiveTo.value.bot || userToGiveTo.value.id === message.author.id) return message.channel.send({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
 		if (amountToGive < 0) return message.channel.send({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
-		const giver = await fetchUser(message.author);
-		const receiver = await fetchUser(userToGiveTo.value);
+		// Senders Inventory
+		fetchUser(message.author).then((user) => {
+			if (user.wallet < amountToGive) return message.channel.send({ embeds: [generateErrorEmbed('You do not have that much money!')] });
 
-		if (giver.wallet < amountToGive) return message.reply('You do not have that much money');
-
-		giver.wallet -= amountToGive;
-		receiver.wallet += amountToGive;
-
-		giver.save();
-		receiver.save();
+			user.wallet -= amountToGive;
+			user.save();
+			return message;
+		});
+		// Recievers Inventory
+		fetchUser(userToGiveTo.value).then((user) => {
+			user.wallet += amountToGive;
+			user.save();
+		});
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
