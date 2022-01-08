@@ -5,8 +5,8 @@ import path from 'path';
 import { Guild } from './entities/guild';
 
 const typeORMConfig: ConnectionOptions = {
-	type: 'mariadb',
-	host: 'alpacaindustries.com',
+	type: process.env.DEVELOMENT ? 'better-sqlite3' : 'mariadb',
+	host: process.env.DEVELOMENT ? 'localhost' : 'alpacaindustries.com',
 	port: 3306,
 	username: 'economy',
 	password: 'economy',

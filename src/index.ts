@@ -12,7 +12,7 @@ import { config } from './config';
 const client = new SapphireClient(config.sapphireConfig);
 
 export let connection: Connection;
-
+if (Boolean(process.env.DEVELOMENT)) console.log('Running in DEVELOMENT mode.');
 const startBot = async () => {
 	client.login(config.token);
 
