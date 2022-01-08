@@ -1,7 +1,7 @@
 import { Precondition } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 
-const OWNERS = ['926690397269413938', '296042121297788931'];
+const OWNERS = ['926690397269413938', '296042121297788931', '696368083517964288'];
 
 export class ownerOnlyPrecondition extends Precondition {
 	public async run(message: Message) {
