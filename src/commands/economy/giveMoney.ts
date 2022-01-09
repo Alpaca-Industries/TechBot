@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -13,7 +13,7 @@ import { generateErrorEmbed } from '../../helpers/logging';
 	detailedDescription: 'share <user> <amount>'
 })
 export default class giveMoneyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const userToGiveTo = await args.pickResult('user');
 		const amountToGive = await args.pick('integer').catch(() => 1);
 

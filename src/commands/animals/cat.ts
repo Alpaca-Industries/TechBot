@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -13,7 +13,7 @@ import axios from 'axios';
 	detailedDescription: 'cat'
 })
 export default class CatCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const catEmbed = new MessageEmbed();
 		const cat: Cat[] = await axios.get('https://api.thecatapi.com/v1/images/search').then((res) => res.data);
 

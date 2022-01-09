@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -11,7 +11,7 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'slots [amount]'
 })
 export default class SlotsCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const { success: gambledAmountSuccess, value: gambledAmount } = await args.pickResult('integer');
 
 		const user = await fetchUser(message.author);
@@ -71,6 +71,7 @@ export default class SlotsCommand extends Command {
 				return message.channel.send('Sorry, you lost your money!');
 			}, 2000);
 		}
+		// @ts-ignore
 		return;
 	}
 }

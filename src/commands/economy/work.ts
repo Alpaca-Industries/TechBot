@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -11,7 +11,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'work'
 })
 export default class WorkCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const workEmbed = new MessageEmbed();
 		const jobs = ['Financial Advisor', 'Paralegal', 'Mason', 'Zoologist', 'Truck Driver', 'Painter', 'Compliance Officer', 'Actor', 'Veterinarian', 'Chemist', 'Architect', 'Software Developer', 'Massage Therapist', 'Dancer', 'Receptionist', 'Historian', 'Drafter', 'Medical Assistant', 'Childcare worker', 'Epidemiologist'];
 

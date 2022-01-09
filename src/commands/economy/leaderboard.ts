@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -25,7 +25,7 @@ export default class LeaderboardCommand extends Command {
 		return `${this.numToEnglish(~~(number / 1000))} thousand ${number % 1000 != 0 ? ' ' + this.numToEnglish(number % 1000) : ''}`;
 	}
 
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const guildOnly = args.getFlags('guildOnly');
 		const walletOnly = args.getFlags('walletOnly');
 		const bankOnly = args.getFlags('bankOnly');

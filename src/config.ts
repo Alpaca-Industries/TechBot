@@ -17,7 +17,7 @@ const typeORMConfig: ConnectionOptions = {
 };
 
 const sapphireConfig: ClientOptions = {
-	intents: ['GUILDS', 'GUILD_MESSAGES'],
+	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_INTEGRATIONS'],
 	fetchPrefix: (message) => {
 		return Guild.findOne({ where: { id: message.guild.id } }).then((guild) => {
 			if (guild === undefined) return '-';

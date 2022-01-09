@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -11,7 +11,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'bet <bet amount>'
 })
 export default class BetCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const betAmount = await args.pick('integer').catch(() => 0);
 		if (betAmount < 10 || isNaN(betAmount)) {
 			return message.reply('Please bet a valid amount above 10!');

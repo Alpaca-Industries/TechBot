@@ -1,9 +1,9 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
-import { Message, MessageEmbed } from 'discord.js';
+import type { Args, CommandOptions } from '@sapphire/framework';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
+import { Message, MessageEmbed } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'help',
@@ -11,7 +11,7 @@ import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 	detailedDescription: 'help [command]'
 })
 export default class helpCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const specifiedCommand = await args.pick('string').catch(() => '');
 		// List All Commands Registered In Sapphire
 		const commands = this.container.stores.get('commands');

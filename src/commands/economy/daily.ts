@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -12,7 +12,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'daily'
 })
 export default class DailyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const embed = new MessageEmbed();
 
 		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);

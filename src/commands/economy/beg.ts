@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -11,7 +11,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'beg'
 })
 export default class BegCommand extends Command {
-	messageRun(message: Message<boolean>, args: Args, context: CommandContext): unknown {
+	messageRun(message: Message<boolean>, args: Args) {
 		if (Math.random() > 0.5) return message.channel.send('Random Man: Your pathetic poor person');
 		const BegEmbed = new MessageEmbed();
 

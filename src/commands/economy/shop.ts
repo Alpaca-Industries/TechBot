@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 import { MessageEmbed } from 'discord.js';
 
@@ -12,7 +12,7 @@ import { Item } from '../../entities/economy/item';
 	detailedDescription: 'shop'
 })
 export default class ShopCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const specificItem = await args.pick('string').catch(() => '');
 		if (specificItem.length > 0) {
 			const item = await Item.findOne({ where: { name: specificItem } });

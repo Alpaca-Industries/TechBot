@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import type { Item } from '../../entities/economy/item';
 import type { Message } from 'discord.js';
 
@@ -14,7 +14,7 @@ import { User } from '../../entities/economy/user';
 	detailedDescription: 'inventory [user]'
 })
 export default class InventoryCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const userToCheck = await args.pick('user').catch(() => message.author);
 
 		const items: ItemDataWithAmount[] = await User.getRepository().manager.query(`

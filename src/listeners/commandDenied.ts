@@ -1,5 +1,5 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import type { UserError, CommandDeniedPayload, ListenerOptions } from '@sapphire/framework';
+import type { UserError, ListenerOptions } from '@sapphire/framework';
 import { Listener } from '@sapphire/framework';
 import dayjs from 'dayjs';
 
@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 	event: 'commandDenied'
 })
 export class CommandDeniedListener extends Listener {
-	public run(error: UserError & { context?: { remaining?: number }; precondition?: { name?: string } }, { message }: CommandDeniedPayload) {
+	public run(error: UserError & { context?: { remaining?: number }; precondition?: { name?: string } }, { message }) {
 		if (error.precondition.name === 'Cooldown') {
 			const timeInMS = Math.ceil(error.context.remaining / 1000);
 			message.reply(`You can use this command again in ${dayjs(timeInMS, 'seconds').format('h [hours], m [minutes], s [seconds]')}`);

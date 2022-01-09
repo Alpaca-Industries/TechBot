@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -16,7 +16,7 @@ import { send } from '@sapphire/plugin-editable-commands';
 	options: ['depth']
 })
 export default class evalCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const code = await args.rest('string');
 
 		const { result, success, type } = await this.eval(message, code, {

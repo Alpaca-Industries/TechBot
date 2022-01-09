@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -12,7 +12,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'balance [user]'
 })
 export default class BalanceCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const balanceEmbed = new MessageEmbed();
 		const user = await args.pick('user').catch(() => message.author);
 

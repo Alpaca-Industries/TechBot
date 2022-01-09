@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -13,7 +13,7 @@ import { generateErrorEmbed } from '../../helpers/logging';
 	detailedDescription: 'with <amount>'
 })
 export default class withdrawCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const amountToWithdraw = await args.rest('string').then((value) => {
 			return Number(value) || 'all';
 		});

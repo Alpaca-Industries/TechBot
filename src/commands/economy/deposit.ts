@@ -1,4 +1,4 @@
-import type { Args, CommandContext, CommandOptions } from '@sapphire/framework';
+import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed, WebhookClient } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
@@ -12,7 +12,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'deposit <amount>'
 })
 export default class depositCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const amountToDeposit = await args.rest('string').then((value) => {
 			return Number(value) || 'all';
 		});
