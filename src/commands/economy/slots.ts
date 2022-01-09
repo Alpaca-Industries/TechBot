@@ -51,17 +51,14 @@ export default class slotsCommand extends Command {
 			spinner.edit({ embeds: [$3] });
 		}, 1800);
 
-		/*
-		if ($$ !== $ && $$ !== $$$) {
-
-		} else */ if ($ === $$ && $ === $$$) {
+		if ($ === $$ && $ === $$$) {
 			setTimeout(async () => {
-				message.channel.send(`CONGRATS! you won ${guild.slotsMoneyCollection}`);
+				message.channel.send(`CONGRATS! you won ${guild.slotsMoneyPool}`);
 
-				user.wallet += guild.slotsMoneyCollection;
+				user.wallet += guild.slotsMoneyPool;
 				await user.save();
 
-				guild.slotsMoneyCollection = 0;
+				guild.slotsMoneyPool = 0;
 				guild.slotsWinMultiplier = 0;
 				await guild.save();
 
@@ -70,7 +67,7 @@ export default class slotsCommand extends Command {
 		} else {
 			setTimeout(async () => {
 				guild.slotsWinMultiplier++;
-				guild.slotsMoneyCollection += gambledAmount;
+				guild.slotsMoneyPool += gambledAmount;
 				await guild.save();
 				return message.channel.send('Sorry you lost your money!');
 			}, 2000);

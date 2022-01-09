@@ -16,5 +16,5 @@ export class Guild extends BaseEntity {
 	@Column({
 		default: 0
 	})
-	slotsMoneyCollection: number;
+	slotsMoneyPool: number;
 }
