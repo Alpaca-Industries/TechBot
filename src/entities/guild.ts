@@ -7,4 +7,14 @@ export class Guild extends BaseEntity {
 
 	@Column()
 	prefix: string;
+
+	@Column({
+		default: 0
+	})
+	slotsWinMultiplier: number;
+
+	@Column({
+		default: 0
+	})
+	slotsMoneyCollection: number;
 }

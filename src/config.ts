@@ -23,15 +23,11 @@ const sapphireConfig: ClientOptions = {
 			if (guild === undefined) return '-';
 			return guild.prefix;
 		});
-	}
+	},
+	typing: true
 };
 
 export const config = {
-	economyDefaults: {
-		items: [],
-		wallet: 0,
-		bank: 0
-	},
 	typeORMConfig,
 	sapphireConfig,
 	token: 'NzcyNjMyNzk0OTI0ODQzMDM4.X59gXQ.j9mHMU15a23LSAwoTcSV_D58cIM'

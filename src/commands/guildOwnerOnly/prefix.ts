@@ -3,7 +3,7 @@ import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
-import { findGuild } from '../../helpers/dbHelper';
+import { fetchGuild } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'prefix',
@@ -13,7 +13,7 @@ import { findGuild } from '../../helpers/dbHelper';
 export default class prefixCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const prefix = await args.pick('string').catch(() => '-');
-		findGuild(message.guild).then((guild) => {
+		fetchGuild(message.guild).then((guild) => {
 			guild.prefix = prefix;
 			guild.save();
 		});

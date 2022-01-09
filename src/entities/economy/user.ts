@@ -32,4 +32,9 @@ export class User extends BaseEntity {
 		default: 0
 	})
 	adCount: number;
+
+	@Column({
+		default: 'jobless'
+	})
+	currentJob: string;
 }
