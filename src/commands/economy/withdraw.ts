@@ -14,19 +14,23 @@ import { generateErrorEmbed } from '../../helpers/logging';
 })
 export default class withdrawCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const amountToWithdraw = await args.pick('integer').catch(() => 1);
+		const amountToWithdraw = await args.rest('string').then((value) => {
+			return Number(value) || 'all';
+		});
 		if (amountToWithdraw < 0) return message.channel.send({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
+		let walletBalance: number;
 		fetchUser(message.author).then((user) => {
-			user.bank -= amountToWithdraw;
-			user.wallet += amountToWithdraw;
+			walletBalance = user.wallet;
+			user.wallet += amountToWithdraw === 'all' ? walletBalance : amountToWithdraw;
+			user.bank -= amountToWithdraw === 'all' ? walletBalance : amountToWithdraw;
 			user.save();
 		});
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User Withdraw').setDescription(`${message.author.tag} has withdrawn ${amountToWithdraw.toLocaleString()} coins from their account.`).setColor('#00ff00').setTimestamp();
+		const embed = new MessageEmbed().setTitle('User 927773203349246003').setDescription(`${message.author.tag} has withdrawn ${walletBalance.toLocaleString()} coins into their account.`).setColor('#00ff00').setTimestamp();
 		webhook.send({ embeds: [embed] });
 
 		return message.reply(`You withdrew ${amountToWithdraw.toLocaleString()} coins from your bank account`);

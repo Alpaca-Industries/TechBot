@@ -13,21 +13,25 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class depositCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
-		const amountToDeposit = await args.restResult('number');
-		if (amountToDeposit.value < 0 || !amountToDeposit.success) return message.reply('Please specify a valid amount of money to deposit');
+		const amountToDeposit = await args.rest('string').then((value) => {
+			return Number(value) || 'all';
+		});
+		if (amountToDeposit < 0) return message.reply('Please specify a valid amount of money to deposit');
+
+		let walletBalance: number;
+		fetchUser(message.author).then((user) => {
+			walletBalance = user.wallet;
+			user.wallet -= amountToDeposit === 'all' ? walletBalance : amountToDeposit;
+			user.bank += amountToDeposit === 'all' ? walletBalance : amountToDeposit;
+			user.save();
+		});
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User Deposit').setDescription(`${message.author.tag} has deposited ${amountToDeposit.value.toLocaleString()} coins into their account.`).setColor('#00ff00').setTimestamp();
+		const embed = new MessageEmbed().setTitle('User Deposit').setDescription(`${message.author.tag} has deposited ${walletBalance.toLocaleString()} coins into their account.`).setColor('#00ff00').setTimestamp();
 		webhook.send({ embeds: [embed] });
 
-		fetchUser(message.author).then((user) => {
-			user.wallet -= amountToDeposit.value;
-			user.bank += amountToDeposit.value;
-			user.save();
-		});
-
-		return message.reply(`You deposited ${amountToDeposit.value.toLocaleString()} coins into your bank account`);
+		return message.reply(`You deposited ${walletBalance.toLocaleString()} coins into your bank account`);
 	}
 }
