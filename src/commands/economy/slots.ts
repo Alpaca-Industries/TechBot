@@ -31,14 +31,14 @@ export default class slotsCommand extends Command {
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
 			.setDescription('• ' + slotemoji + '  ' + slotemoji + '  ' + slotemoji + ' •')
-			.setColor('RANDOM')
-			.setFooter({ text: 'are you feeling lucky?' });
+			.setColor('BLUE')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotemoji}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'are you feeling lucky?' });
+		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotemoji}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'are you feeling lucky?' });
+		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
-		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'are you feeling lucky?' });
+		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
 		const spinner = await message.channel.send({ embeds: [play] });
 		setTimeout(() => {
@@ -61,14 +61,14 @@ export default class slotsCommand extends Command {
 				guild.slotsWinMultiplier = 0;
 				await guild.save();
 
-				return message.channel.send(`CONGRATS! you won ${moneyEarned}`);
+				return message.channel.send(`CONGRATS! You won **$${moneyEarned}**`);
 			}, 2000);
 		} else {
 			setTimeout(async () => {
 				guild.slotsWinMultiplier++;
 				guild.slotsMoneyPool += gambledAmount;
 				await guild.save();
-				return message.channel.send('Sorry you lost your money!');
+				return message.channel.send('Sorry, you lost your money!');
 			}, 2000);
 		}
 		return;
