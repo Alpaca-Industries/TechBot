@@ -133,6 +133,6 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node
 
-economy
-economy-shm
-economy-wal
+./economy
+./economy-shm
+./economy-wal
