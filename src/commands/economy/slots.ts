@@ -24,9 +24,9 @@ export default class slotsCommand extends Command {
 		const slotemoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
-		let $ = items[Math.floor(items.length * Math.random())];
-		let $$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
-		let $$$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
+		const $ = items[Math.floor(items.length * Math.random())];
+		const $$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
+		const $$$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
@@ -40,7 +40,7 @@ export default class slotsCommand extends Command {
 
 		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'are you feeling lucky?' });
 
-		let spinner = await message.channel.send({ embeds: [play] });
+		const spinner = await message.channel.send({ embeds: [play] });
 		setTimeout(() => {
 			spinner.edit({ embeds: [$1] });
 		}, 600);
