@@ -10,7 +10,7 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 	description: 'Lets you gamble your money in a slot machine',
 	detailedDescription: 'slots [amount]'
 })
-export default class slotsCommand extends Command {
+export default class SlotsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args, context: CommandContext): Promise<unknown> {
 		const { success: gambledAmountSuccess, value: gambledAmount } = await args.pickResult('integer');
 
