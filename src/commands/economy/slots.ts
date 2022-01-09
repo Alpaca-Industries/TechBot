@@ -53,16 +53,15 @@ export default class slotsCommand extends Command {
 
 		if ($ === $$ && $ === $$$) {
 			setTimeout(async () => {
-				message.channel.send(`CONGRATS! you won ${guild.slotsMoneyPool}`);
-
-				user.wallet += guild.slotsMoneyPool;
+				const moneyEarned = guild.slotsMoneyPool;
+				user.wallet += moneyEarned;
 				await user.save();
 
 				guild.slotsMoneyPool = 0;
 				guild.slotsWinMultiplier = 0;
 				await guild.save();
 
-				return;
+				return message.channel.send(`CONGRATS! you won ${moneyEarned}`);
 			}, 2000);
 		} else {
 			setTimeout(async () => {
