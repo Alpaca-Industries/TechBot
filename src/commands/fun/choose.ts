@@ -16,7 +16,7 @@ export class ChooseCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		let arg = interaction.options.getString('string', true);
+		let arg = interaction.options.getString('choices', true);
 		const splitArg = arg.split(', ');
 		return interaction.reply(splitArg[Math.floor(Math.random() * splitArg.length)]);
 	}
