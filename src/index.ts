@@ -17,13 +17,6 @@ const startBot = async () => {
 	client.login(config.token);
 
 	connection = await createConnection(config.typeORMConfig);
-
-	console.log(
-		client.generateInvite({
-			scopes: ['bot', 'guilds', 'identify', 'email', 'applications.commands'],
-			permissions: ['ADMINISTRATOR']
-		})
-	);
 };
 
 startBot();

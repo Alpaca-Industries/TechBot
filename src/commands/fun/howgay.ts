@@ -18,7 +18,7 @@ export class HowGayCommand extends Command {
 	chatInputRun(interaction: CommandInteraction) {
 		const user = interaction.options.getUser('user', false) || interaction.user;
 		if (user.id == '296042121297788931') return interaction.reply('Greysilly is sussy wussy uwu');
-		return interaction.reply(`${user.tag} is **${Math.floor(Math.random() * 110)}%**`);
+		return interaction.reply(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay`);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

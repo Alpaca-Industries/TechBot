@@ -1,6 +1,5 @@
 import type { Args, CommandOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
-
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
