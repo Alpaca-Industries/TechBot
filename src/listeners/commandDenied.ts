@@ -4,7 +4,7 @@ import { Listener } from '@sapphire/framework';
 import dayjs from 'dayjs';
 
 @ApplyOptions<ListenerOptions>({
-	event: 'commandDenied'
+	event: 'messageCommandDenied'
 })
 export class CommandDeniedListener extends Listener {
 	public run(error: UserError & { context?: { remaining?: number }; precondition?: { name?: string } }, { message }) {
