@@ -1,6 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
+import { clean } from '../../helpers/clean';
 
 @ApplyOptions<CommandOptions>({
 	name: 'choose',
@@ -12,13 +13,13 @@ export class ChooseCommand extends Command {
 		let arg = await args.restResult('string');
 		if (!arg.success) return message.reply('Please specify a string to choose options from!');
 		const splitArg = arg.value.split(', ');
-		return message.channel.send(splitArg[Math.floor(Math.random() * splitArg.length)]);
+		return message.channel.send(clean(splitArg[Math.floor(Math.random() * splitArg.length)]));
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		let arg = interaction.options.getString('choices', true);
 		const splitArg = arg.split(', ');
-		return interaction.reply(splitArg[Math.floor(Math.random() * splitArg.length)]);
+		return interaction.reply(clean(splitArg[Math.floor(Math.random() * splitArg.length)]));
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
