@@ -1,6 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
+import { truncate } from 'lodash';
 import { owoify } from '../../helpers/stringManipulation';
 
 @ApplyOptions<CommandOptions>({
@@ -29,7 +30,8 @@ export class OwOCommand extends Command {
 				{
 					name: 'text_to_owoify',
 					type: 'STRING',
-					description: 'The text to owoify.'
+					description: 'The text to owoify.',
+					required: true
 				}
 			]
 		});

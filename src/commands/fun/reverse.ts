@@ -37,7 +37,8 @@ export class ReverseCommand extends Command {
 				{
 					name: 'text_to_reverse',
 					type: 'STRING',
-					description: 'The text to reverse.'
+					description: 'The text to reverse.',
+					required: true
 				}
 			]
 		});

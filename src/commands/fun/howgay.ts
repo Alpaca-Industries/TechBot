@@ -11,13 +11,13 @@ import type { CommandInteraction, Message } from 'discord.js';
 export class HowGayCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const user = await args.pick('user').catch(() => message.author);
-		if (user.id == '296042121297788931') return message.channel.send('Greysilly is sussy wussy uwu');
-		return message.channel.send(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay!`);
+		if (user.id === message.author.id) return message.channel.send(`You are **${Math.floor(Math.random() * 110)}%** gay`);
+		return message.channel.send(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay`);
 	}
 
 	chatInputRun(interaction: CommandInteraction) {
 		const user = interaction.options.getUser('user', false) || interaction.user;
-		if (user.id == '296042121297788931') return interaction.reply('Greysilly is sussy wussy uwu');
+		if (user.id === interaction.user.id) return interaction.reply(`You are **${Math.floor(Math.random() * 110)}%** gay`);
 		return interaction.reply(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay`);
 	}
 
