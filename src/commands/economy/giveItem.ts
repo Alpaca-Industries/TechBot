@@ -1,5 +1,5 @@
-import type { Args, CommandOptions } from '@sapphire/framework';
-import { Message, MessageEmbed, WebhookClient } from 'discord.js';
+import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
+import { CommandInteraction, Message, MessageEmbed, WebhookClient } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -29,7 +29,7 @@ export default class giveItemCommand extends Command {
 			if (inventory.amount < amount) return message.channel.send({ embeds: [generateErrorEmbed('You do not have that much of that item!')] });
 			inventory.amount -= amount;
 			inventory.save();
-			return message;
+			return null;
 		});
 		// Recievers Inventory
 		fetchInventory(userToGiveTo.value, await fetchItemByName(itemToGive.value)).then((inventory) => {
@@ -44,5 +44,65 @@ export default class giveItemCommand extends Command {
 		webhook.send({ embeds: [embed] });
 
 		return message.reply(`You gave ${amount} ${itemToGive.value} to ${userToGiveTo.value.username}`);
+	}
+
+	async chatInputRun(interaction: CommandInteraction) {
+		const userToGiveTo = interaction.options.getUser('user');
+		const itemToGive = interaction.options.getString('item');
+		const amount = interaction.options.getInteger('amount');
+
+		if (userToGiveTo.id === interaction.user.id) return interaction.reply({ embeds: [generateErrorEmbed('You cannot give money to yourself!')] });
+
+		if (userToGiveTo.bot) return interaction.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+		if (itemToGive === null) return interaction.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+		if (amount < 0) return interaction.reply({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] }); // return message.reply('Please specify a valid amount of money to withdraw');
+		// Senders Inventory
+		fetchInventory(interaction.user, await fetchItemByName(itemToGive)).then((inventory) => {
+			if (inventory === undefined) return interaction.reply('You do not have that item');
+			if (inventory.amount < amount) return interaction.reply({ embeds: [generateErrorEmbed('You do not have that much of that item!')] });
+			inventory.amount -= amount;
+			inventory.save();
+			return null;
+		});
+		// Recievers Inventory
+		fetchInventory(userToGiveTo, await fetchItemByName(itemToGive)).then((inventory) => {
+			inventory.amount += amount;
+			inventory.save();
+		});
+
+		// Send Message to Webhook
+		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
+		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
+		const embed = new MessageEmbed().setTitle('User gave item!').setDescription(`${interaction.user.tag} has given ${amount.toLocaleString()} ${itemToGive} to ${userToGiveTo.tag}.`).setColor('#00ff00').setTimestamp();
+		webhook.send({ embeds: [embed] });
+
+		return interaction.reply(`You gave ${amount} ${itemToGive} to ${userToGiveTo.username}`);
+	}
+
+	registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand({
+			name: this.name,
+			description: this.description,
+			options: [
+				{
+					name: 'user',
+					type: 'USER',
+					description: 'the user to transfer stuff to.',
+					required: true
+				},
+				{
+					name: 'amount',
+					type: 'INTEGER',
+					description: 'the amount of money to transfer.',
+					required: true
+				},
+				{
+					name: 'item',
+					type: 'STRING',
+					description: 'the item to transfer.',
+					required: true
+				}
+			]
+		});
 	}
 }

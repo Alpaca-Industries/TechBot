@@ -9,10 +9,10 @@
 	"private": true,
 	"scripts": {
 		"start": "tsc --build && node dist/index.js",
-		"cleanStart": "tsc --build --clean && tsc --clean && node dist/index.js",
+		"cleanStart": "tsc --build --clean && tsc --build && node dist/index.js",
 		"prepare": "husky install",
 		"updateAllDepencies": "ncu -u",
-		"dev": "DEV=true npm start"
+		"dev": "tsc --build && DEV=true npm start"
 	},
 	"dependencies": {
 		"@sapphire/decorators": "^3.1.4",

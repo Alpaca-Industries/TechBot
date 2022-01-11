@@ -19,10 +19,10 @@ export default class BalanceCommand extends Command {
 
 		balanceEmbed.setTitle(`${user.username}, This is your balance!`).addField('Wallet: ', balance.wallet.toLocaleString()).addField('Bank: ', balance.bank.toLocaleString()).setColor('#20ce1f');
 
-		return message.channel.send({ embeds: [balanceEmbed] });
+		return message.reply({ embeds: [balanceEmbed] });
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const balanceEmbed = new MessageEmbed();
 		const user = interaction.options.getUser('user', false) || interaction.user;
 		const balance = await fetchUser(user);
