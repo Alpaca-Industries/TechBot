@@ -1,5 +1,5 @@
 import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, Message, MessageEmbed, WebhookClient } from 'discord.js';
+import { CommandInteraction, Message, WebhookClient } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
