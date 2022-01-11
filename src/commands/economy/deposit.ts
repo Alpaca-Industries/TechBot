@@ -40,18 +40,26 @@ export default class depositCommand extends Command {
 		if (amountToDeposit < 0) return interaction.reply('Please specify a valid amount of money to deposit');
 
 		let walletBalance: number;
-		fetchUser(interaction.user).then((user) => {
-			walletBalance = user.wallet;
+		await fetchUser(interaction.user).then((user) => {
 			user.wallet -= amountToDeposit === 'all' ? walletBalance : amountToDeposit;
 			user.bank += amountToDeposit === 'all' ? walletBalance : amountToDeposit;
 			user.save();
+			walletBalance = user.wallet;
 		});
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User Deposit').setDescription(`${interaction.user.tag} has deposited ${walletBalance.toLocaleString()} coins into their account.`).setColor('#00ff00').setTimestamp();
-		webhook.send({ embeds: [embed] });
+		webhook.send({
+			embeds: [
+				{
+					title: 'User Deposit',
+					description: `${interaction.user.tag} has deposited ${walletBalance.toLocaleString()} coins into their account.`,
+					color: '#00ff00',
+					timestamp: new Date()
+				}
+			]
+		});
 
 		return interaction.reply(`You deposited ${walletBalance.toLocaleString()} coins into your bank account`);
 	}
