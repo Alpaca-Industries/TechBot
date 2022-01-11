@@ -39,7 +39,7 @@ export default class InventoryCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const userToCheck = interaction.options.getUser('user');
+		const userToCheck = interaction.options.getUser('user') || interaction.user;
 
 		const items: ItemDataWithAmount[] = await User.getRepository().manager.query(`
 			SELECT item.*, inventory.amount FROM item
@@ -65,7 +65,15 @@ export default class InventoryCommand extends Command {
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
 		registry.registerChatInputCommand({
 			name: this.name,
-			description: this.description
+			description: this.description,
+			options: [
+				{
+					name: 'user',
+					type: 'USER',
+					description: 'The user to check the inventory of.',
+					required: false
+				}
+			]
 		});
 	}
 }
