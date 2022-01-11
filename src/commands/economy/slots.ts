@@ -123,15 +123,14 @@ export default class SlotsCommand extends Command {
 				guild.slotsMoneyPool = 0;
 				guild.slotsWinMultiplier = 0;
 				await guild.save();
-
-				return interaction.reply(`CONGRATS! You won **$${moneyEarned}**`);
+				return interaction.followUp({ content: `CONGRATS! You won **$${moneyEarned}**` });
 			}, 2000);
 		} else {
 			setTimeout(async () => {
 				guild.slotsWinMultiplier++;
 				guild.slotsMoneyPool += amount;
 				await guild.save();
-				return interaction.reply('Sorry, you lost your money!');
+				return interaction.followUp({ content: 'Sorry, you lost your money!' });
 			}, 2000);
 		}
 		return null;
