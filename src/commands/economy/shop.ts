@@ -32,7 +32,7 @@ export default class ShopCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const specificItem = interaction.options.getString('item');
+		const specificItem = interaction.options.getString('item') || '';
 		if (specificItem.length > 0) {
 			const item = await Item.findOne({ where: { name: specificItem } });
 			if (item !== undefined) {
