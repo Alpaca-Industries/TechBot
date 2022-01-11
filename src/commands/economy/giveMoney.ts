@@ -91,12 +91,6 @@ export default class giveMoneyCommand extends Command {
 					type: 'INTEGER',
 					description: 'the amount of money to transfer.',
 					required: true
-				},
-				{
-					name: 'item',
-					type: 'STRING',
-					description: 'the item to transfer.',
-					required: true
 				}
 			]
 		});
