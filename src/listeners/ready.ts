@@ -1,5 +1,5 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import type { ListenerOptions, SapphireClient } from '@sapphire/framework';
+import { ListenerOptions, SapphireClient } from '@sapphire/framework';
 import { Listener } from '@sapphire/framework';
 
 @ApplyOptions<ListenerOptions>({

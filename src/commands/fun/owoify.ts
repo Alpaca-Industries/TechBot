@@ -22,17 +22,20 @@ export class OwOCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'text_to_owoify',
-					type: 'STRING',
-					description: 'The text to owoify.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'text_to_owoify',
+						type: 'STRING',
+						description: 'The text to owoify.',
+						required: true
+					}
+				]
+			},
+			{ idHints: ['929845422745350144'] }
+		);
 	}
 }

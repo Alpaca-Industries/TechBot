@@ -13,7 +13,7 @@ const typeORMConfig: ConnectionOptions = {
 	database: 'economy',
 	synchronize: true,
 	logging: false,
-	entities: [path.join(__dirname + '/entities/**/*.{ts,js}')]
+	entities: [path.join(__dirname + '/entities/**/*.{ts,js}'), path.join(__dirname + '/entities/*.{ts,js}')]
 };
 
 const sapphireConfig: ClientOptions = {
