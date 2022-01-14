@@ -1,5 +1,5 @@
 // TypeORM Imports
-import type { Connection } from 'typeorm';
+import { Connection } from 'typeorm';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 
@@ -17,6 +17,19 @@ const startBot = async () => {
 	client.login(config.token);
 
 	connection = await createConnection(config.typeORMConfig);
+};
+
+declare global {
+	interface String {
+		toProperCase(): string;
+		pluralize(): string;
+	}
+}
+
+String.prototype.toProperCase = function () {
+	return this.replace(/\w\S*/g, function (txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
 };
 
 startBot();
