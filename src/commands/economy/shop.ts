@@ -17,7 +17,7 @@ export default class ShopCommand extends Command {
 		if (specificItem.length > 0) {
 			const item = await Item.findOne({ where: { name: specificItem } });
 			if (item !== undefined) {
-				const embed = new MessageEmbed().setTitle(item.name).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
+				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
 				return message.reply({ embeds: [embed] });
 			}
 		}
@@ -25,7 +25,7 @@ export default class ShopCommand extends Command {
 
 		const embed = new MessageEmbed()
 			.setTitle('Items For Sale')
-			.setDescription(items.map((item) => `${item.emoji} **${item.name}** - $${item.price.toLocaleString()}`).join('\n'))
+			.setDescription(items.map((item) => `${item.emoji} **${item.name.toProperCase()}** - $${item.price.toLocaleString()}`).join('\n'))
 			.setColor(0x00ff00);
 
 		return message.reply({ embeds: [embed] });
@@ -36,7 +36,7 @@ export default class ShopCommand extends Command {
 		if (specificItem.length > 0) {
 			const item = await Item.findOne({ where: { name: specificItem } });
 			if (item !== undefined) {
-				const embed = new MessageEmbed().setTitle(item.name).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
+				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
 				return interaction.reply({ embeds: [embed] });
 			}
 		}
@@ -44,7 +44,7 @@ export default class ShopCommand extends Command {
 
 		const embed = new MessageEmbed()
 			.setTitle('Items For Sale')
-			.setDescription(items.map((item) => `${item.emoji} **${item.name}** - $${item.price.toLocaleString()}`).join('\n'))
+			.setDescription(items.map((item) => `${item.emoji} **${item.name.toProperCase()}** - $${item.price.toLocaleString()}`).join('\n'))
 			.setColor(0x00ff00);
 
 		return interaction.reply({ embeds: [embed] });
