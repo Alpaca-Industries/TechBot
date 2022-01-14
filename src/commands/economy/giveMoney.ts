@@ -41,8 +41,8 @@ export default class giveMoneyCommand extends Command {
 		const response = new MessageEmbed()
 			.setTitle('Money Transferred')
 			.setDescription(`You gave **$${amount.toLocaleString()}** ${pluralize('coin', amount)} to **${receiver.value.tag}**.`)
-			.addField('Your Balance', `\`\`\`diff\n+ Before: ${author.wallet + amount}\n- After: ${author.wallet}\`\`\``, true)
-			.addField(`${receiver.value.tag}'s Balance`, `\`\`\`diff\n- Before: ${user.wallet - amount}\n+ After: ${user.wallet}\`\`\``, true)
+			.addField('Your Balance', `\`\`\`diff\n+ Before: ${(author.wallet + amount).toLocaleString()}\n- After: ${author.wallet.toLocaleString()}\`\`\``, true)
+			.addField(`${receiver.value.tag}'s Balance`, `\`\`\`diff\n- Before: ${(user.wallet - amount).toLocaleString()}\n+ After: ${user.wallet.toLocaleString()}\`\`\``, true)
 			.setColor('BLUE');
 
 		return message.reply({ embeds: [response] });
@@ -74,8 +74,8 @@ export default class giveMoneyCommand extends Command {
 		const response = new MessageEmbed()
 			.setTitle('Money Transferred')
 			.setDescription(`You gave **$${amount.toLocaleString()}** ${pluralize('coin', amount)} to **${receiver.tag}**.`)
-			.addField('Your Balance', `\`\`\`diff\n+ Before: ${author.wallet + amount}\n- After: ${author.wallet}\`\`\``, true)
-			.addField(`${receiver.tag}'s Balance`, `\`\`\`diff\n- Before: ${user.wallet - amount}\n+ After: ${user.wallet}\`\`\``, true)
+			.addField('Your Balance', `\`\`\`diff\n+ Before: ${(author.wallet + amount).toLocaleString()}\n- After: ${author.wallet.toLocaleString()}\`\`\``, true)
+			.addField(`${receiver.tag}'s Balance`, `\`\`\`diff\n- Before: ${(user.wallet - amount).toLocaleString()}\n+ After: ${user.wallet.toLocaleString()}\`\`\``, true)
 			.setColor('BLUE');
 
 		return interaction.reply({ embeds: [response] });
