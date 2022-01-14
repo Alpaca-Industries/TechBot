@@ -5,6 +5,7 @@ import { MessageEmbed } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Item } from '../../entities/economy/item';
+import { generateErrorEmbed } from '../../helpers/logging';
 
 @ApplyOptions<CommandOptions>({
 	name: 'shop',
@@ -14,11 +15,14 @@ import { Item } from '../../entities/economy/item';
 export default class ShopCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const specificItem = await args.pick('string').catch(() => '');
+
 		if (specificItem.length > 0) {
-			const item = await Item.findOne({ where: { name: specificItem } });
+			const item = await Item.findOne({ where: { name: specificItem.toProperCase() } });
 			if (item !== undefined) {
-				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
+				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`> ${item.description}\nPrice: $${item.price.toLocaleString()}`).setColor('BLUE');
 				return message.reply({ embeds: [embed] });
+			} else {
+				return message.reply({ embeds: [generateErrorEmbed(`Could not find item with name '${specificItem}'.`, 'Invalid Item Name')] });
 			}
 		}
 		const items = await Item.createQueryBuilder('item').orderBy('item.price', 'ASC').getMany();
@@ -34,10 +38,12 @@ export default class ShopCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const specificItem = interaction.options.getString('item') || '';
 		if (specificItem.length > 0) {
-			const item = await Item.findOne({ where: { name: specificItem } });
+			const item = await Item.findOne({ where: { name: specificItem.toProperCase() } });
 			if (item !== undefined) {
-				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`Price: ${item.price}`).setColor(0x00ff00);
+				const embed = new MessageEmbed().setTitle(item.name.toProperCase()).setDescription(`> ${item.description}\nPrice: $${item.price.toLocaleString()}`).setColor('BLUE');
 				return interaction.reply({ embeds: [embed] });
+			} else {
+				return interaction.reply({ embeds: [generateErrorEmbed(`Could not find item with name '${specificItem}'.`, 'Invalid Item Name')], ephemeral: true });
 			}
 		}
 		const items = await Item.createQueryBuilder('item').orderBy('item.price', 'ASC').getMany();
