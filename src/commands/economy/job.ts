@@ -22,7 +22,7 @@ export default class jobCommand extends Command {
 			const fields: { name: string; value: any }[] = [];
 			for (const job of jobs) {
 				fields.push({
-					name: `${i}: ${job.name}`,
+					name: `${i}: ${job.name.toProperCase()}`,
 					value: `Description: ${job.description} **MIN EXP:** ${job.minimumXP}`
 				});
 				i++;
@@ -42,7 +42,7 @@ export default class jobCommand extends Command {
 
 			if (!jobSelected.success) return message.reply('Please specify a job!');
 
-			const job = await Jobs.findOne({ where: { name: jobSelected.value } });
+			const job = await Jobs.findOne({ where: { name: jobSelected.value.replaceAll(' ', '_') } });
 
 			if (job !== undefined) {
 				fetchUser(message.author).then((user) => {
