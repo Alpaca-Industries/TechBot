@@ -30,17 +30,20 @@ export class ReverseCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'text_to_reverse',
-					type: 'STRING',
-					description: 'The text to reverse.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'text_to_reverse',
+						type: 'STRING',
+						description: 'The text to reverse.',
+						required: true
+					}
+				]
+			},
+			{ idHints: ['929845337718411264'] }
+		);
 	}
 }

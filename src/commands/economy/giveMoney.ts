@@ -82,23 +82,26 @@ export default class giveMoneyCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'user',
-					type: 'USER',
-					description: 'the user to transfer stuff to.',
-					required: true
-				},
-				{
-					name: 'amount',
-					type: 'STRING',
-					description: 'the amount of money to transfer.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'user',
+						type: 'USER',
+						description: 'the user to transfer stuff to.',
+						required: true
+					},
+					{
+						name: 'amount',
+						type: 'STRING',
+						description: 'the amount of money to transfer.',
+						required: true
+					}
+				]
+			},
+			{ idHints: ['930278952105283595'] }
+		);
 	}
 }

@@ -31,17 +31,20 @@ export default class BalanceCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'user',
-					type: 'USER',
-					description: 'The user to get the balance of.',
-					required: false
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'user',
+						type: 'USER',
+						description: 'The user to get the balance of.',
+						required: false
+					}
+				]
+			},
+			{ idHints: ['929891934556807180'] }
+		);
 	}
 }
