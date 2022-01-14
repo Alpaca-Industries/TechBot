@@ -18,25 +18,20 @@ export default class WorkCommand extends Command {
 
 		if (job === 'jobless') return message.reply({ embeds: [generateErrorEmbed("You don't have a job! Do `job select janitor` to get started!", 'No Job')] });
 
-		let moneyEarned: number;
+		const jobs: Record<string, number> = {
+			jobless: 0,
+			janitor: 250,
+			chief: 500,
+			fire_fighter: 750,
+			pepe_king: 1000
+		} as const;
 
-		switch (job) {
-			case 'janitor':
-				moneyEarned += 250;
-				break;
-			case 'chief':
-				moneyEarned += 500;
-				break;
-			case 'fire_fighter':
-				moneyEarned += 750;
-				break;
-			case 'pepe_king':
-				moneyEarned += 1000;
-				break;
-		}
+		let moneyEarned = jobs[job.toLowerCase()];
 
 		user.wallet += moneyEarned;
 		user.save();
+
+		console.log(moneyEarned);
 
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
 
@@ -50,30 +45,17 @@ export default class WorkCommand extends Command {
 
 		if (job === 'jobless') return interaction.reply({ embeds: [generateErrorEmbed("You don't have a job! Do `job select janitor` to get started!", 'No Job')] });
 
-		let moneyEarned: number;
+		const jobs: Record<string, number> = {
+			jobless: 0,
+			janitor: 250,
+			chief: 500,
+			fire_fighter: 750,
+			pepe_king: 1000
+		} as const;
 
-		switch (job) {
-			case 'janitor':
-				moneyEarned = 250;
-				user.wallet += moneyEarned;
-				user.save();
-				break;
-			case 'chief':
-				moneyEarned = 500;
-				user.wallet += moneyEarned;
-				user.save();
-				break;
-			case 'fire_fighter':
-				moneyEarned = 750;
-				user.wallet += moneyEarned;
-				user.save();
-				break;
-			case 'pepe_king':
-				moneyEarned = 1000;
-				user.wallet += moneyEarned;
-				user.save();
-				break;
-		}
+		let moneyEarned = jobs[job.toLowerCase()];
+		user.wallet += moneyEarned;
+		await user.save();
 
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
 
