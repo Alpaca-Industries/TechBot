@@ -1,6 +1,7 @@
 import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
 import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
 
+import { parseAmount } from '../../helpers/parseAmount';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
@@ -8,20 +9,19 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'slots',
 	description: 'Lets you gamble your money in a slot machine',
-	detailedDescription: 'slots [amount]'
+	detailedDescription: 'slots <amount>'
 })
 export default class SlotsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const { success: gambledAmountSuccess, value: gambledAmount } = await args.pickResult('integer');
-
 		const user = await fetchUser(message.author);
+		const { success: gambledAmountSuccess, value: gambledAmount } = parseAmount(await args.pickResult('string'), user, true);
 
 		if (!gambledAmountSuccess || gambledAmount < 20) return message.channel.send('Please gamble a proper amount, a.k.a above 20');
 		if (user.wallet < gambledAmount) return message.channel.send('You dont have enough money...');
 
 		const guild = await fetchGuild(message.guild);
 
-		const slotemoji = ':money_mouth:';
+		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
 		const $ = items[Math.floor(items.length * Math.random())];
@@ -30,13 +30,13 @@ export default class SlotsCommand extends Command {
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription('• ' + slotemoji + '  ' + slotemoji + '  ' + slotemoji + ' •')
+			.setDescription('• ' + slotEmoji + '  ' + slotEmoji + '  ' + slotEmoji + ' •')
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotemoji}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
 		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
@@ -75,16 +75,15 @@ export default class SlotsCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const amount = interaction.options.getInteger('amount');
-
 		const user = await fetchUser(interaction.user);
+		const amount = parseAmount(interaction.options.getString('amount'), user, true);
 
 		if (amount < 20) return interaction.reply('Please gamble a proper amount, a.k.a above 20');
 		if (user.wallet < amount) return interaction.reply('You dont have enough money...');
 
 		const guild = await fetchGuild(interaction.guild);
 
-		const slotemoji = ':money_mouth:';
+		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
 		const $ = items[Math.floor(items.length * Math.random())];
@@ -93,13 +92,13 @@ export default class SlotsCommand extends Command {
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription('• ' + slotemoji + '  ' + slotemoji + '  ' + slotemoji + ' •')
+			.setDescription('• ' + slotEmoji + '  ' + slotEmoji + '  ' + slotEmoji + ' •')
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotemoji}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotemoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
 		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
 
@@ -143,7 +142,7 @@ export default class SlotsCommand extends Command {
 			options: [
 				{
 					name: 'amount',
-					type: 'INTEGER',
+					type: 'STRING',
 					description: 'The amount to bet.',
 					required: true
 				}

@@ -29,7 +29,7 @@ export default class BuyCommand extends Command {
 			inventory.save();
 		});
 
-		return message.reply(`You bought ${item.name} for ${item.price.toLocaleString()}`);
+		return message.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
 	}
 
 	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
@@ -49,7 +49,7 @@ export default class BuyCommand extends Command {
 			inventory.save();
 		});
 
-		return interaction.reply(`You bought ${item.name} for ${item.price.toLocaleString()}`);
+		return interaction.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

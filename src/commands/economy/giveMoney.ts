@@ -5,6 +5,8 @@ import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/logging';
+import { parseAmount } from '../../helpers/parseAmount';
+import { pluralize } from '../../helpers/pluralize';
 
 @ApplyOptions<CommandOptions>({
 	name: 'giveMoney',
@@ -14,65 +16,69 @@ import { generateErrorEmbed } from '../../helpers/logging';
 })
 export default class giveMoneyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const reciever = await args.pickResult('user');
-		const amount = await args.pick('integer').catch(() => 1);
+		const receiver = await args.pickResult('user');
+		const author = await fetchUser(message.author);
+		const amount = parseAmount(await args.pick('string'), author);
 
-		if (!reciever.success || reciever.value.bot || reciever.value.id === message.author.id) return message.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+		if (!receiver.success || receiver.value.bot || receiver.value.id === message.author.id) return message.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
 		if (amount < 0) return message.reply({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
-		// Senders Inventory
-		fetchUser(message.author).then((user) => {
-			if (user.wallet < amount) return message.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
+		if (author.wallet < amount) return message.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
+		author.wallet -= amount;
+		author.save();
 
-			user.wallet -= amount;
-			user.save();
-			return null;
-		});
-		// Recievers Inventory
-		fetchUser(reciever.value).then((user) => {
-			user.wallet += amount;
-			user.save();
-			return null;
-		});
+		const user = await fetchUser(receiver.value);
+		user.wallet += amount;
+		user.save();
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User gave money!').setDescription(`${message.author.tag} has given ${amount.toLocaleString()} to ${reciever.value.tag}.`).setColor('#00ff00').setTimestamp();
+		const embed = new MessageEmbed().setTitle('User gave money!').setDescription(`${message.author.tag} has given ${amount.toLocaleString()} to ${receiver.value.tag}.`).setColor('#00ff00').setTimestamp();
+
 		webhook.send({ embeds: [embed] });
 
-		return message.reply(`You gave ${amount.toLocaleString()} coins to ${reciever.value.username}`);
+		const response = new MessageEmbed()
+			.setTitle('Money Transferred')
+			.setDescription(`You gave **$${amount.toLocaleString()}** ${pluralize('coin', amount)} to **${receiver.value.tag}**.`)
+			.addField('Your Balance', `\`\`\`diff\n+ Before: ${author.wallet + amount}\n- After: ${author.wallet}\`\`\``, true)
+			.addField(`${receiver.value.tag}'s Balance`, `\`\`\`diff\n- Before: ${user.wallet - amount}\n+ After: ${user.wallet}\`\`\``, true)
+			.setColor('BLUE');
+
+		return message.reply({ embeds: [response] });
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const reciever = interaction.options.getUser('user');
-		const amount = interaction.options.getInteger('amount');
+		const receiver = interaction.options.getUser('user');
+		const author = await fetchUser(interaction.user);
+		const amount = parseAmount(interaction.options.getString('amount'), author);
 
-		if (reciever.bot || reciever.id === interaction.user.id) return interaction.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
-		if (amount < 0) return interaction.reply({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
+		if (receiver.bot || receiver.id === interaction.user.id) return interaction.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+		if (isNaN(amount) || amount < 0) return interaction.reply({ embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')] });
 
-		// Senders Inventory
-		fetchUser(interaction.user).then((user) => {
-			if (user.wallet < amount) return interaction.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
+		if (author.wallet < amount) return interaction.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
+		author.wallet -= amount;
+		author.save();
 
-			user.wallet -= amount;
-			user.save();
-			return null;
-		});
-		// Recievers Inventory
-		fetchUser(reciever).then((user) => {
-			user.wallet += amount;
-			user.save();
-			return null;
-		});
+		const user = await fetchUser(receiver);
+		user.wallet += amount;
+		user.save();
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({ id: '927773203349246003', token: 'bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi' });
-		const embed = new MessageEmbed().setTitle('User gave money!').setDescription(`${interaction.user.tag} has given ${amount.toLocaleString()} to ${reciever.tag}.`).setColor('#00ff00').setTimestamp();
+		const embed = new MessageEmbed().setTitle('User gave money!').setDescription(`${interaction.user.tag} has given ${amount.toLocaleString()} to ${receiver.tag}.`).setColor('#00ff00').setTimestamp();
+
 		webhook.send({ embeds: [embed] });
 
-		return interaction.reply(`You gave ${amount.toLocaleString()} coins to ${reciever.username}`);
+		const response = new MessageEmbed()
+			.setTitle('Money Transferred')
+			.setDescription(`You gave **$${amount.toLocaleString()}** ${pluralize('coin', amount)} to **${receiver.tag}**.`)
+			.addField('Your Balance', `\`\`\`diff\n+ Before: ${author.wallet + amount}\n- After: ${author.wallet}\`\`\``, true)
+			.addField(`${receiver.tag}'s Balance`, `\`\`\`diff\n- Before: ${user.wallet - amount}\n+ After: ${user.wallet}\`\`\``, true)
+			.setColor('BLUE');
+
+		return interaction.reply({ embeds: [response] });
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -88,7 +94,7 @@ export default class giveMoneyCommand extends Command {
 				},
 				{
 					name: 'amount',
-					type: 'INTEGER',
+					type: 'STRING',
 					description: 'the amount of money to transfer.',
 					required: true
 				}

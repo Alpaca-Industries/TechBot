@@ -3,6 +3,7 @@ import type { CommandInteraction, Message } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
+import { parseAmount } from '../../helpers/parseAmount';
 
 @ApplyOptions<CommandOptions>({
 	name: 'bet',
@@ -11,16 +12,11 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class BetCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const betAmount = await args.pick('integer').catch(() => 0);
-		if (betAmount < 10 || isNaN(betAmount)) {
-			return message.reply('Please bet a valid amount above 10!');
-		}
-
 		const userDetails = await fetchUser(message.author);
+		const betAmount = parseAmount(await args.pick('string'), userDetails);
 
-		if (userDetails.wallet < betAmount) {
-			return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
-		}
+		if (betAmount < 10 || isNaN(betAmount)) return message.reply('Please bet a valid amount above 10!');
+		if (userDetails.wallet < betAmount) return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
@@ -36,16 +32,11 @@ export default class BetCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
-		const betAmount = interaction.options.getInteger('bet_amount');
-		if (betAmount < 10 || isNaN(betAmount)) {
-			return interaction.reply('Please bet a valid amount above 10!');
-		}
-
 		const userDetails = await fetchUser(interaction.user);
+		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
 
-		if (userDetails.wallet < betAmount) {
-			return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
-		}
+		if (betAmount < 10 || isNaN(betAmount)) return interaction.reply('Please bet a valid amount above 10!');
+		if (userDetails.wallet < betAmount) return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
@@ -66,8 +57,8 @@ export default class BetCommand extends Command {
 			description: this.description,
 			options: [
 				{
-					name: 'bet_amount',
-					type: 'INTEGER',
+					name: 'amount',
+					type: 'STRING',
 					description: 'The amount to bet.',
 					required: true
 				}

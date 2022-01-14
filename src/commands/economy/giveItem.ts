@@ -49,7 +49,7 @@ export default class giveItemCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const userToGiveTo = interaction.options.getUser('user');
 		const itemToGive = interaction.options.getString('item');
-		const amount = interaction.options.getInteger('amount');
+		const amount = Number(interaction.options.getString('amount'));
 
 		if (userToGiveTo.id === interaction.user.id) return interaction.reply({ embeds: [generateErrorEmbed('You cannot give money to yourself!')] });
 
@@ -92,7 +92,7 @@ export default class giveItemCommand extends Command {
 				},
 				{
 					name: 'amount',
-					type: 'INTEGER',
+					type: 'STRING',
 					description: 'the amount of money to transfer.',
 					required: true
 				},
