@@ -22,23 +22,20 @@ export default class WorkCommand extends Command {
 
 		switch (job) {
 			case 'janitor':
-				moneyEarned = 250;
-				user.wallet += moneyEarned;
+				moneyEarned += 250;
 				break;
 			case 'chief':
-				moneyEarned = 500;
-				user.wallet += moneyEarned;
+				moneyEarned += 500;
 				break;
 			case 'fire_fighter':
-				moneyEarned = 750;
-				user.wallet += moneyEarned;
+				moneyEarned += 750;
 				break;
 			case 'pepe_king':
-				moneyEarned = 1000;
-				user.wallet += moneyEarned;
+				moneyEarned += 1000;
 				break;
 		}
 
+		user.wallet += moneyEarned;
 		user.save();
 
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
@@ -58,20 +55,25 @@ export default class WorkCommand extends Command {
 		switch (job) {
 			case 'janitor':
 				moneyEarned = 250;
+				user.wallet += moneyEarned;
+				user.save();
 				break;
 			case 'chief':
 				moneyEarned = 500;
+				user.wallet += moneyEarned;
+				user.save();
 				break;
 			case 'fire_fighter':
 				moneyEarned = 750;
+				user.wallet += moneyEarned;
+				user.save();
 				break;
 			case 'pepe_king':
 				moneyEarned = 1000;
+				user.wallet += moneyEarned;
+				user.save();
 				break;
 		}
-
-		user.wallet += moneyEarned;
-		user.save();
 
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
 
