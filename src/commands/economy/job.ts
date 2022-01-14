@@ -69,12 +69,22 @@ export default class jobCommand extends Command {
 			message.reply({ embeds: [response] });
 		}
 
+		if (toDo === 'xp' || toDo === 'exp') {
+			const user = await fetchUser(message.author);
+			const response = new MessageEmbed()
+				.setTitle('Current XP')
+				.setDescription(`${user.jobEXP.toLocaleString()} XP`)
+				.setColor('BLUE');
+
+			message.reply({ embeds: [response] });
+		}
+
 		if (toDo === 'help') {
 			const guild = await fetchGuild(message.guild);
 			const helpReply = new MessageEmbed()
 				.setTitle('Jobs')
 				.setDescription(
-					`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job select <job name>** - Selects a job.`
+					`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <job name>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
 				)
 				.setColor('BLUE');
 
