@@ -37,4 +37,9 @@ export class User extends BaseEntity {
 		default: 'jobless'
 	})
 	currentJob: string;
+
+	@Column({
+		default: 0
+	})
+	jobEXP: number;
 }
