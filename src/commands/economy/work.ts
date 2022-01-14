@@ -23,19 +23,22 @@ export default class WorkCommand extends Command {
 		switch (job) {
 			case 'janitor':
 				moneyEarned = 250;
+				user.wallet += moneyEarned;
 				break;
 			case 'chief':
 				moneyEarned = 500;
+				user.wallet += moneyEarned;
 				break;
 			case 'fire_fighter':
 				moneyEarned = 750;
+				user.wallet += moneyEarned;
 				break;
 			case 'pepe_king':
 				moneyEarned = 1000;
+				user.wallet += moneyEarned;
 				break;
 		}
 
-		user.wallet += moneyEarned;
 		user.save();
 
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
