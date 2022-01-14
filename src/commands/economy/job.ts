@@ -15,6 +15,7 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 export default class jobCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const toDo = await args.pick('string').catch(() => 'help');
+		const guild = await fetchGuild(message.guild);
 
 		if (toDo === 'list') {
 			const jobs = await Jobs.createQueryBuilder('job').getMany();
@@ -33,7 +34,7 @@ export default class jobCommand extends Command {
 			const jobsEmbed = new MessageEmbed()
 				.setTitle('Available Jobs')
 				.setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n'))
-				.setFooter({ text: `To get a job run <prefix>jobs select <job name>!` })
+				.setFooter({ text: `To get a job run ${guild.prefix}jobs select <job name>!` })
 				.setColor(0x00ff00);
 
 			return message.reply({ embeds: [jobsEmbed] });
@@ -80,7 +81,6 @@ export default class jobCommand extends Command {
 		}
 
 		if (toDo === 'help') {
-			const guild = await fetchGuild(message.guild);
 			const helpReply = new MessageEmbed()
 				.setTitle('Jobs')
 				.setDescription(
