@@ -8,8 +8,6 @@ import { ApplicationCommandRegistries, RegisterBehavior, SapphireClient } from '
 
 // Global Imports
 import { config } from './config';
-import { Item } from './entities/economy/item';
-import { Jobs } from './entities/economy/jobs';
 
 const client = new SapphireClient(config.sapphireConfig);
 
