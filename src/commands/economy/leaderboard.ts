@@ -13,7 +13,28 @@ import { User } from '../../entities/economy/user';
 })
 export default class LeaderboardCommand extends Command {
 	private numToEnglish(number: number): string {
-		const num = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+		const num = [
+			'zero',
+			'one',
+			'two',
+			'three',
+			'four',
+			'five',
+			'six',
+			'seven',
+			'eight',
+			'nine',
+			'ten',
+			'eleven',
+			'twelve',
+			'thirteen',
+			'fourteen',
+			'fifteen',
+			'sixteen',
+			'seventeen',
+			'eighteen',
+			'nineteen'
+		];
 		if (number < 20) return num[number];
 		const tens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
@@ -21,8 +42,13 @@ export default class LeaderboardCommand extends Command {
 		// 												Added strict if check here instead of ambiguous
 		if (number < 100) return `${tens[~~(number / 10) - 2]}${digit !== 0 ? '-' + num[digit] : ''}`;
 		// Changed return types to string so its actually clear whats returned
-		if (number < 1000) return `${num[~~(number / 100)]} hundred ${number % 100 == 0 ? '' : ' ' + this.numToEnglish(number % 100)}`;
-		return `${this.numToEnglish(~~(number / 1000))} thousand ${number % 1000 != 0 ? ' ' + this.numToEnglish(number % 1000) : ''}`;
+		if (number < 1000)
+			return `${num[~~(number / 100)]} hundred ${
+				number % 100 == 0 ? '' : ' ' + this.numToEnglish(number % 100)
+			}`;
+		return `${this.numToEnglish(~~(number / 1000))} thousand ${
+			number % 1000 != 0 ? ' ' + this.numToEnglish(number % 1000) : ''
+		}`;
 	}
 
 	async messageRun(message: Message<boolean>, args: Args) {
@@ -35,7 +61,10 @@ export default class LeaderboardCommand extends Command {
 			return message.channel.send('Please Only Specify Either Bank or Wallet or Overalll');
 		}
 
-		const topUsers = await User.createQueryBuilder('user').orderBy('user.wallet', 'DESC').limit(10).getMany();
+		const topUsers = await User.createQueryBuilder('user')
+			.orderBy('user.wallet', 'DESC')
+			.limit(10)
+			.getMany();
 		const leaderboardEmbed = new MessageEmbed();
 		const leaderboardData: string[] = [];
 
@@ -60,16 +89,32 @@ export default class LeaderboardCommand extends Command {
 				// Removed unecceary {} around case statements
 				case 1:
 					// Made all lines single lines so its actually readable, for the love of god change your max line length
-					leaderboardData.push(`:first_place: • ${userInformation.tag} - ${valueForEmbed() ? valueForEmbed().toLocaleString() : 0}`);
+					leaderboardData.push(
+						`:first_place: • ${userInformation.tag} - ${
+							valueForEmbed() ? valueForEmbed().toLocaleString() : 0
+						}`
+					);
 					break;
 				case 2:
-					leaderboardData.push(`:second_place: • ${userInformation.tag} - ${valueForEmbed() ? valueForEmbed().toLocaleString() : 0}`);
+					leaderboardData.push(
+						`:second_place: • ${userInformation.tag} - ${
+							valueForEmbed() ? valueForEmbed().toLocaleString() : 0
+						}`
+					);
 					break;
 				case 3:
-					leaderboardData.push(`:third_place: • ${userInformation.tag} - ${valueForEmbed() ? valueForEmbed().toLocaleString() : 0}`);
+					leaderboardData.push(
+						`:third_place: • ${userInformation.tag} - ${
+							valueForEmbed() ? valueForEmbed().toLocaleString() : 0
+						}`
+					);
 					break;
 				default:
-					leaderboardData.push(`:${this.numToEnglish(counter)}: • ${userInformation.tag} - ${valueForEmbed() ? valueForEmbed().toLocaleString() : 0}`);
+					leaderboardData.push(
+						`:${this.numToEnglish(counter)}: • ${userInformation.tag} - ${
+							valueForEmbed() ? valueForEmbed().toLocaleString() : 0
+						}`
+					);
 			}
 			counter++;
 		}

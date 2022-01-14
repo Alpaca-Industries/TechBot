@@ -20,7 +20,10 @@ export default class DailyCommand extends Command {
 			user.save();
 		});
 
-		embed.setTitle('Daily Coins :D').setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`).setColor('BLUE');
+		embed
+			.setTitle('Daily Coins :D')
+			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+			.setColor('BLUE');
 
 		return message.channel.send({ embeds: [embed] });
 	}
@@ -34,7 +37,10 @@ export default class DailyCommand extends Command {
 			user.save();
 		});
 
-		embed.setTitle('Daily Coins :D').setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`).setColor('BLUE');
+		embed
+			.setTitle('Daily Coins :D')
+			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+			.setColor('BLUE');
 
 		return interaction.reply({ embeds: [embed] });
 	}

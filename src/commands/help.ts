@@ -22,14 +22,23 @@ export default class helpCommand extends Command {
 			const command = commands.find((c) => c.name === specifiedCommand);
 			if (command === undefined) return message.reply('That command does not exist!');
 
-			paginatedMessage.addPageEmbed(new MessageEmbed().setTitle(`${command.name}`).setDescription(`${command.description}`).setColor('#20ce1f'));
+			paginatedMessage.addPageEmbed(
+				new MessageEmbed()
+					.setTitle(`${command.name}`)
+					.setDescription(`${command.description}`)
+					.setColor('#20ce1f')
+			);
 		}
 
 		for (const category of categories) {
 			const fields: { name: string; value: any }[] = [];
 
 			// Filter commands to categories and take intoacount sub categories
-			const filteredCommands = commands.filter((c) => String(c.fullCategory) === category || String(c.fullCategory[c.fullCategory.length]) === category[category.length]);
+			const filteredCommands = commands.filter(
+				(c) =>
+					String(c.fullCategory) === category ||
+					String(c.fullCategory[c.fullCategory.length]) === category[category.length]
+			);
 			for (const [_, command] of filteredCommands) {
 				fields.push({
 					name: `${command.name}`,
@@ -37,7 +46,11 @@ export default class helpCommand extends Command {
 				});
 			}
 
-			paginatedMessage.addPageEmbed(new MessageEmbed().setTitle(category).setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n')));
+			paginatedMessage.addPageEmbed(
+				new MessageEmbed()
+					.setTitle(category)
+					.setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n'))
+			);
 		}
 
 		return paginatedMessage.run(message, message.author);

@@ -14,9 +14,14 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 export default class SlotsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const user = await fetchUser(message.author);
-		const { success: gambledAmountSuccess, value: gambledAmount } = parseAmount(await args.pickResult('string'), user, true);
+		const { success: gambledAmountSuccess, value: gambledAmount } = parseAmount(
+			await args.pickResult('string'),
+			user,
+			true
+		);
 
-		if (!gambledAmountSuccess || gambledAmount < 20) return message.channel.send('Please gamble a proper amount, a.k.a above 20');
+		if (!gambledAmountSuccess || gambledAmount < 20)
+			return message.channel.send('Please gamble a proper amount, a.k.a above 20');
 		if (user.wallet < gambledAmount) return message.channel.send('You dont have enough money...');
 
 		const guild = await fetchGuild(message.guild);
@@ -34,11 +39,23 @@ export default class SlotsCommand extends Command {
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $1 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $2 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${$$}   ${slotEmoji} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $3 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${$$}   ${$$$} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
 		const spinner = await message.channel.send({ embeds: [play] });
 		setTimeout(() => {
@@ -96,11 +113,23 @@ export default class SlotsCommand extends Command {
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $1 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${slotEmoji} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $2 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${$$}   ${slotEmoji} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $3 = new MessageEmbed().setTitle('Slot Machine').setDescription(`• ${$}   ${$$}   ${$$$} •`).setColor('RANDOM').setFooter({ text: 'Are you feeling lucky?' });
+		const $3 = new MessageEmbed()
+			.setTitle('Slot Machine')
+			.setDescription(`• ${$}   ${$$}   ${$$$} •`)
+			.setColor('RANDOM')
+			.setFooter({ text: 'Are you feeling lucky?' });
 
 		interaction.reply({ embeds: [play] });
 		setTimeout(() => {

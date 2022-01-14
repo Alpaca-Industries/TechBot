@@ -16,14 +16,17 @@ export default class BetCommand extends Command {
 		const betAmount = parseAmount(await args.pick('string'), userDetails);
 
 		if (betAmount < 10 || isNaN(betAmount)) return message.reply('Please bet a valid amount above 10!');
-		if (userDetails.wallet > betAmount) return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
+		if (userDetails.wallet > betAmount)
+			return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
 		if (chance) {
 			userDetails.wallet += betAmount;
 			userDetails.save();
-			return message.reply(`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`);
+			return message.reply(
+				`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`
+			);
 		} else {
 			userDetails.wallet -= betAmount;
 			userDetails.save();
@@ -35,19 +38,25 @@ export default class BetCommand extends Command {
 		const userDetails = await fetchUser(interaction.user);
 		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
 
-		if (betAmount < 10 || isNaN(betAmount)) return interaction.reply('Please bet a valid amount above 10!');
-		if (userDetails.wallet > betAmount) return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
+		if (betAmount < 10 || isNaN(betAmount))
+			return interaction.reply('Please bet a valid amount above 10!');
+		if (userDetails.wallet > betAmount)
+			return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
 		if (chance) {
 			userDetails.wallet += betAmount;
 			userDetails.save();
-			return interaction.reply(`Congrats ${interaction.user.username}, you won **$${betAmount.toLocaleString()}**!`);
+			return interaction.reply(
+				`Congrats ${interaction.user.username}, you won **$${betAmount.toLocaleString()}**!`
+			);
 		} else {
 			userDetails.wallet -= betAmount;
 			userDetails.save();
-			return interaction.reply(`${interaction.user.username}, you lost **$${betAmount.toLocaleString()}**!`);
+			return interaction.reply(
+				`${interaction.user.username}, you lost **$${betAmount.toLocaleString()}**!`
+			);
 		}
 	}
 

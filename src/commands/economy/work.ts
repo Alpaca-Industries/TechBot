@@ -16,7 +16,15 @@ export default class WorkCommand extends Command {
 		const workEmbed = new MessageEmbed();
 		const job = user.currentJob;
 
-		if (job === 'jobless') return message.reply({ embeds: [generateErrorEmbed("You don't have a job! Do `job select janitor` to get started!", 'No Job')] });
+		if (job === 'jobless')
+			return message.reply({
+				embeds: [
+					generateErrorEmbed(
+						"You don't have a job! Do `job select janitor` to get started!",
+						'No Job'
+					)
+				]
+			});
 
 		const jobs: Record<string, number> = {
 			jobless: 0,
@@ -31,7 +39,10 @@ export default class WorkCommand extends Command {
 		user.wallet += moneyEarned;
 		user.save();
 
-		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
+		workEmbed
+			.setTitle(`You worked as a ${job.toProperCase()}`)
+			.setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`)
+			.setColor('BLUE');
 
 		return message.channel.send({ embeds: [workEmbed] });
 	}
@@ -41,7 +52,15 @@ export default class WorkCommand extends Command {
 		const workEmbed = new MessageEmbed();
 		const job = user.currentJob;
 
-		if (job === 'jobless') return interaction.reply({ embeds: [generateErrorEmbed("You don't have a job! Do `job select janitor` to get started!", 'No Job')] });
+		if (job === 'jobless')
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						"You don't have a job! Do `job select janitor` to get started!",
+						'No Job'
+					)
+				]
+			});
 
 		const jobs: Record<string, number> = {
 			jobless: 0,
@@ -55,7 +74,10 @@ export default class WorkCommand extends Command {
 		user.wallet += moneyEarned;
 		await user.save();
 
-		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
+		workEmbed
+			.setTitle(`You worked as a ${job.toProperCase()}`)
+			.setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`)
+			.setColor('BLUE');
 
 		return interaction.reply({ embeds: [workEmbed] });
 	}

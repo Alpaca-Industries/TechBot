@@ -16,7 +16,8 @@ export default class BuyCommand extends Command {
 		const itemToBuy = await args.rest('string').catch(() => '');
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
-		if (item === undefined) return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+		if (item === undefined)
+			return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
 		const user = await fetchUser(message.author);
 
 		if (user.wallet < item.price) return message.reply('You do not have enough money');
@@ -36,7 +37,8 @@ export default class BuyCommand extends Command {
 		const itemToBuy = interaction.options.getString('item');
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
-		if (item === undefined) return interaction.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+		if (item === undefined)
+			return interaction.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
 		const user = await fetchUser(interaction.user);
 
 		if (user.wallet < item.price) return interaction.reply('You do not have enough money');

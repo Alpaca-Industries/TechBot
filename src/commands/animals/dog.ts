@@ -15,7 +15,9 @@ import axios from 'axios';
 export default class DogCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const dogEmbed = new MessageEmbed();
-		const dog: Dog[] = await axios.get('https://api.thedogapi.com/v1/images/search').then((res) => res.data);
+		const dog: Dog[] = await axios
+			.get('https://api.thedogapi.com/v1/images/search')
+			.then((res) => res.data);
 
 		dogEmbed.setImage(dog[0].url);
 
@@ -29,7 +31,9 @@ export default class DogCommand extends Command {
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const dogEmbed = new MessageEmbed();
-		const dog: Dog[] = await axios.get('https://api.thedogapi.com/v1/images/search').then((res) => res.data);
+		const dog: Dog[] = await axios
+			.get('https://api.thedogapi.com/v1/images/search')
+			.then((res) => res.data);
 
 		dogEmbed.setImage(dog[0].url);
 

@@ -17,7 +17,11 @@ export default class BalanceCommand extends Command {
 
 		const balance = await fetchUser(user);
 
-		balanceEmbed.setTitle(`${user.username}, This is your balance!`).addField('Wallet: ', balance.wallet.toLocaleString()).addField('Bank: ', balance.bank.toLocaleString()).setColor('#20ce1f');
+		balanceEmbed
+			.setTitle(`${user.username}, This is your balance!`)
+			.addField('Wallet: ', balance.wallet.toLocaleString())
+			.addField('Bank: ', balance.bank.toLocaleString())
+			.setColor('#20ce1f');
 
 		return message.reply({ embeds: [balanceEmbed] });
 	}
@@ -26,7 +30,11 @@ export default class BalanceCommand extends Command {
 		const balanceEmbed = new MessageEmbed();
 		const user = interaction.options.getUser('user', false) || interaction.user;
 		const balance = await fetchUser(user);
-		balanceEmbed.setTitle(`${user.username}, This is your balance!`).addField('Wallet: ', balance.wallet.toLocaleString()).addField('Bank: ', balance.bank.toLocaleString()).setColor('#20ce1f');
+		balanceEmbed
+			.setTitle(`${user.username}, This is your balance!`)
+			.addField('Wallet: ', balance.wallet.toLocaleString())
+			.addField('Bank: ', balance.bank.toLocaleString())
+			.setColor('#20ce1f');
 		return interaction.reply({ embeds: [balanceEmbed] });
 	}
 

@@ -5,7 +5,9 @@ const OWNERS = ['926690397269413938', '296042121297788931', '696368083517964288'
 
 export class ownerOnlyPrecondition extends Precondition {
 	public async messageRun(message: Message) {
-		return OWNERS.includes(message.author.id) ? this.ok() : this.error({ message: 'This command can only be used by the owner.' });
+		return OWNERS.includes(message.author.id)
+			? this.ok()
+			: this.error({ message: 'This command can only be used by the owner.' });
 	}
 }
 
