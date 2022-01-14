@@ -41,7 +41,7 @@ export default class jobCommand extends Command {
 		}
 
 		if (toDo === 'select') {
-			const jobSelected = await args.pickResult('string');
+			const jobSelected = await args.restResult('string');
 
 			if (!jobSelected.success) return message.reply('Please specify a job!');
 
