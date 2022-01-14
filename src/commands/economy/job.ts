@@ -4,15 +4,17 @@ import { Message, MessageEmbed } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Jobs } from '../../entities/economy/jobs';
-import { fetchUser } from '../../helpers/dbHelper';
+import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'job',
-	description: ''
+	description: 'Manage your job.',
+	aliases: ['jobs'],
+	detailedDescription: 'job [option] ...'
 })
 export default class jobCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const toDo = await args.pick('string').catch(() => 'list');
+		const toDo = await args.pick('string').catch(() => 'help');
 
 		if (toDo === 'list') {
 			const jobs = await Jobs.createQueryBuilder('job').getMany();
@@ -53,6 +55,21 @@ export default class jobCommand extends Command {
 			return message.reply(`Your now working as ${job.name}`);
 		}
 
-		return message.reply('Fuck you Greysilly7');
+		if (toDo === 'current') {
+			const user = await fetchUser(message.author);
+			const response = new MessageEmbed()
+				.setTitle('Current Job')
+				.setDescription(user.currentJob !== 'jobless' ? `Your current job is **${user.currentJob.toProperCase()}**.` : 'You are currently **Unemployed**.')
+				.setColor('BLUE');
+
+			message.reply({ embeds: [response] });
+		}
+
+		if (toDo === 'help') {
+			const guild = await fetchGuild(message.guild);
+			const helpReply = new MessageEmbed().setTitle('Jobs').setDescription(`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job select <job name>** - Selects a job.`).setColor('BLUE');
+
+			return message.reply({ embeds: [helpReply] });
+		}
 	}
 }
