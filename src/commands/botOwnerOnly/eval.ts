@@ -62,7 +62,7 @@ export default class evalCommand extends Command {
 		}
 
 		const type = new Type(result).toString();
-		if (isThenable(result)) result = await result;
+		if (isThenable(result)) result = result;
 
 		if (typeof result !== 'string') {
 			result = inspect(result, {
