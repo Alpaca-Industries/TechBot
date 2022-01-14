@@ -6,7 +6,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'highlow',
 	description: 'Bet if a number is lower/higher/exactly a second number.',
-	detailedDescription: 'highlow'
+	detailedDescription: 'highlow',
+	aliases: ['hl']
 })
 export default class DailyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
@@ -39,7 +40,7 @@ export default class DailyCommand extends Command {
 			if (bet === 'jackpot' && won) {
 				amount = Math.round(Math.random() * (10000 - 2000) + 2000);
 			} else {
-				amount = Math.round(Math.random() * (1000 - 75) + 75);
+				amount = Math.round(Math.random() * (800 - 75) + 75);
 			}
 
 			if (won === true) {
@@ -92,7 +93,7 @@ export default class DailyCommand extends Command {
 			if (bet === 'jackpot' && won) {
 				amount = Math.round(Math.random() * (10000 - 2000) + 2000);
 			} else {
-				amount = Math.round(Math.random() * (1000 - 75) + 75);
+				amount = Math.round(Math.random() * (800 - 75) + 75);
 			}
 
 			if (won === true) {
