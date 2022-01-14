@@ -44,14 +44,13 @@ export default class jobCommand extends Command {
 
 			const job = await Jobs.findOne({ where: { name: jobSelected.value.replaceAll(' ', '_') } });
 
-			if (job !== undefined) {
-				fetchUser(message.author).then((user) => {
-					user.currentJob = job.name;
-					user.save();
-				});
+			if (job === undefined) return message.reply('Please specify a valid job!');
+			fetchUser(message.author).then((user) => {
+				user.currentJob = job.name;
+				user.save();
+			});
 
-				return message.reply(`Your now working as ${job.name}`);
-			}
+			return message.reply(`Your now working as ${job.name}`);
 		}
 
 		return message.reply('Fuck you Greysilly7');
