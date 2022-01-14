@@ -32,7 +32,7 @@ export default class WorkCommand extends Command {
 			chief: 500,
 			fire_fighter: 750,
 			pepe_king: 1000
-		} as const;
+		};
 
 		let moneyEarned = jobs[job.toLowerCase()];
 
