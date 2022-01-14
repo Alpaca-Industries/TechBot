@@ -16,7 +16,7 @@ export default class BetCommand extends Command {
 		const betAmount = parseAmount(await args.pick('string'), userDetails);
 
 		if (betAmount < 10 || isNaN(betAmount)) return message.reply('Please bet a valid amount above 10!');
-		if (userDetails.wallet < betAmount) return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
+		if (userDetails.wallet > betAmount) return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
@@ -36,7 +36,7 @@ export default class BetCommand extends Command {
 		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
 
 		if (betAmount < 10 || isNaN(betAmount)) return interaction.reply('Please bet a valid amount above 10!');
-		if (userDetails.wallet < betAmount) return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
+		if (userDetails.wallet > betAmount) return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
 
