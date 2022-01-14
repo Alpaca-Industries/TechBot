@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@sapphire/decorators": "^3.1.6",
 		"@sapphire/discord.js-utilities": "^4.2.0",
-		"@sapphire/framework": "^2.3.0-pr-293.69c030f.0",
+		"@sapphire/framework": "^3.0.0-next.18259a7.0",
 		"@sapphire/plugin-editable-commands": "^1.1.3",
 		"@sapphire/type": "^2.1.2",
 		"axios": "^0.24.0",
