@@ -31,8 +31,6 @@ export default class WorkCommand extends Command {
 		user.wallet += moneyEarned;
 		user.save();
 
-		console.log(moneyEarned);
-
 		workEmbed.setTitle(`You worked as a ${job.toProperCase()}`).setDescription(`While working you earned **$${moneyEarned.toLocaleString()}**.`).setColor('BLUE');
 
 		return message.channel.send({ embeds: [workEmbed] });
