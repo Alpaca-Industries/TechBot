@@ -33,15 +33,3 @@ String.prototype.toProperCase = function () {
 };
 
 startBot();
-
-/*
-for (const job of Object.values(diffrentJobs)) {
-	let newJob = new Jobs();
-
-	newJob.name = job.name;
-	newJob.description = job.description;
-	newJob.minimumXP = job.requiredXP;
-
-	newJob.save()
-}
-*/
