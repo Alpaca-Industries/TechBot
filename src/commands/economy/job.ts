@@ -51,7 +51,7 @@ export default class jobCommand extends Command {
 					user.save();
 				});
 
-				message.reply(`Your now working as ${job.name}`);
+				message.reply(`You're now working as **${job.name}**.`);
 				break;
 			case 'current':
 				const jobEmbed = new MessageEmbed()
@@ -117,9 +117,11 @@ export default class jobCommand extends Command {
 				interaction.reply({ embeds: [listEmbed] });
 				break;
 			case 'select':
-				if (value === undefined)
+				if (value === null)
 					return interaction.reply({ content: 'Please specify a job!', ephemeral: true });
+
 				const job = await Jobs.findOne({ where: { name: value.replaceAll(' ', '_') } });
+
 				if (job === undefined)
 					return interaction.reply({ content: 'Please specify a valid job!', ephemeral: true });
 
@@ -154,7 +156,7 @@ export default class jobCommand extends Command {
 				const helpReply = new MessageEmbed()
 					.setTitle('Jobs')
 					.setDescription(
-						`**/job list** - Returns a list of all available jobs.\n**/job select <job name>** - Selects a job.\n**/job current** - Returns your current job.\n**/job xp** - Returns your current XP.`
+						`**/job list** - Returns a list of all available jobs.\n**/job select <value>** - Selects a job.\n**/job current** - Returns your current job.\n**/job xp** - Returns your current XP.`
 					)
 					.setColor('BLUE');
 
