@@ -6,7 +6,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 
 @ApplyOptions<CommandOptions>({
 	name: 'clapify',
-	description: ''
+	description: 'Clapify your text.'
 })
 export default class clapifyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {

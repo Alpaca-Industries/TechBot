@@ -6,7 +6,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 
 @ApplyOptions<CommandOptions>({
 	name: 'rps',
-	description: ''
+	description: 'Lets you play RPS with the bot!'
 })
 export default class rpsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args): Promise<unknown> {

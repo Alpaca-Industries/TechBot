@@ -7,7 +7,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'togglePassiveMode',
-	description: ''
+	description: 'Lets you disable/enable the ability to be robbed'
 })
 export default class togglePassiveModeCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {

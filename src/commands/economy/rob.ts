@@ -7,7 +7,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'rob',
-	description: ''
+	description: "Lets you rob another user's bank account."
 })
 export default class robCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
@@ -26,9 +26,10 @@ export default class robCommand extends Command {
 
 			message.reply(`You successfully robbed ${userToRob.value.username}! You got ${amount} coins!`);
 
-			fetchUser(message.author).then((user) => {
-				user.wallet += amount;
-				user.save();
+			fetchUser(message.author).then((userTwo) => {
+				if (userTwo.passiveMode) return message.reply('You are in passive mode');
+				userTwo.wallet += amount;
+				userTwo.save();
 			});
 		});
 	}
@@ -47,9 +48,10 @@ export default class robCommand extends Command {
 
 			interaction.reply(`You successfully robbed ${userToRob.username}! You got ${amount} coins!`);
 
-			fetchUser(interaction.user).then((user) => {
-				user.wallet += amount;
-				user.save();
+			fetchUser(interaction.user).then((userTwo) => {
+				if (userTwo.passiveMode) return interaction.reply('You are in passive mode');
+				userTwo.wallet += amount;
+				userTwo.save();
 			});
 		});
 	}
