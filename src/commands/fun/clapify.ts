@@ -3,18 +3,32 @@ import type { Message } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
+import { replacer } from '../../helpers/replacer';
+import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
 	name: 'clapify',
+	aliases: ['clapfy'],
 	description: 'Clapify your text.'
 })
 export default class clapifyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const textToClapify = await args
-			.rest('string')
-			.catch(() => '')
-			.then((text) => text.replace(/\s+/g, '👏'));
+		const text = await args.rest('string');
+		const user = await fetchUser(message.author);
+		console.log(user.preferredEmojiColor);
+		const emoji = await replacer(
+			user.preferredEmojiColor,
+			{
+				default: '👏',
+				pale: '👏🏻',
+				cream_white: '👏🏼',
+				brown: '👏🏽',
+				dark_brown: '👏🏾',
+				black: '👏🏿'
+			},
+			'g'
+		);
 
-		return message.reply(textToClapify);
+		return message.reply(text.replace(/\s+/g, ` ${emoji} `));
 	}
 }
