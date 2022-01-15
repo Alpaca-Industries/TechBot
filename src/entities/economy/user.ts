@@ -42,4 +42,9 @@ export class User extends BaseEntity {
 		default: 0
 	})
 	jobEXP: number;
+
+	@Column({
+		default: false
+	})
+	passiveMode: boolean;
 }
