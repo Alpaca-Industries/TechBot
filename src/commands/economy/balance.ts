@@ -18,23 +18,25 @@ export default class BalanceCommand extends Command {
 		const balance = await fetchUser(user);
 
 		balanceEmbed
-			.setTitle(`${user.username}, This is your balance!`)
-			.addField('Wallet: ', balance.wallet.toLocaleString())
-			.addField('Bank: ', balance.bank.toLocaleString())
-			.setColor('#20ce1f');
+			.setTitle(`${user.username}, this is your balance!`)
+			.addField('Wallet:', balance.wallet.toLocaleString())
+			.addField('Bank:', balance.bank.toLocaleString())
+			.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
+			.setColor('#4EAFF6');
 
 		return message.reply({ embeds: [balanceEmbed] });
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const balanceEmbed = new MessageEmbed();
-		const user = interaction.options.getUser('user', false) || interaction.user;
+		const user = interaction.options.getUser('user', false) ?? interaction.user;
 		const balance = await fetchUser(user);
 		balanceEmbed
-			.setTitle(`${user.username}, This is your balance!`)
-			.addField('Wallet: ', balance.wallet.toLocaleString())
-			.addField('Bank: ', balance.bank.toLocaleString())
-			.setColor('#20ce1f');
+			.setTitle(`${user.username}, this is your balance!`)
+			.addField('Wallet:', balance.wallet.toLocaleString())
+			.addField('Bank:', balance.bank.toLocaleString())
+			.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
+			.setColor('#4EAFF6');
 		return interaction.reply({ embeds: [balanceEmbed] });
 	}
 
