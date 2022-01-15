@@ -6,7 +6,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
-	name: 'togglePassiveMode',
+	name: 'passiveModeToggle',
 	description: 'Lets you disable/enable the ability to be robbed'
 })
 export default class togglePassiveModeCommand extends Command {
@@ -24,7 +24,7 @@ export default class togglePassiveModeCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const newValue = interaction.options.getBoolean('newPassiveMode');
+		const newValue = interaction.options.getBoolean('new_mode');
 
 		if (!newValue) return interaction.reply('You need to specify a boolean!');
 
@@ -37,17 +37,20 @@ export default class togglePassiveModeCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'newPassiveMode',
-					type: 'BOOLEAN',
-					description: 'The new value for passive mode.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'new_mode',
+						type: 'BOOLEAN',
+						description: 'The new value for passive mode.',
+						required: true
+					}
+				]
+			},
+			{ idHints: ['931788800848433212'] }
+		);
 	}
 }
