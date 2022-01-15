@@ -55,11 +55,12 @@ export default class SettingCommand extends Command {
 					return message.reply({
 						embeds: [
 							generateErrorEmbed(
-								`Invalid preferred emoji color name '${toggle}' provided as the second argument.\nValid colors: \`default\`, \`pale\`, \`cream white\`, \`brown\`, \`dark brown\`, \`black\``
+								`Invalid preferred emoji color name '${toggle}' provided as the second argument.\nValid options: \`default\`, \`pale\`, \`cream white\`, \`brown\`, \`dark brown\`, \`black\``
 							)
 						]
 					});
 
+				user.save();
 				message.reply(`Changed your preferred emoji color to **${colorName.toProperCase()}**.`);
 				break;
 		}
