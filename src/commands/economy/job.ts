@@ -14,81 +14,76 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 })
 export default class jobCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const toDo = await args.pick('string').catch(() => 'help');
+		const toDo = await args.pick('string').catch(() => '');
 		const guild = await fetchGuild(message.guild);
+		const user = await fetchUser(message.author);
 
-		if (toDo === 'list') {
-			const jobs = await Jobs.createQueryBuilder('job').getMany();
+		switch (toDo) {
+			case 'list':
+				const jobs = await Jobs.createQueryBuilder('job').getMany();
 
-			// loop though jobs nad put them in an embed array
-			let i = 0;
-			const fields: { name: string; value: any }[] = [];
-			for (const job of jobs) {
-				fields.push({
-					name: `${i}: ${job.name.toProperCase()}`,
-					value: `Description: ${job.description} **MIN EXP:** ${job.minimumXP}`
+				let i = 0;
+				const fields: { name: string; value: any }[] = [];
+				for (const job of jobs) {
+					fields.push({
+						name: `${i}: ${job.name.toProperCase()}`,
+						value: `Description: ${job.description} **MIN EXP:** ${job.minimumXP}`
+					});
+					i++;
+				}
+
+				const listEmbed = new MessageEmbed()
+					.setTitle('Available Jobs')
+					.setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n'))
+					.setFooter({ text: `To get a job run ${guild.prefix}jobs select <job name>!` })
+					.setColor(0x00ff00);
+
+				message.reply({ embeds: [listEmbed] });
+				break;
+			case 'select':
+				const jobSelected = await args.restResult('string');
+				if (!jobSelected.success) return message.reply('Please specify a job!');
+				const job = await Jobs.findOne({ where: { name: jobSelected.value.replaceAll(' ', '_') } });
+				if (job === undefined) return message.reply('Please specify a valid job!');
+
+				fetchUser(message.author).then((user) => {
+					user.currentJob = job.name;
+					user.save();
 				});
-				i++;
-			}
 
-			const jobsEmbed = new MessageEmbed()
-				.setTitle('Available Jobs')
-				.setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n'))
-				.setFooter({ text: `To get a job run ${guild.prefix}jobs select <job name>!` })
-				.setColor(0x00ff00);
+				message.reply(`Your now working as ${job.name}`);
+				break;
+			case 'current':
+				const jobEmbed = new MessageEmbed()
+					.setTitle('Current Job')
+					.setDescription(
+						user.currentJob !== 'jobless'
+							? `Your current job is **${user.currentJob.toProperCase()}**.`
+							: 'You are currently **Unemployed**.'
+					)
+					.setColor('BLUE');
 
-			return message.reply({ embeds: [jobsEmbed] });
-		}
+				message.reply({ embeds: [jobEmbed] });
+				break;
 
-		if (toDo === 'select') {
-			const jobSelected = await args.restResult('string');
+			case 'xp' || 'exp':
+				const xpEmbed = new MessageEmbed()
+					.setTitle('Current XP')
+					.setDescription(`${user.jobEXP.toLocaleString()} XP`)
+					.setColor('BLUE');
 
-			if (!jobSelected.success) return message.reply('Please specify a job!');
+				message.reply({ embeds: [xpEmbed] });
+				break;
 
-			const job = await Jobs.findOne({ where: { name: jobSelected.value.replaceAll(' ', '_') } });
+			default:
+				const helpReply = new MessageEmbed()
+					.setTitle('Jobs')
+					.setDescription(
+						`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <job name>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
+					)
+					.setColor('BLUE');
 
-			if (job === undefined) return message.reply('Please specify a valid job!');
-			fetchUser(message.author).then((user) => {
-				user.currentJob = job.name;
-				user.save();
-			});
-
-			return message.reply(`Your now working as ${job.name}`);
-		}
-
-		if (toDo === 'current') {
-			const user = await fetchUser(message.author);
-			const response = new MessageEmbed()
-				.setTitle('Current Job')
-				.setDescription(
-					user.currentJob !== 'jobless'
-						? `Your current job is **${user.currentJob.toProperCase()}**.`
-						: 'You are currently **Unemployed**.'
-				)
-				.setColor('BLUE');
-
-			message.reply({ embeds: [response] });
-		}
-
-		if (toDo === 'xp' || toDo === 'exp') {
-			const user = await fetchUser(message.author);
-			const response = new MessageEmbed()
-				.setTitle('Current XP')
-				.setDescription(`${user.jobEXP.toLocaleString()} XP`)
-				.setColor('BLUE');
-
-			message.reply({ embeds: [response] });
-		}
-
-		if (toDo === 'help') {
-			const helpReply = new MessageEmbed()
-				.setTitle('Jobs')
-				.setDescription(
-					`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <job name>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
-				)
-				.setColor('BLUE');
-
-			return message.reply({ embeds: [helpReply] });
+				return message.reply({ embeds: [helpReply] });
 		}
 	}
 }
