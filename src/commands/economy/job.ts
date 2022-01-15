@@ -168,9 +168,9 @@ export default class jobCommand extends Command {
 			description: this.description,
 			options: [
 				{
-					name: 'amount',
+					name: 'option',
 					type: 'STRING',
-					description: 'The amount of coins to withdraw.',
+					description: 'The subset command to run.',
 					required: true,
 					choices: [
 						{
