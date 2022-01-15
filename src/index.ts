@@ -17,7 +17,6 @@ if (Boolean(process.env.DEV)) console.log('Running in DEVELOPMENT mode.');
 declare global {
 	interface String {
 		toProperCase(): string;
-		pluralize(): string;
 	}
 }
 

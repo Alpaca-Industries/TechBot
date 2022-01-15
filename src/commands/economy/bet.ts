@@ -40,7 +40,7 @@ export default class BetCommand extends Command {
 
 		if (betAmount < 10 || isNaN(betAmount))
 			return interaction.reply('Please bet a valid amount above 10!');
-		if (userDetails.wallet > betAmount)
+		if (userDetails.wallet < betAmount)
 			return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
 
 		const chance = Math.random() < 0.5 ? true : false;
