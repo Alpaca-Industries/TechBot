@@ -80,7 +80,7 @@ export default class jobCommand extends Command {
 				const helpReply = new MessageEmbed()
 					.setTitle('Jobs')
 					.setDescription(
-						`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <job name>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
+						`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <value>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
 					)
 					.setColor('BLUE');
 
@@ -126,7 +126,7 @@ export default class jobCommand extends Command {
 				user.currentJob = job.name;
 				user.save();
 
-				interaction.reply(`Your now working as **${job.name.toProperCase()}**.`);
+				interaction.reply(`You're now working as **${job.name.toProperCase()}**.`);
 				break;
 			case 'current':
 				const jobEmbed = new MessageEmbed()
@@ -150,11 +150,11 @@ export default class jobCommand extends Command {
 				interaction.reply({ embeds: [xpEmbed] });
 				break;
 
-			default:
+			case 'help':
 				const helpReply = new MessageEmbed()
 					.setTitle('Jobs')
 					.setDescription(
-						`**${guild.prefix}job list** - Returns a list of all available jobs.\n**${guild.prefix}job select <job name>** - Selects a job.\n**${guild.prefix}job current** - Returns your current job.\n**${guild.prefix}job xp** - Returns your current XP.`
+						`**/job list** - Returns a list of all available jobs.\n**/job select <job name>** - Selects a job.\n**/job current** - Returns your current job.\n**/job xp** - Returns your current XP.`
 					)
 					.setColor('BLUE');
 
