@@ -89,7 +89,7 @@ export default class jobCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
-		const toDo = interaction.options.getString('options');
+		const toDo = interaction.options.getString('option');
 		const value = interaction.options.getString('value');
 		const guild = await fetchGuild(interaction.guild);
 		const user = await fetchUser(interaction.user);
