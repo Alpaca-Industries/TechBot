@@ -1,3 +1,4 @@
+import { generateErrorEmbed } from './../../helpers/logging';
 import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
 import { Command } from '@sapphire/framework';
@@ -15,7 +16,15 @@ export default class BetCommand extends Command {
 		const userDetails = await fetchUser(message.author);
 		const betAmount = parseAmount(await args.pick('string'), userDetails);
 
-		if (betAmount < 10 || isNaN(betAmount)) return message.reply('Please bet a valid amount above 10!');
+		if (betAmount < 10 || isNaN(betAmount))
+			return message.reply({
+				embeds: [
+					generateErrorEmbed(
+						"Invalid amount provided.\n'amount' must be a valid integer that is above 10.",
+						'Invalid Amount'
+					)
+				]
+			});
 		if (userDetails.wallet > betAmount)
 			return message.reply(`Sorry ${message.author.username}, you don't have enough money!`);
 

@@ -15,7 +15,6 @@ export default class clapifyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const text = await args.rest('string');
 		const user = await fetchUser(message.author);
-		console.log(user.preferredEmojiColor);
 		const emoji = await replacer(
 			user.preferredEmojiColor,
 			{

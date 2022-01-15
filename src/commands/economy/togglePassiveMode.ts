@@ -11,29 +11,29 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class togglePassiveModeCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
-		const newValue = await args.pick('boolean').catch(() => false);
+		const newValue = await args.pick('boolean').catch(() => undefined);
 
-		if (!newValue) return message.reply('You need to specify a boolean!');
+		if (newValue === undefined) return message.reply('You need to specify a boolean!');
 
 		fetchUser(message.author).then((user) => {
 			user.passiveMode = newValue;
 			user.save();
 		});
 
-		return message.reply(`Your passive mode has been set to ${newValue}!`);
+		return message.reply(`Your passive mode has been set to **${newValue}**!`);
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const newValue = interaction.options.getBoolean('new_mode');
 
-		if (!newValue) return interaction.reply('You need to specify a boolean!');
+		if (newValue === null) return interaction.reply('You need to specify a boolean!');
 
 		fetchUser(interaction.user).then((user) => {
 			user.passiveMode = newValue;
 			user.save();
 		});
 
-		return interaction.reply(`Your passive mode has been set to ${newValue}!`);
+		return interaction.reply(`Your passive mode has been set to **${newValue}**!`);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
