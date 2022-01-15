@@ -39,7 +39,25 @@ const people = [
 })
 export default class BegCommand extends Command {
 	messageRun(message: Message<boolean>, args: Args) {
-		if (Math.random() > 0.5) return message.channel.send('Random Man: Your pathetic poor person');
+		const failedBegResponses = [
+			'Your pathetic poor person.',
+			'Go beg someone else!',
+			'Back in the old days, we had to work for our money.'
+		];
+		const failedBegPeople = [
+			'Steve Jobs',
+			'Dora The Explorer',
+			'Pepe Girl',
+			'Discord Moderator',
+			'Random Man'
+		];
+		const failedBegEmbed = new MessageEmbed()
+			.setAuthor({ name: failedBegPeople[Math.floor(failedBegPeople.length * Math.random())] })
+			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
+			.setColor('RED');
+
+		if (Math.random() > 0.5) return message.reply({ embeds: [failedBegEmbed] });
+
 		const BegEmbed = new MessageEmbed();
 
 		const moneyEarned = Math.round(
@@ -60,7 +78,25 @@ export default class BegCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
-		if (Math.random() > 0.5) return interaction.reply('Random Man: Your pathetic poor person');
+		const failedBegResponses = [
+			'Your pathetic poor person.',
+			'Go beg someone else!',
+			'Back in the old days, we had to work for our money.'
+		];
+		const failedBegPeople = [
+			'Steve Jobs',
+			'Dora The Explorer',
+			'Pepe Girl',
+			'Discord Moderator',
+			'Random Man'
+		];
+		const failedBegEmbed = new MessageEmbed()
+			.setAuthor({ name: failedBegPeople[Math.floor(failedBegPeople.length * Math.random())] })
+			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
+			.setColor('RED');
+
+		if (Math.random() > 0.5) return interaction.reply({ embeds: [failedBegEmbed] });
+
 		const BegEmbed = new MessageEmbed();
 
 		const moneyEarned = Math.round(
