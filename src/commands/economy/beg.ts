@@ -32,6 +32,12 @@ const people = [
 	'Saba Hartley'
 ];
 
+const failedBegResponses = [
+	'Your pathetic poor person.',
+	'Go beg someone else!',
+	'Back in the old days, we had to work for our money.'
+];
+
 @ApplyOptions<CommandOptions>({
 	name: 'beg',
 	description: 'Begs people for cash.',
@@ -39,11 +45,6 @@ const people = [
 })
 export default class BegCommand extends Command {
 	messageRun(message: Message<boolean>, args: Args) {
-		const failedBegResponses = [
-			'Your pathetic poor person.',
-			'Go beg someone else!',
-			'Back in the old days, we had to work for our money.'
-		];
 		const failedBegEmbed = new MessageEmbed()
 			.setAuthor({ name: people[Math.floor(people.length * Math.random())] })
 			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
@@ -71,20 +72,8 @@ export default class BegCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
-		const failedBegResponses = [
-			'Your pathetic poor person.',
-			'Go beg someone else!',
-			'Back in the old days, we had to work for our money.'
-		];
-		const failedBegPeople = [
-			'Steve Jobs',
-			'Dora The Explorer',
-			'Pepe Girl',
-			'Discord Moderator',
-			'Random Man'
-		];
 		const failedBegEmbed = new MessageEmbed()
-			.setAuthor({ name: failedBegPeople[Math.floor(failedBegPeople.length * Math.random())] })
+			.setAuthor({ name: people[Math.floor(people.length * Math.random())] })
 			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
 			.setColor('RED');
 
