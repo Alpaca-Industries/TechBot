@@ -25,6 +25,11 @@ export class User extends BaseEntity {
 	})
 	premium: boolean;
 
+	@Column({
+		default: 'default'
+	})
+	preferredEmojiColor: string;
+
 	@OneToMany((type) => Advertisement, (ad) => ad.userID)
 	ads: Advertisement[];
 
