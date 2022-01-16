@@ -14,14 +14,9 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 export default class SlotsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const user = await fetchUser(message.author);
-		const { success: gambledAmountSuccess, value: gambledAmount } = parseAmount(
-			await args.pickResult('string'),
-			user,
-			true
-		);
+		const gambledAmount = parseAmount(await args.pickResult('string'), user, true);
 
-		if (!gambledAmountSuccess || gambledAmount < 20)
-			return message.channel.send('Please gamble a proper amount, a.k.a above 20');
+		if (gambledAmount < 20) return message.channel.send('Please gamble a proper amount, a.k.a above 20');
 		if (user.wallet < gambledAmount) return message.channel.send('You dont have enough money...');
 
 		const guild = await fetchGuild(message.guild);

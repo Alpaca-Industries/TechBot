@@ -1,4 +1,4 @@
-export function parseAmount(amount: any, user: any, useWallet: boolean = true) {
+export function parseAmount(amount: any, user: any, useWallet: boolean = true): number {
 	amount = String(amount).toLowerCase().replace(/\+/gi, '');
 
 	if (useWallet) {
