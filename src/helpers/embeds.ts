@@ -1,6 +1,6 @@
 import { ColorResolvable, MessageEmbed } from 'discord.js';
 
-export const generateErrorEmbed = (error: string, errorType: string = '') => {
+export const generateErrorEmbed = (error: string, errorType: string = ''): MessageEmbed => {
 	const errType = errorType !== '' ? `: ${errorType}` : '';
 
 	return new MessageEmbed()
@@ -9,6 +9,10 @@ export const generateErrorEmbed = (error: string, errorType: string = '') => {
 		.setDescription(error);
 };
 
-export const generateEmbed = (description: string, title: string, color: ColorResolvable = 'BLUE') => {
+export const generateEmbed = (
+	description: string,
+	title: string,
+	color: ColorResolvable = 'BLUE'
+): MessageEmbed => {
 	return new MessageEmbed().setColor(color).setTitle(title).setDescription(description);
 };

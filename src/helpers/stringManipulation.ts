@@ -1,5 +1,5 @@
 import { clean } from './clean';
-export const owoify = (text: string) => {
+export const owoify = (text: string): string => {
 	const faces = [
 		'(*^ω^)',
 		'(◕‿◕✿)',

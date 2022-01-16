@@ -1,4 +1,6 @@
-export function parseAmount(amount: any, user: any, useWallet: boolean = true): number {
+import { User } from '../entities/economy/user';
+
+export function parseAmount(amount: string | number, user: User, useWallet: boolean = true): number {
 	amount = String(amount).toLowerCase().replace(/\+/gi, '');
 
 	if (useWallet) {
@@ -14,7 +16,7 @@ export function parseAmount(amount: any, user: any, useWallet: boolean = true): 
 	}
 
 	if (/^([+])?(\d+)\.?(\d*)[eE]([+]?\d+)$/.test(amount)) return Math.trunc(Number(amount));
-	if (isNaN(amount)) return parseInt(amount.replace(/[^0-9]/g, ''));
-	if (!isNaN(amount)) return parseInt(amount);
+	if (isNaN(parseInt(amount))) return parseInt(amount.replace(/[^0-9]/g, ''));
+	if (!isNaN(parseInt(amount))) return parseInt(amount);
 	return 0;
 }
