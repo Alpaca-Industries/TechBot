@@ -14,19 +14,21 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 export default class SlotsCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const user = await fetchUser(message.author);
-		const gambledAmount = parseAmount(await args.pickResult('string'), user, true);
+		const amount = parseAmount(await args.pick('integer').catch(() => 0), user, true);
 
-		if (gambledAmount < 20) return message.channel.send('Please gamble a proper amount, a.k.a above 20');
-		if (user.wallet < gambledAmount) return message.channel.send('You dont have enough money...');
+		if (amount < 20) return message.reply('Please gamble a proper amount, a.k.a above 20');
+		if (user.wallet < amount) return message.reply('You dont have enough money...');
 
 		const guild = await fetchGuild(message.guild);
 
 		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
-		const $ = items[Math.floor(items.length * Math.random())];
-		const $$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
-		const $$$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
+		const firstRoll = items[Math.floor(items.length * Math.random())];
+		const secondRoll =
+			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
+		const thirdRoll =
+			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
@@ -34,36 +36,36 @@ export default class SlotsCommand extends Command {
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed()
+		const firstRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`)
+			.setDescription(`• ${firstRoll}   ${slotEmoji}   ${slotEmoji} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed()
+		const secondRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${$$}   ${slotEmoji} •`)
+			.setDescription(`• ${firstRoll}   ${secondRoll}   ${slotEmoji} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $3 = new MessageEmbed()
+		const thirdRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${$$}   ${$$$} •`)
+			.setDescription(`• ${firstRoll}   ${secondRoll}   ${thirdRoll} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const spinner = await message.channel.send({ embeds: [play] });
+		const spinner = await message.reply({ embeds: [play] });
 		setTimeout(() => {
-			spinner.edit({ embeds: [$1] });
+			spinner.edit({ embeds: [firstRollEmbed] });
 		}, 600);
 		setTimeout(() => {
-			spinner.edit({ embeds: [$2] });
+			spinner.edit({ embeds: [secondRollEmbed] });
 		}, 1200);
 		setTimeout(() => {
-			spinner.edit({ embeds: [$3] });
+			spinner.edit({ embeds: [thirdRollEmbed] });
 		}, 1800);
 
-		if ($ === $$ && $ === $$$) {
+		if (firstRoll === secondRoll && firstRoll === thirdRoll) {
 			setTimeout(async () => {
 				const moneyEarned = guild.slotsMoneyPool;
 				user.wallet += moneyEarned;
@@ -72,15 +74,14 @@ export default class SlotsCommand extends Command {
 				guild.slotsMoneyPool = 0;
 				guild.slotsWinMultiplier = 0;
 				await guild.save();
-
-				return message.channel.send(`CONGRATS! You won **$${moneyEarned}**`);
+				return message.reply({ content: `CONGRATS! You won **$${moneyEarned}**` });
 			}, 2000);
 		} else {
 			setTimeout(async () => {
 				guild.slotsWinMultiplier++;
-				guild.slotsMoneyPool += gambledAmount;
+				guild.slotsMoneyPool += amount;
 				await guild.save();
-				return message.channel.send('Sorry, you lost your money!');
+				return message.reply({ content: 'Sorry, you lost your money!' });
 			}, 2000);
 		}
 		return null;
@@ -98,9 +99,11 @@ export default class SlotsCommand extends Command {
 		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
-		const $ = items[Math.floor(items.length * Math.random())];
-		const $$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
-		const $$$ = guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : $;
+		const firstRoll = items[Math.floor(items.length * Math.random())];
+		const secondRoll =
+			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
+		const thirdRoll =
+			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
@@ -108,36 +111,36 @@ export default class SlotsCommand extends Command {
 			.setColor('BLUE')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $1 = new MessageEmbed()
+		const firstRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${slotEmoji}   ${slotEmoji} •`)
+			.setDescription(`• ${firstRoll}   ${slotEmoji}   ${slotEmoji} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $2 = new MessageEmbed()
+		const secondRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${$$}   ${slotEmoji} •`)
+			.setDescription(`• ${firstRoll}   ${secondRoll}   ${slotEmoji} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		const $3 = new MessageEmbed()
+		const thirdRollEmbed = new MessageEmbed()
 			.setTitle('Slot Machine')
-			.setDescription(`• ${$}   ${$$}   ${$$$} •`)
+			.setDescription(`• ${firstRoll}   ${secondRoll}   ${thirdRoll} •`)
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
 		interaction.reply({ embeds: [play] });
 		setTimeout(() => {
-			interaction.editReply({ embeds: [$1] });
+			interaction.editReply({ embeds: [firstRollEmbed] });
 		}, 600);
 		setTimeout(() => {
-			interaction.editReply({ embeds: [$2] });
+			interaction.editReply({ embeds: [secondRollEmbed] });
 		}, 1200);
 		setTimeout(() => {
-			interaction.editReply({ embeds: [$3] });
+			interaction.editReply({ embeds: [thirdRollEmbed] });
 		}, 1800);
 
-		if ($ === $$ && $ === $$$) {
+		if (firstRoll === secondRoll && firstRoll === thirdRoll) {
 			setTimeout(async () => {
 				const moneyEarned = guild.slotsMoneyPool;
 				user.wallet += moneyEarned;
