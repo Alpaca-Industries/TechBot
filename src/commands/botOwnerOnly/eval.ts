@@ -7,11 +7,12 @@ import { inspect } from 'util';
 import { Type } from '@sapphire/type';
 import { codeBlock, isThenable } from '@sapphire/utilities';
 import { send } from '@sapphire/plugin-editable-commands';
+import { VM } from 'vm2';
 
 @ApplyOptions<CommandOptions>({
 	name: 'eval',
 	description: '',
-	preconditions: ['ownerOnly'],
+	// preconditions: ['ownerOnly'],
 	flags: ['async', 'hidden', 'showHidden', 'silent', 's'],
 	options: ['depth']
 })
@@ -56,7 +57,9 @@ export default class evalCommand extends Command {
 
 		try {
 			// eslint-disable-next-line no-eval
-			result = eval(code);
+			try {
+				result = new VM().run(code);
+			} catch (error) {}
 		} catch (error) {
 			if (error && error instanceof Error && error.stack) {
 				this.container.client.logger.error(error);
