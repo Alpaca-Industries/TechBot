@@ -1,5 +1,5 @@
 export function parseAmount(amount: any, user: any, useWallet: boolean = true) {
-	amount = amount.toLowerCase();
+	amount = amount.toLowerCase().replace(/\+/gi, '');
 
 	if (useWallet) {
 		if (amount === 'all') return user.wallet;
