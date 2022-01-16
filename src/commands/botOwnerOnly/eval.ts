@@ -14,7 +14,8 @@ import { VM } from 'vm2';
 	description: '',
 	// preconditions: ['ownerOnly'],
 	flags: ['async', 'hidden', 'showHidden', 'silent', 's'],
-	options: ['depth']
+	options: ['depth'],
+	detailedDescription: 'eval [code]'
 })
 export default class evalCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
