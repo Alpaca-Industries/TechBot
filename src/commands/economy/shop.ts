@@ -5,7 +5,7 @@ import { MessageEmbed } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { Item } from '../../entities/economy/item';
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
 
 @ApplyOptions<CommandOptions>({
 	name: 'shop',

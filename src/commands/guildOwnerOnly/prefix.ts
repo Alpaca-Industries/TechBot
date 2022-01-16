@@ -8,7 +8,8 @@ import { fetchGuild } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'prefix',
 	description: 'Allows you to change the prefix of the bot.',
-	requiredUserPermissions: ['MANAGE_GUILD']
+	requiredUserPermissions: ['MANAGE_GUILD'],
+	detailedDescription: 'prefix [new prefix]'
 })
 export default class prefixCommand extends Command {
 	async messageRun(message: Message, args: Args) {
