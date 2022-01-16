@@ -4,7 +4,7 @@ import { CommandInteraction, Message, MessageEmbed, WebhookClient } from 'discor
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
 import { parseAmount } from '../../helpers/parseAmount';
 import { pluralize } from '../../helpers/pluralize';
 

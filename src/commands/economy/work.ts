@@ -1,4 +1,4 @@
-import { generateErrorEmbed } from './../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
 import { MessageEmbed } from 'discord.js';

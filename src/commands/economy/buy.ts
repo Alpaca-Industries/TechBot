@@ -4,7 +4,8 @@ import type { CommandInteraction, Message } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelper';
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateEmbed, generateErrorEmbed } from '../../helpers/embeds';
+import { getPrefix } from '../../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -15,12 +16,26 @@ export default class BuyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const itemToBuy = await args.rest('string').catch(() => '');
 
+		if (itemToBuy === '')
+			return message.channel.send({
+				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
+			});
+
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined)
 			return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
 		const user = await fetchUser(message.author);
 
-		if (user.wallet < item.price) return message.reply('You do not have enough money');
+		if (user.wallet < item.price)
+			return message.reply({
+				embeds: [
+					generateErrorEmbed(
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
+							message.guild
+						)}${this.detailedDescription}\``
+					)
+				]
+			});
 
 		user.wallet -= item.price;
 		user.save();
@@ -38,10 +53,22 @@ export default class BuyCommand extends Command {
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined)
-			return interaction.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+			return interaction.reply({
+				embeds: [generateErrorEmbed(`Invalid item \'${itemToBuy}\' specified!`, 'Invalid Item Name')]
+			});
 		const user = await fetchUser(interaction.user);
 
-		if (user.wallet < item.price) return interaction.reply('You do not have enough money');
+		if (user.wallet < item.price)
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
+							interaction.guild
+						)}${this.detailedDescription}\``
+					)
+				],
+				ephemeral: true
+			});
 
 		user.wallet -= item.price;
 		user.save();

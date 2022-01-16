@@ -4,7 +4,7 @@ import { CommandInteraction, Message, MessageEmbed, WebhookClient } from 'discor
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchItemByName } from '../../helpers/dbHelper';
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
 
 @ApplyOptions<CommandOptions>({
 	name: 'giveItem',
@@ -24,25 +24,28 @@ export default class giveItemCommand extends Command {
 			});
 
 		if (!userToGiveTo.success || userToGiveTo.value.bot)
-			return message.channel.send({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
+			return message.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
 		if (itemToGive.value === null)
 			return message.channel.send({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
 		if (amount < 0)
-			return message.channel.send({
+			return message.reply({
 				embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')]
-			}); // return message.reply('Please specify a valid amount of money to withdraw');
+			});
+
 		// Senders Inventory
 		fetchInventory(message.author, await fetchItemByName(itemToGive.value)).then((inventory) => {
-			if (inventory === undefined) return message.reply('You do not have that item');
+			if (inventory === undefined)
+				return message.reply({ embeds: [generateErrorEmbed('You do not have that item!')] });
 			if (inventory.amount < amount)
 				return message.channel.send({
-					embeds: [generateErrorEmbed('You do not have that much of that item!')]
+					embeds: [generateErrorEmbed(`You do not have '${amount}' of that item!`)]
 				});
 			inventory.amount -= amount;
 			inventory.save();
 			return null;
 		});
-		// Recievers Inventory
+
+		// Receiver Inventory
 		fetchInventory(userToGiveTo.value, await fetchItemByName(itemToGive.value)).then((inventory) => {
 			inventory.amount += amount;
 			inventory.save();
@@ -65,7 +68,7 @@ export default class giveItemCommand extends Command {
 			.setTimestamp();
 		webhook.send({ embeds: [embed] });
 
-		return message.reply(`You gave ${amount} ${itemToGive.value} to ${userToGiveTo.value.username}`);
+		return message.reply(`You gave ${amount} ${itemToGive.value} to ${userToGiveTo.value.tag}.`);
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {

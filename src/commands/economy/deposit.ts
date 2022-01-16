@@ -4,7 +4,9 @@ import { parseAmount } from '../../helpers/parseAmount';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
+import { isSafeInteger } from '../../helpers/isSafeInteger';
+import { getPrefix } from '../../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
 	name: 'deposit',
@@ -15,10 +17,41 @@ import { generateErrorEmbed } from '../../helpers/logging';
 export default class depositCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {
 		const user = await fetchUser(message.author);
-		const amountToDeposit = parseAmount(await args.rest('string'), user, true);
-		if (isNaN(amountToDeposit) || amountToDeposit < 0)
+		const arg = await args.rest('string');
+		const amountToDeposit = parseAmount(arg, user, true);
+
+		if (isNaN(amountToDeposit))
 			return message.reply({
-				embeds: [generateErrorEmbed(`'${amountToDeposit}' is not a valid number.`, 'Invalid Number')]
+				embeds: [
+					generateErrorEmbed(
+						`'${arg}' is not a parsable integer.\nUsage: \`${await getPrefix(message.guild)}${
+							this.detailedDescription
+						}\``,
+						'Invalid Number'
+					)
+				]
+			});
+		if (amountToDeposit > user.wallet)
+			return message.reply({
+				embeds: [
+					generateErrorEmbed(
+						`You don't have enough money to deposit '${arg}'.\nUsage: \`${await getPrefix(
+							message.guild
+						)}${this.detailedDescription}\``,
+						'Invalid Amount'
+					)
+				]
+			});
+		if (!isSafeInteger(amountToDeposit))
+			return message.reply({
+				embeds: [
+					generateErrorEmbed(
+						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`${await getPrefix(
+							message.guild
+						)}${this.detailedDescription}\``,
+						'Unsafe Integer'
+					)
+				]
 			});
 
 		user.wallet -= amountToDeposit;
@@ -53,7 +86,46 @@ export default class depositCommand extends Command {
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const user = await fetchUser(interaction.user);
-		const amountToDeposit = parseAmount(interaction.options.getString('amount'), user, true);
+		const arg = interaction.options.getString('amount');
+		const amountToDeposit = parseAmount(arg, user, true);
+
+		if (isNaN(amountToDeposit))
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						`'${arg}' is not a parsable integer.\nUsage: \`${await getPrefix(interaction.guild)}${
+							this.detailedDescription
+						}\``,
+						'Invalid Number'
+					)
+				],
+				ephemeral: true
+			});
+		if (amountToDeposit > user.wallet)
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						`You don't have enough money to deposit '${arg}'.\nUsage: \`${await getPrefix(
+							interaction.guild
+						)}${this.detailedDescription}\``,
+						'Invalid Amount'
+					)
+				],
+				ephemeral: true
+			});
+		if (!isSafeInteger(amountToDeposit))
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`${await getPrefix(
+							interaction.guild
+						)}${this.detailedDescription}\``,
+						'Unsafe Integer'
+					)
+				],
+				ephemeral: true
+			});
+
 		user.wallet -= amountToDeposit;
 		user.bank += amountToDeposit;
 		user.save();
@@ -77,9 +149,7 @@ export default class depositCommand extends Command {
 		});
 
 		const response = new MessageEmbed()
-			.setDescription(
-				`You deposited **$${amountToDeposit.toLocaleString()}** coins into your bank account.`
-			)
+			.setDescription(`You deposited **$${amountToDeposit.toLocaleString()}** into your bank account.`)
 			.setTitle('Deposit')
 			.setColor('BLUE');
 
@@ -94,7 +164,7 @@ export default class depositCommand extends Command {
 				{
 					name: 'amount',
 					type: 'STRING',
-					description: 'the amount of money to deposit.',
+					description: 'The amount of money to deposit.',
 					required: true
 				}
 			]
