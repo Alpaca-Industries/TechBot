@@ -44,7 +44,7 @@ export default class robCommand extends Command {
 		const winAmount = Math.floor(robbedUser.wallet * (Math.random() / 0.75));
 		const lossAmount = Math.floor(robber.wallet * (Math.random() / 0.75));
 
-		if (Math.random() > 0.4) {
+		if (Math.random() > 0.6) {
 			robber.wallet -= lossAmount;
 			await robber.save();
 
@@ -144,7 +144,7 @@ export default class robCommand extends Command {
 		const winAmount = Math.floor(robbedUser.wallet * (Math.random() / 0.75));
 		const lossAmount = Math.floor(robber.wallet * (Math.random() / 0.75));
 
-		if (Math.random() > 0.4) {
+		if (Math.random() > 0.6) {
 			robber.wallet -= lossAmount;
 			await robber.save();
 
