@@ -9,7 +9,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 @ApplyOptions<CommandOptions>({
 	name: 'clapify',
 	aliases: ['clapfy'],
-	description: 'Clapify your text.'
+	description: 'Clapify your text.',
+	detailedDescription: 'clapify <text>'
 })
 export default class clapifyCommand extends Command {
 	async messageRun(message: Message<boolean>, args: Args) {

@@ -1,4 +1,4 @@
-import { generateErrorEmbed } from '../../helpers/logging';
+import { generateErrorEmbed } from '../../helpers/embeds';
 import { Args, Command, CommandOptions } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
