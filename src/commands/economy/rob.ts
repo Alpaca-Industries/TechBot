@@ -46,10 +46,10 @@ export default class robCommand extends Command {
 
 		if (Math.random() > 0.6) {
 			robber.wallet -= lossAmount;
-			robber.save();
+			await robber.save();
 
 			robbedUser.wallet += lossAmount;
-			robbedUser.save();
+			await robbedUser.save();
 
 			const failedResponse = new MessageEmbed()
 				.setDescription(
@@ -66,19 +66,19 @@ export default class robCommand extends Command {
 				)
 				.addField(
 					`${userToRob.value.user.tag}'s Balance`,
-					`\`\`\`diff\n- Before:  ${(robbedUser.wallet - lossAmount).toLocaleString()}\n+ After: ${
-						robbedUser.wallet.toLocaleString
-					}\`\`\``,
+					`\`\`\`diff\n- Before:  ${(
+						robbedUser.wallet - lossAmount
+					).toLocaleString()}\n+ After: ${robbedUser.wallet.toLocaleString()}\`\`\``,
 					true
 				);
 
 			return message.reply({ embeds: [failedResponse] });
 		} else {
 			robber.wallet += winAmount;
-			robber.save();
+			await robber.save();
 
 			robbedUser.wallet -= winAmount;
-			robbedUser.save();
+			await robbedUser.save();
 
 			const successResponse = new MessageEmbed()
 				.setDescription(
@@ -146,10 +146,10 @@ export default class robCommand extends Command {
 
 		if (Math.random() > 0.6) {
 			robber.wallet -= lossAmount;
-			robber.save();
+			await robber.save();
 
 			robbedUser.wallet += lossAmount;
-			robbedUser.save();
+			await robbedUser.save();
 
 			const failedResponse = new MessageEmbed()
 				.setDescription(`You failed to rob <@${userToRob.id}>, and lost **$${lossAmount}**!`)
@@ -173,10 +173,10 @@ export default class robCommand extends Command {
 			return interaction.reply({ embeds: [failedResponse] });
 		} else {
 			robber.wallet += winAmount;
-			robber.save();
+			await robber.save();
 
 			robbedUser.wallet -= winAmount;
-			robbedUser.save();
+			await robbedUser.save();
 
 			const successResponse = new MessageEmbed()
 				.setDescription(`You successfully robbed <@${userToRob.id}>, and gained **$${winAmount}**!`)
