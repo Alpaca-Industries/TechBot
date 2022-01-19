@@ -7,13 +7,13 @@ import { Message, MessageEmbed } from 'discord.js';
 	event: 'messageCreate'
 })
 export default class messageListener extends Listener {
-	run(message: Message<boolean>): unknown {
+	async run(message: Message<boolean>): Promise<unknown> {
 		if (message.author.bot) return;
 		if (message.content.startsWith(`<@!${message.client.user.id}>`)) {
 			const embed = new MessageEmbed()
 				.setTitle('Hello!')
 				.setDescription(
-					`I am a bot created by Greysilly7#8813, Spen#0999, and Haider#8515.\n\nI am a bot that can be used to manage your server\'s economy.\n\nTo get started, use the command \`help\` to see a list of commands. \n\n My Prefix is **${message.client.fetchPrefix(
+					`I am a bot created by Greysilly7#8813, Spen#0999, and Haider#8515.\n\nI am a bot that can be used to manage your server\'s economy.\n\nTo get started, use the command \`help\` to see a list of commands. \n\n My Prefix is **${await message.client.fetchPrefix(
 						message
 					)}**`
 				)
