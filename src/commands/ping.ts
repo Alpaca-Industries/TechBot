@@ -20,7 +20,7 @@ export class PingCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		await interaction.reply('Pinging...');
 		const content = `Pong! Bot Latency ${Math.round(this.container.client.ws.ping)}ms. API Latency ${
-			interaction.createdTimestamp - interaction.createdTimestamp
+			interaction.createdTimestamp
 		}ms.`;
 
 		interaction.editReply(content);

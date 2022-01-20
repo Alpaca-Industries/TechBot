@@ -23,7 +23,7 @@ export default class prefixCommand extends Command {
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const prefix = interaction.options.getString('prefix');
-		fetchGuild(interaction.guild).then((guild) => {
+		await fetchGuild(interaction.guild).then((guild) => {
 			guild.prefix = prefix;
 			guild.save();
 		});
