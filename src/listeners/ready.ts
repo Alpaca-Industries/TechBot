@@ -7,7 +7,7 @@ import { Listener } from '@sapphire/framework';
 	event: 'ready'
 })
 export default class ReadyListener extends Listener {
-	run(client: SapphireClient): unknown {
+	run(client: SapphireClient) {
 		const { username, id } = client.user!;
 		this.container.logger.info(`Successfully logged in as ${username} (${id})`);
 		// Generate Invite for bot with interations slope
@@ -17,6 +17,5 @@ export default class ReadyListener extends Listener {
 				permissions: 'ADMINISTRATOR'
 			})
 		);
-		return;
 	}
 }

@@ -71,7 +71,7 @@ export default class BegCommand extends Command {
 		return message.reply({ embeds: [BegEmbed] });
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const failedBegEmbed = new MessageEmbed()
 			.setAuthor({ name: people[Math.floor(people.length * Math.random())] })
 			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])

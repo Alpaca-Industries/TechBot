@@ -28,7 +28,7 @@ export default class DailyCommand extends Command {
 		return message.channel.send({ embeds: [embed] });
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const embed = new MessageEmbed();
 		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
 

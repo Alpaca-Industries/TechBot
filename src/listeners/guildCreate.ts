@@ -8,7 +8,7 @@ import { Guild } from '../entities/guild';
 	event: 'guildCreate'
 })
 export default class guildCreateListener extends Listener {
-	run(guild: DiscordGuild): unknown {
+	run(guild: DiscordGuild) {
 		Guild.findOne({ where: { id: guild.id } }).then((dbGuild) => {
 			if (dbGuild === undefined) {
 				Guild.create({

@@ -8,7 +8,7 @@ import type { CommandInteraction, Message } from 'discord.js';
 	detailedDescription: '8ball <question>'
 })
 export class ChooseCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		let arg = await args.restResult('string');
 		if (!arg.success) return message.reply("I can't predict nothing!");
 		const optionsArray = [
@@ -29,7 +29,7 @@ export class ChooseCommand extends Command {
 		);
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const optionsArray = [
 			'Yes!',
 			'No!',

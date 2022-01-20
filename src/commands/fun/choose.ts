@@ -9,7 +9,7 @@ import { clean } from '../../helpers/clean';
 	detailedDescription: 'choose <string>, ...'
 })
 export class ChooseCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		let arg = await args.restResult('string');
 		if (!arg.success) return message.reply('Please specify a string to choose options from!');
 		const splitArg = arg.value.split(', ');

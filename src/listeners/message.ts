@@ -7,7 +7,7 @@ import { Message, MessageEmbed } from 'discord.js';
 	event: 'messageCreate'
 })
 export default class messageListener extends Listener {
-	async run(message: Message<boolean>): Promise<unknown> {
+	async run(message: Message<boolean>) {
 		if (message.author.bot) return;
 		if (message.content.startsWith(`<@!${message.client.user.id}>`)) {
 			const embed = new MessageEmbed()
@@ -20,6 +20,5 @@ export default class messageListener extends Listener {
 				.setColor(0x00ff00);
 			return message.channel.send({ embeds: [embed] });
 		}
-		return;
 	}
 }

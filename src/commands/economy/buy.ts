@@ -48,7 +48,7 @@ export default class BuyCommand extends Command {
 		return message.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const itemToBuy = interaction.options.getString('item');
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));

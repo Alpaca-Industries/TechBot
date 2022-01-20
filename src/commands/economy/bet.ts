@@ -76,7 +76,7 @@ export default class BetCommand extends Command {
 		}
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const userDetails = await fetchUser(interaction.user);
 		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
 

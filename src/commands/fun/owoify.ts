@@ -9,7 +9,7 @@ import { owoify } from '../../helpers/stringManipulation';
 	detailedDescription: 'owo <string>'
 })
 export class OwOCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const textToOwoify = await args.rest('string').catch(() => 'Provide text to OwOfy.');
 
 		return message.channel.send(owoify(textToOwoify));

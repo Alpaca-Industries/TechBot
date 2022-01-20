@@ -10,7 +10,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 	detailedDescription: `rps <choice>`
 })
 export default class rpsCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args): Promise<unknown> {
+	async messageRun(message: Message<boolean>, args: Args) {
 		const choice = await args.pick('string').catch(() => '');
 
 		if (choice === '') return message.reply('You need to specify a choice!');

@@ -48,7 +48,7 @@ export default class WorkCommand extends Command {
 		return message.channel.send({ embeds: [workEmbed] });
 	}
 
-	async chatInputRun(interaction: CommandInteraction): Promise<unknown> {
+	async chatInputRun(interaction: CommandInteraction) {
 		const user = await fetchUser(interaction.user);
 		const workEmbed = new MessageEmbed();
 		const job = user.currentJob;
