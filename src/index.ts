@@ -1,7 +1,20 @@
+declare global {
+	interface String {
+		toProperCase(): string;
+	}
+
+	namespace NodeJS {
+		interface ProcessEnv {
+			DEV: boolean;
+		}
+	}
+}
+
 // TypeORM Imports
 import { Connection } from 'typeorm';
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
+import './types/types';
 
 // Discord.js Imports
 import { ApplicationCommandRegistries, RegisterBehavior, SapphireClient } from '@sapphire/framework';
@@ -13,12 +26,6 @@ const client = new SapphireClient(config.sapphireConfig);
 
 export let connection: Connection;
 if (Boolean(process.env.DEV)) console.log('Running in DEVELOPMENT mode.');
-
-declare global {
-	interface String {
-		toProperCase(): string;
-	}
-}
 
 String.prototype.toProperCase = function () {
 	return this.replaceAll('_', ' ').replace(/\w\S*/g, function (txt) {
