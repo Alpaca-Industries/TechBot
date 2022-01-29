@@ -41,7 +41,7 @@ export default class withdrawCommand extends Command {
 			});
 		user.wallet += amountToWithdraw;
 		user.bank -= amountToWithdraw;
-		user.save();
+		await user.save();
 
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({
@@ -58,7 +58,7 @@ export default class withdrawCommand extends Command {
 			.setColor('#00ff00')
 			.setTimestamp();
 
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		const response = new MessageEmbed()
 			.setDescription(`You withdrew **$${amountToWithdraw.toLocaleString()}** from your bank account.`)
@@ -97,7 +97,7 @@ export default class withdrawCommand extends Command {
 			});
 		user.wallet += amountToWithdraw;
 		user.bank -= amountToWithdraw;
-		user.save();
+		await user.save();
 
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
 		const webhook = new WebhookClient({
@@ -114,7 +114,7 @@ export default class withdrawCommand extends Command {
 			.setColor('#00ff00')
 			.setTimestamp();
 
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		const response = new MessageEmbed()
 			.setDescription(`You withdrew **$${amountToWithdraw.toLocaleString()}** from your bank account.`)

@@ -101,7 +101,7 @@ export default class DailyCommand extends Command {
 			new MessageButton().setCustomId('higher').setLabel('Higher').setStyle('SECONDARY')
 		);
 
-		interaction.reply({ content: 'Made highlow bet successfully!', ephemeral: true });
+		await interaction.reply({ content: 'Made highlow bet successfully!', ephemeral: true });
 		const msg = await interaction.channel.send({ embeds: [embed], components: [row] });
 
 		const user = await fetchUser(interaction.user);
@@ -119,11 +119,7 @@ export default class DailyCommand extends Command {
 				won = true;
 			} else if (bet === 'lower' && num > testNum) {
 				won = true;
-			} else if (bet === 'jackpot' && num === testNum) {
-				won = true;
-			} else {
-				won = false;
-			}
+			} else won = bet === 'jackpot' && num === testNum;
 
 			let amount: number;
 			if (bet === 'jackpot' && won) {

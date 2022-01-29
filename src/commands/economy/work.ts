@@ -38,7 +38,7 @@ export default class WorkCommand extends Command {
 
 		user.wallet += moneyEarned;
 		user.jobEXP += Math.round(Math.random() * (40 - 10) + 10);
-		user.save();
+		await user.save();
 
 		workEmbed
 			.setTitle(`You worked as a ${job.toProperCase()}`)

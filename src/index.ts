@@ -33,7 +33,7 @@ String.prototype.toProperCase = function () {
 };
 
 const startBot = async () => {
-	client.login(config.token);
+	await client.login(config.token);
 	ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 	connection = await createConnection(config.typeORMConfig);

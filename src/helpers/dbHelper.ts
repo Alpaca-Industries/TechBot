@@ -40,7 +40,7 @@ export const fetchInventory = async (user: DiscordUser, item: Item): Promise<Inv
 		inventory.userId = userData.id;
 		inventory.itemID = item.id;
 		inventory.amount = 0;
-		inventory.save();
+		await inventory.save();
 		return fetchInventory(user, item);
 	}
 	return inventory;

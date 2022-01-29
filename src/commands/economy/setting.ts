@@ -60,8 +60,8 @@ export default class SettingCommand extends Command {
 						]
 					});
 
-				user.save();
-				message.reply(`Changed your preferred emoji color to **${colorName.toProperCase()}**.`);
+				await user.save();
+				await message.reply(`Changed your preferred emoji color to **${colorName.toProperCase()}**.`);
 				break;
 		}
 	}

@@ -38,7 +38,7 @@ export default class BuyCommand extends Command {
 			});
 
 		user.wallet -= item.price;
-		user.save();
+		await user.save();
 
 		fetchInventory(message.author, item).then((inventory) => {
 			inventory.amount++;
@@ -71,7 +71,7 @@ export default class BuyCommand extends Command {
 			});
 
 		user.wallet -= item.price;
-		user.save();
+		await user.save();
 
 		fetchInventory(interaction.user, item).then((inventory) => {
 			inventory.amount++;

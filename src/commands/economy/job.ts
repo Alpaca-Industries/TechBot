@@ -38,7 +38,7 @@ export default class jobCommand extends Command {
 					.setFooter({ text: `To get a job run ${guild.prefix}jobs select <job name>!` })
 					.setColor(0x00ff00);
 
-				message.reply({ embeds: [listEmbed] });
+				await message.reply({ embeds: [listEmbed] });
 				break;
 			case 'select':
 				const jobSelected = await args.restResult('string');
@@ -51,7 +51,7 @@ export default class jobCommand extends Command {
 					user.save();
 				});
 
-				message.reply(`You're now working as **${job.name}**.`);
+				await message.reply(`You're now working as **${job.name}**.`);
 				break;
 			case 'current':
 				const jobEmbed = new MessageEmbed()
@@ -63,7 +63,7 @@ export default class jobCommand extends Command {
 					)
 					.setColor('BLUE');
 
-				message.reply({ embeds: [jobEmbed] });
+				await message.reply({ embeds: [jobEmbed] });
 				break;
 
 			case 'xp':
@@ -73,7 +73,7 @@ export default class jobCommand extends Command {
 					.setDescription(`${user.jobEXP.toLocaleString()} XP`)
 					.setColor('BLUE');
 
-				message.reply({ embeds: [xpEmbed] });
+				await message.reply({ embeds: [xpEmbed] });
 				break;
 
 			default:
@@ -114,7 +114,7 @@ export default class jobCommand extends Command {
 					.setFooter({ text: `To get a job run ${guild.prefix}jobs select <job name>!` })
 					.setColor(0x00ff00);
 
-				interaction.reply({ embeds: [listEmbed] });
+				await interaction.reply({ embeds: [listEmbed] });
 				break;
 			case 'select':
 				if (value === null)
@@ -126,9 +126,9 @@ export default class jobCommand extends Command {
 					return interaction.reply({ content: 'Please specify a valid job!', ephemeral: true });
 
 				user.currentJob = job.name;
-				user.save();
+				await user.save();
 
-				interaction.reply(`You're now working as **${job.name.toProperCase()}**.`);
+				await interaction.reply(`You're now working as **${job.name.toProperCase()}**.`);
 				break;
 			case 'current':
 				const jobEmbed = new MessageEmbed()
@@ -140,7 +140,7 @@ export default class jobCommand extends Command {
 					)
 					.setColor('BLUE');
 
-				interaction.reply({ embeds: [jobEmbed] });
+				await interaction.reply({ embeds: [jobEmbed] });
 				break;
 
 			case 'xp':
@@ -149,7 +149,7 @@ export default class jobCommand extends Command {
 					.setDescription(`${user.jobEXP.toLocaleString()} XP`)
 					.setColor('BLUE');
 
-				interaction.reply({ embeds: [xpEmbed] });
+				await interaction.reply({ embeds: [xpEmbed] });
 				break;
 
 			case 'help':

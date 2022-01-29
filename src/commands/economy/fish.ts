@@ -18,14 +18,14 @@ export class StatsCommand extends Command {
 		);
 
 		if (doesUserHaveFishingPole.amount === 0) return 'You do not have a fishing pole!';
-		const fishing_success = Math.random() ? true : false;
+		const fishing_success = !!Math.random();
 
 		if (fishing_success) {
 			const fish = await Item.findOne({ where: { name: 'fish' } });
 			fetchInventory(user, fish).then(async (inventory) => {
 				const fish_amount = Math.round(Math.random() * (10 - 1) + 1);
 				inventory.amount += fish_amount;
-				inventory.save();
+				await inventory.save();
 			});
 			return `You caught a ${fish.name}!`;
 		} else return 'You failed to catch anything!';

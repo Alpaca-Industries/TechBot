@@ -30,11 +30,11 @@ export default class giveMoneyCommand extends Command {
 		if (author.wallet < amount)
 			return message.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
 		author.wallet -= amount;
-		author.save();
+		await author.save();
 
 		const user = await fetchUser(receiver.value);
 		user.wallet += amount;
-		user.save();
+		await user.save();
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
@@ -50,7 +50,7 @@ export default class giveMoneyCommand extends Command {
 			.setColor('#00ff00')
 			.setTimestamp();
 
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		const response = new MessageEmbed()
 			.setTitle('Money Transferred')
@@ -93,11 +93,11 @@ export default class giveMoneyCommand extends Command {
 		if (author.wallet < amount)
 			return interaction.reply({ embeds: [generateErrorEmbed('You do not have that much money!')] });
 		author.wallet -= amount;
-		author.save();
+		await author.save();
 
 		const user = await fetchUser(receiver);
 		user.wallet += amount;
-		user.save();
+		await user.save();
 
 		// Send Message to Webhook
 		// https://canary.discord.com/api/webhooks/927773203349246003/bwD-bJI-Esiylh8oXU2uY-JNNic5ngyRCMxzX2q4C5MEs-hJI7Vf-3pexABtJu3HuWbi
@@ -113,7 +113,7 @@ export default class giveMoneyCommand extends Command {
 			.setColor('#00ff00')
 			.setTimestamp();
 
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		const response = new MessageEmbed()
 			.setTitle('Money Transferred')

@@ -22,9 +22,9 @@ export default class CatCommand extends Command {
 		catEmbed.setImage(cat[0].url);
 
 		if (!isNil(cat[0].breeds[0]))
-			catEmbed.setFooter(
-				`Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
-			);
+			catEmbed.setFooter({
+				text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
+			});
 
 		return message.channel.send({ embeds: [catEmbed] });
 	}

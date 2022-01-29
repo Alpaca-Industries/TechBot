@@ -47,11 +47,11 @@ export default class BetCommand extends Command {
 				]
 			});
 
-		const chance = Math.random() < 0.5 ? true : false;
+		const chance = Math.random() < 0.5;
 
 		if (chance) {
 			userDetails.wallet += betAmount;
-			userDetails.save();
+			await userDetails.save();
 			return message.reply({
 				embeds: [
 					generateEmbed(
@@ -63,7 +63,7 @@ export default class BetCommand extends Command {
 			});
 		} else {
 			userDetails.wallet -= betAmount;
-			userDetails.save();
+			await userDetails.save();
 			return message.reply({
 				embeds: [
 					generateEmbed(
@@ -85,11 +85,11 @@ export default class BetCommand extends Command {
 		if (userDetails.wallet < betAmount)
 			return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
 
-		const chance = Math.random() < 0.5 ? true : false;
+		const chance = Math.random() < 0.5;
 
 		if (chance) {
 			userDetails.wallet += betAmount;
-			userDetails.save();
+			await userDetails.save();
 			return interaction.reply({
 				embeds: [
 					generateEmbed(
@@ -101,7 +101,7 @@ export default class BetCommand extends Command {
 			});
 		} else {
 			userDetails.wallet -= betAmount;
-			userDetails.save();
+			await userDetails.save();
 			return interaction.reply({
 				embeds: [
 					generateEmbed(

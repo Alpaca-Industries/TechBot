@@ -66,7 +66,7 @@ export default class giveItemCommand extends Command {
 			)
 			.setColor('#00ff00')
 			.setTimestamp();
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		return message.reply(`You gave ${amount} ${itemToGive.value} to ${userToGiveTo.value.tag}.`);
 	}
@@ -119,7 +119,7 @@ export default class giveItemCommand extends Command {
 			)
 			.setColor('#00ff00')
 			.setTimestamp();
-		webhook.send({ embeds: [embed] });
+		await webhook.send({ embeds: [embed] });
 
 		return interaction.reply(`You gave ${amount} ${itemToGive} to ${userToGiveTo.username}`);
 	}

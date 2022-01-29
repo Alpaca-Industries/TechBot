@@ -44,7 +44,7 @@ export default class rpsCommand extends Command {
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const choice = await interaction.options.getString('choice', true);
+		const choice = interaction.options.getString('choice', true);
 
 		if (choice === '') return interaction.reply('You need to specify a choice!');
 

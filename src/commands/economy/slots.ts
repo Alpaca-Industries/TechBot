@@ -129,7 +129,7 @@ export default class SlotsCommand extends Command {
 			.setColor('RANDOM')
 			.setFooter({ text: 'Are you feeling lucky?' });
 
-		interaction.reply({ embeds: [play] });
+		await interaction.reply({ embeds: [play] });
 		setTimeout(() => {
 			interaction.editReply({ embeds: [firstRollEmbed] });
 		}, 600);

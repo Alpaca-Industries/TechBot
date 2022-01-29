@@ -23,7 +23,7 @@ export class PingCommand extends Command {
 			Date.now() - interaction.createdTimestamp
 		}ms.`;
 
-		interaction.editReply(content);
+		return interaction.editReply(content);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
