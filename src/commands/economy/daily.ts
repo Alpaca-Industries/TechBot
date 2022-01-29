@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, User } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
@@ -11,38 +11,36 @@ import type { CommandInteraction } from 'discord.js';
 	detailedDescription: 'daily'
 })
 export default class DailyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const embed = new MessageEmbed();
+	private dailyCommandLogic(user: User): PepeBoy.CommandLogic {
 		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
 
-		fetchUser(message.author).then((user) => {
-			user.wallet += moneyEarned;
-			user.save();
+		fetchUser(user).then((userData) => {
+			userData.wallet += moneyEarned;
+			userData.save();
 		});
 
-		embed
-			.setTitle('Daily Coins :D')
-			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
-			.setColor('BLUE');
+		return {
+			ephemeral: false,
+			content: '',
+			embeds: [
+				new MessageEmbed()
+					.setTitle('Daily Coins :D')
+					.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+					.setColor('BLUE')
+			]
+		};
+	}
+	async messageRun(message: Message<boolean>, args: Args) {
+		const logicReply = await this.dailyCommandLogic(message.author);
 
-		return message.channel.send({ embeds: [embed] });
+		return message.reply({
+			content: logicReply.content,
+			embeds: logicReply.embeds
+		});
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const embed = new MessageEmbed();
-		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
-
-		fetchUser(interaction.user).then((user) => {
-			user.wallet += moneyEarned;
-			user.save();
-		});
-
-		embed
-			.setTitle('Daily Coins :D')
-			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
-			.setColor('BLUE');
-
-		return interaction.reply({ embeds: [embed] });
+		return interaction.reply(await this.dailyCommandLogic(interaction.user));
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

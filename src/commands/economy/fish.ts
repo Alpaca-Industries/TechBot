@@ -11,14 +11,15 @@ import { fetchInventory } from '../../helpers/dbHelper';
 	detailedDescription: ''
 })
 export class StatsCommand extends Command {
-	private async fishLogic(user: User) {
+	private async fishLogic(user: User): Promise<PepeBoy.CommandLogic> {
 		const doesUserHaveFishingPole = await fetchInventory(
 			user,
 			await Item.findOne({ where: { name: 'fishing_pole' } })
 		);
 
-		if (doesUserHaveFishingPole.amount === 0) return 'You do not have a fishing pole!';
-		const fishing_success = !!Math.random();
+		if (doesUserHaveFishingPole.amount === 0)
+			return { embeds: [], ephemeral: true, content: 'You do not have a fishing pole!' };
+		const fishing_success = Math.random() > 0.5;
 
 		if (fishing_success) {
 			const fish = await Item.findOne({ where: { name: 'fish' } });
@@ -27,8 +28,12 @@ export class StatsCommand extends Command {
 				inventory.amount += fish_amount;
 				await inventory.save();
 			});
-			return `You caught a ${fish.name}!`;
-		} else return 'You failed to catch anything!';
+			return {
+				embeds: [],
+				ephemeral: false,
+				content: `You caught a ${fish.name}!`
+			};
+		} else return { embeds: [], ephemeral: false, content: 'You failed to catch anything!' };
 	}
 	async messageRun(message: Message, args: Args) {
 		return message.reply(await this.fishLogic(message.author));

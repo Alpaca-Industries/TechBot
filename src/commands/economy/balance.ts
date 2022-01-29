@@ -1,7 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
 import type { CommandInteraction, Message } from 'discord.js';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, User } from 'discord.js';
 import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({
@@ -11,33 +11,32 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'balance [user]'
 })
 export default class BalanceCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const balanceEmbed = new MessageEmbed();
-		const user = await args.pick('user').catch(() => message.author);
-
+	private async balanceCommandLogic(user: User): Promise<PepeBoy.CommandLogic> {
 		const balance = await fetchUser(user);
 
-		balanceEmbed
-			.setTitle(`${user.username}, this is your balance!`)
-			.addField('Wallet:', balance.wallet.toLocaleString())
-			.addField('Bank:', balance.bank.toLocaleString())
-			.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
-			.setColor('#4EAFF6');
+		return {
+			ephemeral: false,
+			content: '',
+			embeds: [
+				new MessageEmbed()
+					.setTitle(`${user.username}, this is your balance!`)
+					.addField('Wallet:', balance.wallet.toLocaleString())
+					.addField('Bank:', balance.bank.toLocaleString())
+					.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
+					.setColor('#4EAFF6')
+			]
+		};
+	}
+	async messageRun(message: Message<boolean>, args: Args) {
+		const user = await args.pick('user').catch(() => message.author);
 
-		return message.reply({ embeds: [balanceEmbed] });
+		return message.reply(await this.balanceCommandLogic(user));
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const balanceEmbed = new MessageEmbed();
 		const user = interaction.options.getUser('user', false) ?? interaction.user;
-		const balance = await fetchUser(user);
-		balanceEmbed
-			.setTitle(`${user.username}, this is your balance!`)
-			.addField('Wallet:', balance.wallet.toLocaleString())
-			.addField('Bank:', balance.bank.toLocaleString())
-			.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
-			.setColor('#4EAFF6');
-		return interaction.reply({ embeds: [balanceEmbed] });
+
+		return interaction.reply(await this.balanceCommandLogic(user));
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

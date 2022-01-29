@@ -6,6 +6,7 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelper';
 import { generateEmbed, generateErrorEmbed } from '../../helpers/embeds';
 import { getPrefix } from '../../helpers/getPrefix';
+import { Guild, User } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -13,72 +14,65 @@ import { getPrefix } from '../../helpers/getPrefix';
 	detailedDescription: 'buy <item>'
 })
 export default class BuyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const itemToBuy = await args.rest('string').catch(() => '');
-
+	private async buyCommandLogic(
+		itemToBuy: string,
+		user: User,
+		guild: Guild
+	): Promise<PepeBoy.CommandLogic> {
 		if (itemToBuy === '')
-			return message.channel.send({
+			return {
+				ephemeral: true,
+				content: '',
 				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
-			});
+			};
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined)
-			return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
-		const user = await fetchUser(message.author);
+			return { ephemeral: true, content: '', embeds: [generateErrorEmbed('Invalid Item Specified!')] };
+		const userData = await fetchUser(user);
 
-		if (user.wallet < item.price)
-			return message.reply({
+		if (userData.wallet < item.price)
+			return {
+				ephemeral: true,
+				content: '',
 				embeds: [
 					generateErrorEmbed(
-						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
-							message.guild
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${userData.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
+							guild
 						)}${this.detailedDescription}\``
 					)
 				]
-			});
+			};
 
-		user.wallet -= item.price;
-		await user.save();
+		userData.wallet -= item.price;
+		await userData.save();
 
-		fetchInventory(message.author, item).then((inventory) => {
+		fetchInventory(user, item).then((inventory) => {
 			inventory.amount++;
 			inventory.save();
 		});
 
-		return message.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
+		return {
+			ephemeral: false,
+			embeds: [],
+			content: `You bought **${item.name}** for **$${item.price.toLocaleString()}**`
+		};
+	}
+	async messageRun(message: Message<boolean>, args: Args) {
+		const itemToBuy = await args.pick('string').catch(() => '');
+
+		const logicReply = await this.buyCommandLogic(itemToBuy, message.author, message.guild);
+		return message.reply({
+			content: logicReply.content,
+			embeds: logicReply.embeds
+		});
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const itemToBuy = interaction.options.getString('item');
 
-		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
-		if (item === undefined)
-			return interaction.reply({
-				embeds: [generateErrorEmbed(`Invalid item \'${itemToBuy}\' specified!`, 'Invalid Item Name')]
-			});
-		const user = await fetchUser(interaction.user);
-
-		if (user.wallet < item.price)
-			return interaction.reply({
-				embeds: [
-					generateErrorEmbed(
-						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
-							interaction.guild
-						)}${this.detailedDescription}\``
-					)
-				],
-				ephemeral: true
-			});
-
-		user.wallet -= item.price;
-		await user.save();
-
-		fetchInventory(interaction.user, item).then((inventory) => {
-			inventory.amount++;
-			inventory.save();
-		});
-
-		return interaction.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
+		const logicReply = await this.buyCommandLogic(itemToBuy, interaction.user, interaction.guild);
+		return interaction.reply(logicReply);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

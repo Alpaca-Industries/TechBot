@@ -1,5 +1,5 @@
 import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
+import { CommandInteraction, Message, MessageEmbed, User } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
@@ -44,13 +44,11 @@ const failedBegResponses = [
 	detailedDescription: 'beg'
 })
 export default class BegCommand extends Command {
-	messageRun(message: Message<boolean>, args: Args) {
+	private async begCommandLogic(user: User): Promise<PepeBoy.CommandLogic> {
 		const failedBegEmbed = new MessageEmbed()
 			.setAuthor({ name: people[Math.floor(people.length * Math.random())] })
 			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
 			.setColor('RED');
-
-		if (Math.random() > 0.5) return message.reply({ embeds: [failedBegEmbed] });
 
 		const BegEmbed = new MessageEmbed();
 
@@ -59,7 +57,7 @@ export default class BegCommand extends Command {
 			Math.random() * (600 - people.length) + (people.length - 1)
 		);
 
-		fetchUser(message.author).then((user) => {
+		fetchUser(user).then((user) => {
 			user.wallet += moneyEarned;
 			user.save();
 		});
@@ -68,34 +66,21 @@ export default class BegCommand extends Command {
 			.setDescription(`💰While begging you earned $${moneyEarned.toLocaleString()}💰`)
 			.setColor('BLUE');
 
-		return message.reply({ embeds: [BegEmbed] });
+		if (Math.random() > 0.5) {
+			return {
+				ephemeral: true,
+				content: '',
+				embeds: [failedBegEmbed]
+			};
+		}
+		return { ephemeral: false, content: '', embeds: [BegEmbed] };
+	}
+	async messageRun(message: Message<boolean>, args: Args) {
+		return message.reply(await this.begCommandLogic(message.author));
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const failedBegEmbed = new MessageEmbed()
-			.setAuthor({ name: people[Math.floor(people.length * Math.random())] })
-			.setDescription(failedBegResponses[Math.floor(failedBegResponses.length * Math.random())])
-			.setColor('RED');
-
-		if (Math.random() > 0.5) return interaction.reply({ embeds: [failedBegEmbed] });
-
-		const BegEmbed = new MessageEmbed();
-
-		const moneyEarned = Math.round(
-			// people.length is the minimum amount and 600 is the maximum amount
-			Math.random() * (600 - people.length) + (people.length - 1)
-		);
-
-		fetchUser(interaction.user).then((user) => {
-			user.wallet += moneyEarned;
-			user.save();
-		});
-
-		BegEmbed.setTitle(`You begged ${people[Math.floor(Math.random() * people.length)]} for money`)
-			.setDescription(`💰While begging you earned $${moneyEarned.toLocaleString()}💰`)
-			.setColor('BLUE');
-
-		return interaction.reply({ embeds: [BegEmbed] });
+		return interaction.reply(await this.begCommandLogic(interaction.user));
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
