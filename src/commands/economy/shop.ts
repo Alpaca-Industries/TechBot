@@ -13,9 +13,7 @@ import { generateErrorEmbed } from '../../helpers/embeds';
 	detailedDescription: 'shop'
 })
 export default class ShopCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const specificItem = await args.pick('string').catch(() => '');
-
+	private async shopCommandLogic(specificItem: string): Promise<PepeBoy.CommandLogic> {
 		if (specificItem.length > 0) {
 			const item = await Item.findOne({ where: { name: specificItem.toProperCase() } });
 			if (item !== undefined) {
@@ -23,16 +21,18 @@ export default class ShopCommand extends Command {
 					.setTitle(item.name.toProperCase())
 					.setDescription(`> ${item.description}\nPrice: $${item.price.toLocaleString()}`)
 					.setColor('BLUE');
-				return message.reply({ embeds: [embed] });
+				return { content: '', ephemeral: false, embeds: [embed] };
 			} else {
-				return message.reply({
+				return {
+					content: '',
+					ephemeral: true,
 					embeds: [
 						generateErrorEmbed(
 							`Could not find item with name '${specificItem}'.`,
 							'Invalid Item Name'
 						)
 					]
-				});
+				};
 			}
 		}
 		const items = await Item.createQueryBuilder('item').orderBy('item.price', 'ASC').getMany();
@@ -49,46 +49,16 @@ export default class ShopCommand extends Command {
 			)
 			.setColor(0x00ff00);
 
-		return message.reply({ embeds: [embed] });
+		return { content: '', ephemeral: false, embeds: [embed] };
+	}
+	async messageRun(message: Message<boolean>, args: Args) {
+		const specificItem = await args.pick('string').catch(() => '');
+		return message.reply(await this.shopCommandLogic(specificItem));
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const specificItem = interaction.options.getString('item') || '';
-		if (specificItem.length > 0) {
-			const item = await Item.findOne({ where: { name: specificItem.toProperCase() } });
-			if (item !== undefined) {
-				const embed = new MessageEmbed()
-					.setTitle(item.name.toProperCase())
-					.setDescription(`> ${item.description}\nPrice: $${item.price.toLocaleString()}`)
-					.setColor('BLUE');
-				return interaction.reply({ embeds: [embed] });
-			} else {
-				return interaction.reply({
-					embeds: [
-						generateErrorEmbed(
-							`Could not find item with name '${specificItem}'.`,
-							'Invalid Item Name'
-						)
-					],
-					ephemeral: true
-				});
-			}
-		}
-		const items = await Item.createQueryBuilder('item').orderBy('item.price', 'ASC').getMany();
-
-		const embed = new MessageEmbed()
-			.setTitle('Items For Sale')
-			.setDescription(
-				items
-					.map(
-						(item) =>
-							`${item.emoji} **${item.name.toProperCase()}** - $${item.price.toLocaleString()}`
-					)
-					.join('\n')
-			)
-			.setColor(0x00ff00);
-
-		return interaction.reply({ embeds: [embed] });
+		return interaction.reply(await this.shopCommandLogic(specificItem));
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

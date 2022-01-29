@@ -13,8 +13,8 @@ declare global {
 
 	namespace PepeBoy {
 		interface CommandLogic {
-			content: string;
-			embeds: MessageEmbed[];
+			content?: string;
+			embeds?: MessageEmbed[];
 			ephemeral: boolean;
 		}
 	}
