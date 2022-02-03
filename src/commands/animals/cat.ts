@@ -22,7 +22,6 @@ export default class CatCommand extends Command {
 
 		return {
 			ephemeral: false,
-			content: '',
 			embeds: [
 				new MessageEmbed()
 					.setColor('#7289DA')

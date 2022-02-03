@@ -43,7 +43,7 @@ export default class jobCommand extends Command {
 					.setFooter({ text: `To get a job run ${guildData.prefix}jobs select <job name>!` })
 					.setColor(0x00ff00);
 
-				return { content: '', ephemeral: false, embeds: [listEmbed] };
+				return { ephemeral: false, embeds: [listEmbed] };
 			case 'select':
 				if (value === null) return { embeds: [], content: 'Please specify a job!', ephemeral: true };
 
@@ -70,7 +70,7 @@ export default class jobCommand extends Command {
 					)
 					.setColor('BLUE');
 
-				return { content: '', ephemeral: false, embeds: [jobEmbed] };
+				return { ephemeral: false, embeds: [jobEmbed] };
 
 			case 'xp':
 				const xpEmbed = new MessageEmbed()
@@ -78,7 +78,7 @@ export default class jobCommand extends Command {
 					.setDescription(`${userData.jobEXP.toLocaleString()} XP`)
 					.setColor('BLUE');
 
-				return { content: '', ephemeral: false, embeds: [xpEmbed] };
+				return { ephemeral: false, embeds: [xpEmbed] };
 
 			case 'help':
 				const helpReply = new MessageEmbed()
@@ -88,7 +88,7 @@ export default class jobCommand extends Command {
 					)
 					.setColor('BLUE');
 
-				return { content: '', ephemeral: false, embeds: [helpReply] };
+				return { ephemeral: false, embeds: [helpReply] };
 		}
 	}
 	async messageRun(message: Message<boolean>, args: Args) {

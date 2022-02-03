@@ -21,10 +21,9 @@ export default class ShopCommand extends Command {
 					.setTitle(item.name.toProperCase())
 					.setDescription(`> ${item.description}\nPrice: $${item.price.toLocaleString()}`)
 					.setColor('BLUE');
-				return { content: '', ephemeral: false, embeds: [embed] };
+				return { ephemeral: false, embeds: [embed] };
 			} else {
 				return {
-					content: '',
 					ephemeral: true,
 					embeds: [
 						generateErrorEmbed(

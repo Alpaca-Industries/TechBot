@@ -15,19 +15,16 @@ export default class robCommand extends Command {
 	private async robCommandLogic(robber: User, robbedPerson: User): Promise<PepeBoy.CommandLogic> {
 		if (robbedPerson === null)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed('You need to specify a server member to rob!', 'Invalid User')]
 			};
 		if (robber.id === robbedPerson.id)
 			return {
-				content: '',
 				ephemeral: false,
 				embeds: [generateErrorEmbed("You can't rob yourself.", 'Invalid User')]
 			};
 		if (robbedPerson.bot)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed("You can't rob bots!", 'Invalid User')]
 			};
@@ -37,7 +34,6 @@ export default class robCommand extends Command {
 
 		if (robbedUser.passiveMode)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [
 					generateErrorEmbed(
@@ -48,7 +44,6 @@ export default class robCommand extends Command {
 			};
 		if (robberData.passiveMode)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed("You can't rob while in passive mode!", 'Passive Mode Enabled')]
 			};
@@ -82,7 +77,7 @@ export default class robCommand extends Command {
 					true
 				);
 
-			return { content: '', ephemeral: false, embeds: [failedResponse] };
+			return { ephemeral: false, embeds: [failedResponse] };
 		} else {
 			robberData.wallet += winAmount;
 			await robberData.save();
@@ -109,7 +104,7 @@ export default class robCommand extends Command {
 					).toLocaleString()}\n- After: ${robbedUser.wallet.toLocaleString()}\`\`\``
 				);
 
-			return { content: '', ephemeral: false, embeds: [successResponse] };
+			return { ephemeral: false, embeds: [successResponse] };
 		}
 	}
 	async messageRun(message: Message<boolean>, args: Args) {

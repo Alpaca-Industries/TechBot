@@ -54,7 +54,6 @@ export default class SettingCommand extends Command {
 				}
 				if (toggle === '' || colorName === undefined)
 					return {
-						content: '',
 						ephemeral: false,
 						embeds: [
 							generateErrorEmbed(

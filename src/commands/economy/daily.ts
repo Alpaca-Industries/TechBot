@@ -11,7 +11,7 @@ import type { CommandInteraction } from 'discord.js';
 	detailedDescription: 'daily'
 })
 export default class DailyCommand extends Command {
-	private dailyCommandLogic(user: User): PepeBoy.CommandLogic {
+	private async dailyCommandLogic(user: User): Promise<PepeBoy.CommandLogic> {
 		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
 
 		fetchUser(user).then((userData) => {
@@ -21,11 +21,10 @@ export default class DailyCommand extends Command {
 
 		return {
 			ephemeral: false,
-			content: '',
 			embeds: [
 				new MessageEmbed()
 					.setTitle('Daily Coins :D')
-					.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+					.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tomorrow.`)
 					.setColor('BLUE')
 			]
 		};

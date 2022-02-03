@@ -65,7 +65,7 @@ export default class LeaderboardCommand extends Command {
 			return {
 				embeds: [],
 				ephemeral: true,
-				content: 'Please Only Specify Either Bank or Wallet or Overalll'
+				content: 'Please Only Specify Either Bank or Wallet or Overall'
 			};
 		}
 
@@ -127,7 +127,7 @@ export default class LeaderboardCommand extends Command {
 		}
 
 		leaderboardEmbed.setDescription(leaderboardData.join('\n'));
-		return { content: '', ephemeral: false, embeds: [leaderboardEmbed] };
+		return { ephemeral: false, embeds: [leaderboardEmbed] };
 	}
 	async messageRun(message: Message<boolean>, args: Args) {
 		const flags = (await args.rest('string')).split('--');

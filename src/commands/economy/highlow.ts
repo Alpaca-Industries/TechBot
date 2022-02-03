@@ -9,8 +9,8 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'highlow',
 	aliases: ['hl']
 })
-export default class DailyCommand extends Command {
-	private async dailyCommandLogic(message?: Message, interaction?: CommandInteraction) {
+export default class HighLowCommand extends Command {
+	private async highLowCommandLogic(message?: Message, interaction?: CommandInteraction) {
 		const num = Math.floor(Math.random() * 100) + 1;
 		const embed = new MessageEmbed()
 			.setDescription(
@@ -97,11 +97,11 @@ export default class DailyCommand extends Command {
 		});
 	}
 	async messageRun(message: Message<boolean>, args: Args) {
-		await this.dailyCommandLogic(message, null);
+		await this.highLowCommandLogic(message, null);
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		await this.dailyCommandLogic(null, interaction);
+		await this.highLowCommandLogic(null, interaction);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

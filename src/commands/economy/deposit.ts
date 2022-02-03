@@ -46,7 +46,6 @@ export default class depositCommand extends Command {
 		this.logTransaction(user, undefined, amountToDeposit);
 		if (isNaN(amountToDeposit))
 			return {
-				content: '',
 				embeds: [
 					generateErrorEmbed(
 						`'${amount}' is not a parsable integer.\nUsage: \`${await getPrefix(guild)}${
@@ -60,7 +59,6 @@ export default class depositCommand extends Command {
 		if (amountToDeposit > userData.wallet)
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [
 					generateErrorEmbed(
 						`You don't have enough money to deposit '${amount}'.\nUsage: \`${await getPrefix(
@@ -73,7 +71,6 @@ export default class depositCommand extends Command {
 		if (!isSafeInteger(amountToDeposit))
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [
 					generateErrorEmbed(
 						`'${amount}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`${await getPrefix(
@@ -93,7 +90,7 @@ export default class depositCommand extends Command {
 			.setTitle('Deposit')
 			.setColor('BLUE');
 
-		return { ephemeral: false, content: '', embeds: [response] };
+		return { ephemeral: false, embeds: [response] };
 	}
 	async messageRun(message: Message<boolean>, args: Args) {
 		const amount = await args.rest('string');

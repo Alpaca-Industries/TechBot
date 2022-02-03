@@ -68,12 +68,11 @@ export default class BegCommand extends Command {
 
 		if (Math.random() > 0.5) {
 			return {
-				ephemeral: true,
-				content: '',
+				ephemeral: false,
 				embeds: [failedBegEmbed]
 			};
 		}
-		return { ephemeral: false, content: '', embeds: [BegEmbed] };
+		return { ephemeral: false, embeds: [BegEmbed] };
 	}
 	async messageRun(message: Message<boolean>, args: Args) {
 		return message.reply(await this.begCommandLogic(message.author));

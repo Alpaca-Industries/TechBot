@@ -19,7 +19,6 @@ export default class BetCommand extends Command {
 		if (amount === '') {
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
 			};
 		}
@@ -37,14 +36,12 @@ export default class BetCommand extends Command {
 						}\``,
 						'Invalid Amount'
 					)
-				],
-				content: ''
+				]
 			};
 		}
 		if (userDetails.wallet < betAmount)
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [
 					generateErrorEmbed(
 						`You don't have enough money to bet '${betAmount.toLocaleString()}'.\nYour bet of \`${betAmount}\` is greater than your wallet balance of \`${userDetails.wallet.toLocaleString()}\`\nUsage:\`${
@@ -62,7 +59,6 @@ export default class BetCommand extends Command {
 			await userDetails.save();
 			return {
 				ephemeral: false,
-				content: '',
 				embeds: [
 					generateEmbed(
 						`Congrats ${user.username}, you won **$${betAmount.toLocaleString()}**!`,
@@ -76,7 +72,6 @@ export default class BetCommand extends Command {
 			await userDetails.save();
 			return {
 				ephemeral: false,
-				content: '',
 				embeds: [
 					generateEmbed(
 						`${user.username}, you lost **$${betAmount.toLocaleString()}**!`,

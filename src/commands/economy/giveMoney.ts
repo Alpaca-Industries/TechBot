@@ -40,17 +40,15 @@ export default class giveMoneyCommand extends Command {
 	): Promise<PepeBoy.CommandLogic> {
 		const senderData = await fetchUser(sender);
 		if (receiver.bot || receiver.id === sender.id)
-			return { content: '', ephemeral: true, embeds: [generateErrorEmbed('Invalid User Specified!')] };
+			return { ephemeral: true, embeds: [generateErrorEmbed('Invalid User Specified!')] };
 		if (amount < 0)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')]
 			};
 
 		if (senderData.wallet < amount)
 			return {
-				content: '',
 				ephemeral: false,
 				embeds: [generateErrorEmbed('You do not have that much money!')]
 			};
@@ -87,7 +85,6 @@ export default class giveMoneyCommand extends Command {
 		await this.logTransaction(sender, receiver, undefined, amount);
 		return {
 			embeds: [response],
-			content: '',
 			ephemeral: false
 		};
 	}

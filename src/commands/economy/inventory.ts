@@ -24,7 +24,7 @@ export default class InventoryCommand extends Command {
 
 		if (items.length === 0) {
 			inventoryEmbed.setDescription('You have no items in your inventory!');
-			return { content: '', ephemeral: true, embeds: [inventoryEmbed] };
+			return { ephemeral: true, embeds: [inventoryEmbed] };
 		}
 
 		let itemNumber = 1;
@@ -38,7 +38,7 @@ export default class InventoryCommand extends Command {
 			itemNumber++;
 		}
 
-		return { content: '', ephemeral: false, embeds: [inventoryEmbed] };
+		return { ephemeral: false, embeds: [inventoryEmbed] };
 	}
 	async messageRun(message: Message<boolean>, args: Args) {
 		const userToCheck = await args.pick('user').catch(() => message.author);

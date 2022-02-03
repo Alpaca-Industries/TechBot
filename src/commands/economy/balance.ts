@@ -16,7 +16,6 @@ export default class BalanceCommand extends Command {
 
 		return {
 			ephemeral: false,
-			content: '',
 			embeds: [
 				new MessageEmbed()
 					.setTitle(`${user.username}, this is your balance!`)

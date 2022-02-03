@@ -41,18 +41,16 @@ export default class giveItemCommand extends Command {
 	): Promise<PepeBoy.CommandLogic> {
 		if (userToGiveTo.id === user.id)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed('You cannot give money to yourself!')]
 			};
 
 		if (userToGiveTo.bot)
-			return { content: '', ephemeral: true, embeds: [generateErrorEmbed('Invalid User Specified!')] };
+			return { ephemeral: true, embeds: [generateErrorEmbed('Invalid User Specified!')] };
 		if (itemToGive === null)
-			return { content: '', ephemeral: true, embeds: [generateErrorEmbed('Invalid Item Specified!')] };
+			return { ephemeral: true, embeds: [generateErrorEmbed('Invalid Item Specified!')] };
 		if (amount < 0)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed('Please specify a valid amount of money to withdraw')]
 			};
@@ -62,13 +60,11 @@ export default class giveItemCommand extends Command {
 
 		if (senderInventory === undefined)
 			return {
-				content: '',
 				ephemeral: true,
 				embeds: [generateErrorEmbed('You do not have that item!')]
 			};
 		if (senderInventory.amount < amount)
 			return {
-				content: '',
 				ephemeral: false,
 				embeds: [generateErrorEmbed(`You do not have '${amount}' of that item!`)]
 			};

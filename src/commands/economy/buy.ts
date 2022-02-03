@@ -22,7 +22,6 @@ export default class BuyCommand extends Command {
 		if (itemToBuy === '')
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
 			};
 
@@ -34,7 +33,6 @@ export default class BuyCommand extends Command {
 		if (userData.wallet < item.price)
 			return {
 				ephemeral: true,
-				content: '',
 				embeds: [
 					generateErrorEmbed(
 						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${userData.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
@@ -54,7 +52,6 @@ export default class BuyCommand extends Command {
 
 		return {
 			ephemeral: false,
-			embeds: [],
 			content: `You bought **${item.name}** for **$${item.price.toLocaleString()}**`
 		};
 	}
