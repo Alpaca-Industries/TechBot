@@ -7,7 +7,6 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { parseAmount } from '../../helpers/parseAmount';
 import { getPrefix } from '../../helpers/getPrefix';
-import { Guild, User } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'bet',
@@ -15,87 +14,104 @@ import { Guild, User } from 'discord.js';
 	detailedDescription: 'bet <bet amount>'
 })
 export default class BetCommand extends Command {
-	private async betCommandLogic(amount: string, user: User, guild: Guild): Promise<PepeBoy.CommandLogic> {
-		if (amount === '') {
-			return {
-				ephemeral: true,
+	async messageRun(message: Message<boolean>, args: Args) {
+		const arg = await args.pick('string').catch(() => '');
+		if (arg === '')
+			return message.channel.send({
 				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
-			};
-		}
+			});
 
-		const userDetails = await fetchUser(user);
-		const betAmount = parseAmount(amount, userDetails);
+		const userDetails = await fetchUser(message.author);
+		const betAmount = parseAmount(arg, userDetails);
 
-		if (betAmount < 10 || isNaN(betAmount)) {
-			return {
-				ephemeral: true,
+		if (betAmount < 10 || isNaN(betAmount))
+			return message.reply({
 				embeds: [
 					generateErrorEmbed(
-						`Invalid amount '${amount}' provided.\n'amount' must be a valid integer that is above 10.\nUsage: \`${
-							(await getPrefix(guild)) + this.detailedDescription
+						`Invalid amount '${arg}' provided.\n'amount' must be a valid integer that is above 10.\nUsage: \`${
+							(await getPrefix(message.guild)) + this.detailedDescription
 						}\``,
 						'Invalid Amount'
 					)
 				]
-			};
-		}
+			});
 		if (userDetails.wallet < betAmount)
-			return {
-				ephemeral: true,
+			return message.reply({
 				embeds: [
 					generateErrorEmbed(
 						`You don't have enough money to bet '${betAmount.toLocaleString()}'.\nYour bet of \`${betAmount}\` is greater than your wallet balance of \`${userDetails.wallet.toLocaleString()}\`\nUsage:\`${
-							(await getPrefix(guild)) + this.detailedDescription
+							(await getPrefix(message.guild)) + this.detailedDescription
 						}\``,
 						'Missing Money'
 					)
 				]
-			};
+			});
 
 		const chance = Math.random() < 0.5;
 
 		if (chance) {
 			userDetails.wallet += betAmount;
 			await userDetails.save();
-			return {
-				ephemeral: false,
+			return message.reply({
 				embeds: [
 					generateEmbed(
-						`Congrats ${user.username}, you won **$${betAmount.toLocaleString()}**!`,
+						`Congrats ${message.author.username}, you won **$${betAmount.toLocaleString()}**!`,
 						'Bet Won',
 						'DARK_GREEN'
 					)
 				]
-			};
+			});
 		} else {
 			userDetails.wallet -= betAmount;
 			await userDetails.save();
-			return {
-				ephemeral: false,
+			return message.reply({
 				embeds: [
 					generateEmbed(
-						`${user.username}, you lost **$${betAmount.toLocaleString()}**!`,
+						`${message.author.username}, you lost **$${betAmount.toLocaleString()}**!`,
 						'Bet Lost',
 						'RED'
 					)
 				]
-			};
+			});
 		}
-	}
-	async messageRun(message: Message<boolean>, args: Args) {
-		const arg = await args.pick('string').catch(() => '');
-
-		const logicReply = await this.betCommandLogic(arg, message.author, message.guild);
-		return message.reply(logicReply);
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		const logicReply = await this.betCommandLogic(
-			interaction.options.getString('amount'),
-			interaction.user,
-			interaction.guild
-		);
-		return interaction.reply(logicReply);
+		const userDetails = await fetchUser(interaction.user);
+		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
+
+		if (betAmount < 10 || isNaN(betAmount))
+			return interaction.reply('Please bet a valid amount above 10!');
+		if (userDetails.wallet < betAmount)
+			return interaction.reply(`Sorry ${interaction.user.username}, you don't have enough money!`);
+
+		const chance = Math.random() < 0.5;
+
+		if (chance) {
+			userDetails.wallet += betAmount;
+			await userDetails.save();
+			return interaction.reply({
+				embeds: [
+					generateEmbed(
+						`Congrats ${interaction.user.username}, you won **$${betAmount.toLocaleString()}**!`,
+						'Bet Won',
+						'DARK_GREEN'
+					)
+				]
+			});
+		} else {
+			userDetails.wallet -= betAmount;
+			await userDetails.save();
+			return interaction.reply({
+				embeds: [
+					generateEmbed(
+						`${interaction.user.username}, you lost **$${betAmount.toLocaleString()}**!`,
+						'Bet Lost',
+						'RED'
+					)
+				]
+			});
+		}
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

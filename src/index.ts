@@ -1,5 +1,3 @@
-import { MessageEmbed } from 'discord.js';
-
 declare global {
 	interface String {
 		toProperCase(): string;
@@ -8,14 +6,6 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			DEV: boolean;
-		}
-	}
-
-	namespace PepeBoy {
-		interface CommandLogic {
-			content?: string;
-			embeds?: MessageEmbed[];
-			ephemeral: boolean;
 		}
 	}
 }

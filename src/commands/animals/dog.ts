@@ -13,32 +13,36 @@ import axios from 'axios';
 	detailedDescription: 'dog'
 })
 export default class DogCommand extends Command {
-	public async dogCommandLogic(): Promise<PepeBoy.CommandLogic> {
-		const dog: Dog = await axios
-			.get('https://api.thedogapi.com/v1/images/search')
-			.then((res) => res.data[0]);
-
-		if (isNil(dog)) return;
-
-		return {
-			ephemeral: false,
-			embeds: [
-				new MessageEmbed()
-					.setColor('#7289DA')
-					.setImage(dog.url)
-					.setFooter({
-						text: `Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
-					})
-			]
-		};
-	}
-
 	async messageRun(message: Message<boolean>, args: Args) {
-		return message.channel.send(await this.dogCommandLogic());
+		const dogEmbed = new MessageEmbed();
+		const dog: Dog[] = await axios
+			.get('https://api.thedogapi.com/v1/images/search')
+			.then((res) => res.data);
+
+		dogEmbed.setImage(dog[0].url);
+
+		if (!isNil(dog[0].breeds[0]))
+			dogEmbed.setFooter({
+				text: `Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
+			});
+
+		return message.channel.send({ embeds: [dogEmbed] });
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(await this.dogCommandLogic());
+		const dogEmbed = new MessageEmbed();
+		const dog: Dog[] = await axios
+			.get('https://api.thedogapi.com/v1/images/search')
+			.then((res) => res.data);
+
+		dogEmbed.setImage(dog[0].url);
+
+		if (!isNil(dog[0].breeds[0]))
+			dogEmbed.setFooter({
+				text: `Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
+			});
+
+		return interaction.reply({ embeds: [dogEmbed] });
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

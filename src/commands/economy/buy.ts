@@ -6,7 +6,6 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelper';
 import { generateEmbed, generateErrorEmbed } from '../../helpers/embeds';
 import { getPrefix } from '../../helpers/getPrefix';
-import { Guild, User } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -14,62 +13,72 @@ import { Guild, User } from 'discord.js';
 	detailedDescription: 'buy <item>'
 })
 export default class BuyCommand extends Command {
-	private async buyCommandLogic(
-		itemToBuy: string,
-		user: User,
-		guild: Guild
-	): Promise<PepeBoy.CommandLogic> {
+	async messageRun(message: Message<boolean>, args: Args) {
+		const itemToBuy = await args.rest('string').catch(() => '');
+
 		if (itemToBuy === '')
-			return {
-				ephemeral: true,
+			return message.channel.send({
 				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
-			};
+			});
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined)
-			return { ephemeral: true, content: '', embeds: [generateErrorEmbed('Invalid Item Specified!')] };
-		const userData = await fetchUser(user);
+			return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
+		const user = await fetchUser(message.author);
 
-		if (userData.wallet < item.price)
-			return {
-				ephemeral: true,
+		if (user.wallet < item.price)
+			return message.reply({
 				embeds: [
 					generateErrorEmbed(
-						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${userData.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
-							guild
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
+							message.guild
 						)}${this.detailedDescription}\``
 					)
 				]
-			};
+			});
 
-		userData.wallet -= item.price;
-		await userData.save();
+		user.wallet -= item.price;
+		await user.save();
 
-		fetchInventory(user, item).then((inventory) => {
+		fetchInventory(message.author, item).then((inventory) => {
 			inventory.amount++;
 			inventory.save();
 		});
 
-		return {
-			ephemeral: false,
-			content: `You bought **${item.name}** for **$${item.price.toLocaleString()}**`
-		};
-	}
-	async messageRun(message: Message<boolean>, args: Args) {
-		const itemToBuy = await args.pick('string').catch(() => '');
-
-		const logicReply = await this.buyCommandLogic(itemToBuy, message.author, message.guild);
-		return message.reply({
-			content: logicReply.content,
-			embeds: logicReply.embeds
-		});
+		return message.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
 		const itemToBuy = interaction.options.getString('item');
 
-		const logicReply = await this.buyCommandLogic(itemToBuy, interaction.user, interaction.guild);
-		return interaction.reply(logicReply);
+		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
+		if (item === undefined)
+			return interaction.reply({
+				embeds: [generateErrorEmbed(`Invalid item \'${itemToBuy}\' specified!`, 'Invalid Item Name')]
+			});
+		const user = await fetchUser(interaction.user);
+
+		if (user.wallet < item.price)
+			return interaction.reply({
+				embeds: [
+					generateErrorEmbed(
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
+							interaction.guild
+						)}${this.detailedDescription}\``
+					)
+				],
+				ephemeral: true
+			});
+
+		user.wallet -= item.price;
+		await user.save();
+
+		fetchInventory(interaction.user, item).then((inventory) => {
+			inventory.amount++;
+			inventory.save();
+		});
+
+		return interaction.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

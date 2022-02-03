@@ -13,32 +13,36 @@ import axios from 'axios';
 	detailedDescription: 'cat'
 })
 export default class CatCommand extends Command {
-	public async catCommandLogic(): Promise<PepeBoy.CommandLogic> {
-		const cat: Cat = await axios
-			.get('https://api.thecatapi.com/v1/images/search')
-			.then((res) => res.data[0]);
-
-		if (isNil(cat)) return;
-
-		return {
-			ephemeral: false,
-			embeds: [
-				new MessageEmbed()
-					.setColor('#7289DA')
-					.setImage(cat.url)
-					.setFooter({
-						text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
-					})
-			]
-		};
-	}
-
 	async messageRun(message: Message<boolean>, args: Args) {
-		return message.channel.send(await this.catCommandLogic());
+		const catEmbed = new MessageEmbed();
+		const cat: Cat[] = await axios
+			.get('https://api.thecatapi.com/v1/images/search')
+			.then((res) => res.data);
+
+		catEmbed.setImage(cat[0].url);
+
+		if (!isNil(cat[0].breeds[0]))
+			catEmbed.setFooter({
+				text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
+			});
+
+		return message.channel.send({ embeds: [catEmbed] });
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(await this.catCommandLogic());
+		const catEmbed = new MessageEmbed();
+		const cat: Cat[] = await axios
+			.get('https://api.thecatapi.com/v1/images/search')
+			.then((res) => res.data);
+
+		catEmbed.setImage(cat[0].url);
+
+		if (!isNil(cat[0].breeds[0]))
+			catEmbed.setFooter({
+				text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
+			});
+
+		return interaction.reply({ embeds: [catEmbed] });
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

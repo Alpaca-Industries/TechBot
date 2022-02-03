@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, User } from 'discord.js';
+import { Message, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
@@ -11,35 +11,38 @@ import type { CommandInteraction } from 'discord.js';
 	detailedDescription: 'daily'
 })
 export default class DailyCommand extends Command {
-	private async dailyCommandLogic(user: User): Promise<PepeBoy.CommandLogic> {
+	async messageRun(message: Message<boolean>, args: Args) {
+		const embed = new MessageEmbed();
 		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
 
-		fetchUser(user).then((userData) => {
-			userData.wallet += moneyEarned;
-			userData.save();
+		fetchUser(message.author).then((user) => {
+			user.wallet += moneyEarned;
+			user.save();
 		});
 
-		return {
-			ephemeral: false,
-			embeds: [
-				new MessageEmbed()
-					.setTitle('Daily Coins :D')
-					.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tomorrow.`)
-					.setColor('BLUE')
-			]
-		};
-	}
-	async messageRun(message: Message<boolean>, args: Args) {
-		const logicReply = await this.dailyCommandLogic(message.author);
+		embed
+			.setTitle('Daily Coins :D')
+			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+			.setColor('BLUE');
 
-		return message.reply({
-			content: logicReply.content,
-			embeds: logicReply.embeds
-		});
+		return message.channel.send({ embeds: [embed] });
 	}
 
 	async chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(await this.dailyCommandLogic(interaction.user));
+		const embed = new MessageEmbed();
+		const moneyEarned = Math.round(Math.random() * (3000 - 750) + 750);
+
+		fetchUser(interaction.user).then((user) => {
+			user.wallet += moneyEarned;
+			user.save();
+		});
+
+		embed
+			.setTitle('Daily Coins :D')
+			.setDescription(`Ayyy! You earned **$${moneyEarned.toLocaleString()}**, see ya tommorow.`)
+			.setColor('BLUE');
+
+		return interaction.reply({ embeds: [embed] });
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
