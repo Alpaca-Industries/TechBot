@@ -1,3 +1,5 @@
+import { User } from './entities/economy/user';
+
 declare global {
 	interface String {
 		toProperCase(): string;
@@ -32,11 +34,9 @@ String.prototype.toProperCase = function () {
 	});
 };
 
-const startBot = async () => {
+(async () => {
 	await client.login(config.token);
 	ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 	connection = await createConnection(config.typeORMConfig);
-};
-
-startBot();
+})();
