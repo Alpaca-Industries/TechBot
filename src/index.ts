@@ -11,9 +11,8 @@ declare global {
 }
 
 // TypeORM Imports
-import { Connection } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
 
 // Discord.js Imports
 import { ApplicationCommandRegistries, RegisterBehavior, SapphireClient } from '@sapphire/framework';
