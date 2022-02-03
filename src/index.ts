@@ -1,5 +1,3 @@
-import { User } from './entities/economy/user';
-
 declare global {
 	interface String {
 		toProperCase(): string;
