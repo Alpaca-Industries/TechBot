@@ -13,7 +13,7 @@ import { getPrefix } from '../helpers/getPrefix';
 })
 export default class helpCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const specifiedCommand = interaction.options.getString('specificCommand', false) ?? '';
+		const specifiedCommand = interaction.options.getString('specific_command', false) ?? '';
 		const prefix = await getPrefix(interaction.guild);
 		// List All Commands Registered In Sapphire
 		const commands = this.container.stores.get('commands');
@@ -71,17 +71,20 @@ export default class helpCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'specificCommand',
-					description: 'The name of the command you want to get help for',
-					type: 'STRING',
-					required: false
-				}
-			]
-		});
+		registry.registerChatInputCommand(
+			{
+				name: this.name,
+				description: this.description,
+				options: [
+					{
+						name: 'specific_command',
+						description: 'The name of the command you want to get help for',
+						type: 'STRING',
+						required: false
+					}
+				]
+			},
+			{ idHints: ['938983783741390959'] }
+		);
 	}
 }
