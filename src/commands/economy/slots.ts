@@ -24,11 +24,17 @@ export default class SlotsCommand extends Command {
 		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];
 
+		const randomNumber = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+
 		const firstRoll = items[Math.floor(items.length * Math.random())];
 		const secondRoll =
-			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
+			guild.slotsWinMultiplier < randomNumber
+				? items[Math.floor(items.length * Math.random())]
+				: firstRoll;
 		const thirdRoll =
-			guild.slotsWinMultiplier < 10 ? items[Math.floor(items.length * Math.random())] : firstRoll;
+			guild.slotsWinMultiplier < randomNumber
+				? items[Math.floor(items.length * Math.random())]
+				: firstRoll;
 
 		const play = new MessageEmbed()
 			.setTitle('Slot Machine')
