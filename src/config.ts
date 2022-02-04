@@ -18,6 +18,9 @@ const typeORMConfig: ConnectionOptions = {
 const sapphireConfig: ClientOptions = {
 	loadMessageCommandListeners: true,
 	intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_INTEGRATIONS'],
+	defaultCooldown: {
+		delay: 5000
+	},
 	fetchPrefix: async (message) => await getPrefix(message.guild)
 };
 

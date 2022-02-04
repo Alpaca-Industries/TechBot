@@ -1,15 +1,9 @@
 import { Precondition } from '@sapphire/framework';
-import type { Message } from 'discord.js';
 import { fetchUser } from '../helpers/dbHelper';
 
 export class isPremiumPrecondition extends Precondition {
-	public async run(message: Message) {
-		if (message.interaction.type === 'APPLICATION_COMMAND') {
-			return (await fetchUser(message.interaction.user)).premium
-				? this.ok()
-				: this.error({ message: 'You need to be a premium user to use this command.' });
-		}
-		return (await fetchUser(message.author)).premium
+	public async chatInputRun(interaction) {
+		return (await fetchUser(interaction.author)).premium
 			? this.ok()
 			: this.error({ message: 'You need to be a premium user to use this command.' });
 	}
