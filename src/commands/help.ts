@@ -45,7 +45,7 @@ export default class helpCommand extends Command {
 		for (const category of categories) {
 			const fields: { name: string; value: any }[] = [];
 
-			// Filter commands to categories and take intoacount sub categories
+			// Filter commands to categories and take into account sub categories
 			const filteredCommands = commands.filter(
 				(c) =>
 					String(c.fullCategory) === category ||
