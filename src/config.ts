@@ -12,7 +12,6 @@ const typeORMConfig: ConnectionOptions = {
 	password: 'economy',
 	database: 'economy',
 	synchronize: true,
-	logging: false,
 	entities: [path.join(__dirname + '/entities/**/*.{ts,js}'), path.join(__dirname + '/entities/*.{ts,js}')]
 };
 

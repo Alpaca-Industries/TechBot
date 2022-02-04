@@ -25,7 +25,7 @@ export class CommandDeniedListener extends Listener {
 				.setDescription(error.message)
 				.setColor('#ED4245');
 
-			message.channel.send({ embeds: [response] });
+			message.reply({ embeds: [response] });
 		}
 	}
 }

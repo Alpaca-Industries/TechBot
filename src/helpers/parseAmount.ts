@@ -1,6 +1,6 @@
 import { User } from '../entities/economy/user';
 
-export function parseAmount(amount: string | number, user: User, useWallet: boolean = true): number {
+export const parseAmount = (amount: string | number, user: User, useWallet: boolean = true): number => {
 	amount = String(amount).toLowerCase().replace(/\+/gi, '');
 
 	if (useWallet) {
@@ -19,4 +19,4 @@ export function parseAmount(amount: string | number, user: User, useWallet: bool
 	if (isNaN(parseInt(amount))) return parseInt(amount.replace(/[^0-9]/g, ''));
 	if (!isNaN(parseInt(amount))) return parseInt(amount);
 	return 0;
-}
+};
