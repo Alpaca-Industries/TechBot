@@ -1,9 +1,9 @@
-import type { Args, CommandOptions } from '@sapphire/framework';
+import type { CommandOptions } from '@sapphire/framework';
 
-import { Command } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
-import { Message, MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { getPrefix } from '../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
@@ -12,9 +12,9 @@ import { getPrefix } from '../helpers/getPrefix';
 	detailedDescription: 'help [command]'
 })
 export default class helpCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const specifiedCommand = await args.pick('string').catch(() => '');
-		const prefix = await getPrefix(message.guild);
+	async chatInputRun(interaction: CommandInteraction) {
+		const specifiedCommand = interaction.options.getString('specificCommand', false) ?? '';
+		const prefix = await getPrefix(interaction.guild);
 		// List All Commands Registered In Sapphire
 		const commands = this.container.stores.get('commands');
 
@@ -24,14 +24,14 @@ export default class helpCommand extends Command {
 					c.name === specifiedCommand.toLowerCase() ||
 					c.name.startsWith(specifiedCommand.toLowerCase())
 			);
-			if (!command) return message.reply('That command does not exist!');
+			if (!command) return interaction.reply('That command does not exist!');
 
 			const singleCommandResponse = new MessageEmbed()
 				.setTitle(`${command.detailedDescription}`)
 				.setDescription(`${command.description}`)
 				.setColor('BLUE');
 
-			return message.channel.send({ embeds: [singleCommandResponse] });
+			return interaction.reply({ embeds: [singleCommandResponse] });
 		}
 
 		const categories = commands.categories;
@@ -67,6 +67,21 @@ export default class helpCommand extends Command {
 			);
 		}
 
-		return paginatedMessage.run(message, message.author);
+		return paginatedMessage.run(interaction, interaction.user);
+	}
+
+	registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand({
+			name: this.name,
+			description: this.description,
+			options: [
+				{
+					name: 'specificCommand',
+					description: 'The name of the command you want to get help for',
+					type: 'STRING',
+					required: false
+				}
+			]
+		});
 	}
 }

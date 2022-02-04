@@ -1,7 +1,7 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 
-import { CommandInteraction, Message, User } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 import { Item } from '../../entities/economy/item';
 import { fetchInventory } from '../../helpers/dbHelper';
 
@@ -11,31 +11,24 @@ import { fetchInventory } from '../../helpers/dbHelper';
 	detailedDescription: ''
 })
 export class StatsCommand extends Command {
-	private async fishLogic(user: User) {
+	async chatInputRun(interaction: CommandInteraction) {
 		const doesUserHaveFishingPole = await fetchInventory(
-			user,
+			interaction.user,
 			await Item.findOne({ where: { name: 'fishing_pole' } })
 		);
 
-		if (doesUserHaveFishingPole.amount === 0) return 'You do not have a fishing pole!';
+		if (doesUserHaveFishingPole.amount === 0) return interaction.reply('You do not have a fishing pole!');
 		const fishing_success = !!Math.random();
 
 		if (fishing_success) {
 			const fish = await Item.findOne({ where: { name: 'fish' } });
-			fetchInventory(user, fish).then(async (inventory) => {
+			fetchInventory(interaction.user, fish).then(async (inventory) => {
 				const fish_amount = Math.round(Math.random() * (10 - 1) + 1);
 				inventory.amount += fish_amount;
 				await inventory.save();
 			});
-			return `You caught a ${fish.name}!`;
-		} else return 'You failed to catch anything!';
-	}
-	async messageRun(message: Message, args: Args) {
-		return message.reply(await this.fishLogic(message.author));
-	}
-
-	async chatInputRun(interaction: CommandInteraction) {
-		return interaction.reply(await this.fishLogic(interaction.user));
+			return interaction.reply(`You caught a ${fish.name}!`);
+		} else return interaction.reply('You failed to catch anything!');
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {

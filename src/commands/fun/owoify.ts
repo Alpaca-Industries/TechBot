@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 import { owoify } from '../../helpers/stringManipulation';
 
 @ApplyOptions<CommandOptions>({
@@ -9,12 +9,6 @@ import { owoify } from '../../helpers/stringManipulation';
 	detailedDescription: 'owo <string>'
 })
 export class OwOCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const textToOwoify = await args.rest('string').catch(() => 'Provide text to OwOfy.');
-
-		return message.channel.send(owoify(textToOwoify));
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const textToOwoify = interaction.options.getString('text_to_owoify');
 

@@ -1,5 +1,5 @@
-import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, Message, MessageEmbed } from 'discord.js';
+import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -13,22 +13,6 @@ import axios from 'axios';
 	detailedDescription: 'cat'
 })
 export default class CatCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const catEmbed = new MessageEmbed();
-		const cat: Cat[] = await axios
-			.get('https://api.thecatapi.com/v1/images/search')
-			.then((res) => res.data);
-
-		catEmbed.setImage(cat[0].url);
-
-		if (!isNil(cat[0].breeds[0]))
-			catEmbed.setFooter({
-				text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
-			});
-
-		return message.channel.send({ embeds: [catEmbed] });
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const catEmbed = new MessageEmbed();
 		const cat: Cat[] = await axios

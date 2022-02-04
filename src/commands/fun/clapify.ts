@@ -1,5 +1,5 @@
-import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -13,25 +13,6 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'clapify <text>'
 })
 export default class clapifyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const text = await args.rest('string');
-		const user = await fetchUser(message.author);
-		const emoji = await replacer(
-			user.preferredEmojiColor,
-			{
-				default: '👏',
-				pale: '👏🏻',
-				cream_white: '👏🏼',
-				brown: '👏🏽',
-				dark_brown: '👏🏾',
-				black: '👏🏿'
-			},
-			'g'
-		);
-
-		return message.reply(text.replace(/\s+/g, ` ${emoji} `));
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const text = interaction.options.getString('text');
 		const user = await fetchUser(interaction.user);

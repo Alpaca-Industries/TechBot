@@ -1,5 +1,5 @@
-import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
@@ -12,15 +12,6 @@ import { fetchGuild } from '../../helpers/dbHelper';
 	detailedDescription: 'prefix [new prefix]'
 })
 export default class prefixCommand extends Command {
-	async messageRun(message: Message, args: Args) {
-		const prefix = await args.pick('string').catch(() => '-');
-		fetchGuild(message.guild).then((guild) => {
-			guild.prefix = prefix;
-			guild.save();
-		});
-		return message.reply(`Prefix changed to ${prefix}`);
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const prefix = interaction.options.getString('prefix');
 		await fetchGuild(interaction.guild).then((guild) => {

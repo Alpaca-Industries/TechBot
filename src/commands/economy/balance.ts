@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 import { MessageEmbed } from 'discord.js';
 import { fetchUser } from '../../helpers/dbHelper';
 
@@ -11,22 +11,6 @@ import { fetchUser } from '../../helpers/dbHelper';
 	detailedDescription: 'balance [user]'
 })
 export default class BalanceCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const balanceEmbed = new MessageEmbed();
-		const user = await args.pick('user').catch(() => message.author);
-
-		const balance = await fetchUser(user);
-
-		balanceEmbed
-			.setTitle(`${user.username}, this is your balance!`)
-			.addField('Wallet:', balance.wallet.toLocaleString())
-			.addField('Bank:', balance.bank.toLocaleString())
-			.addField('Total:', (balance.wallet + balance.bank).toLocaleString())
-			.setColor('#4EAFF6');
-
-		return message.reply({ embeds: [balanceEmbed] });
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const balanceEmbed = new MessageEmbed();
 		const user = interaction.options.getUser('user', false) ?? interaction.user;

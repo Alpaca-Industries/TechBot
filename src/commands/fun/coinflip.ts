@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import { ApplicationCommandRegistry, Args, Command, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'coinflip',
@@ -9,11 +9,6 @@ import type { CommandInteraction, Message } from 'discord.js';
 	detailedDescription: 'coinflip'
 })
 export class CoinFlipCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		if (Math.random() > 0.5) return message.reply('Heads');
-		else return message.reply('Tails');
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		if (Math.random() > 0.5) return interaction.reply('Heads');
 		else return interaction.reply('Tails');

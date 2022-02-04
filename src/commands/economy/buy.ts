@@ -1,11 +1,11 @@
-import type { ApplicationCommandRegistry, Args, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction, Message } from 'discord.js';
+import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchUser, fetchItemByName } from '../../helpers/dbHelper';
-import { generateEmbed, generateErrorEmbed } from '../../helpers/embeds';
 import { getPrefix } from '../../helpers/getPrefix';
+import { generateErrorEmbed } from '../../helpers/embeds';
 
 @ApplyOptions<CommandOptions>({
 	name: 'buy',
@@ -13,41 +13,6 @@ import { getPrefix } from '../../helpers/getPrefix';
 	detailedDescription: 'buy <item>'
 })
 export default class BuyCommand extends Command {
-	async messageRun(message: Message<boolean>, args: Args) {
-		const itemToBuy = await args.rest('string').catch(() => '');
-
-		if (itemToBuy === '')
-			return message.channel.send({
-				embeds: [generateEmbed(this.description, `Usage: ${this.detailedDescription}`)]
-			});
-
-		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
-		if (item === undefined)
-			return message.reply({ embeds: [generateErrorEmbed('Invalid Item Specified!')] });
-		const user = await fetchUser(message.author);
-
-		if (user.wallet < item.price)
-			return message.reply({
-				embeds: [
-					generateErrorEmbed(
-						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
-							message.guild
-						)}${this.detailedDescription}\``
-					)
-				]
-			});
-
-		user.wallet -= item.price;
-		await user.save();
-
-		fetchInventory(message.author, item).then((inventory) => {
-			inventory.amount++;
-			inventory.save();
-		});
-
-		return message.reply(`You bought **${item.name}** for **$${item.price.toLocaleString()}**`);
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const itemToBuy = interaction.options.getString('item');
 
