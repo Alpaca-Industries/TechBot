@@ -1,6 +1,6 @@
 import { Precondition } from '@sapphire/framework';
 
-const OWNERS = ['926690397269413938', '296042121297788931', '696368083517964288'];
+const;
 
 export class ownerOnlyPrecondition extends Precondition {
 	public async chatInputRun(interation) {
