@@ -7,9 +7,5 @@ export const isSafeInteger = (number: string | number): boolean => {
 	if (number < 0) {
 		return false;
 	}
-	if (number > 1000000000000) {
-		return false;
-	}
-
-	return true;
+	return number <= 1000000000000;
 };
