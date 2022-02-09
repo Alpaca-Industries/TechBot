@@ -5,7 +5,7 @@ declare global {
 
 	namespace NodeJS {
 		interface ProcessEnv {
-			DEV: boolean;
+			readonly DEV: boolean;
 		}
 	}
 }
