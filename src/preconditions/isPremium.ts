@@ -11,6 +11,6 @@ export class isPremiumPrecondition extends Precondition {
 
 declare module '@sapphire/framework' {
 	interface Preconditions {
-		premiunOnly: never;
+		isPremium: never;
 	}
 }
