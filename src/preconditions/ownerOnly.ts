@@ -1,10 +1,9 @@
 import { Precondition } from '@sapphire/framework';
-
-const;
+import { config } from '../config';
 
 export class ownerOnlyPrecondition extends Precondition {
 	public async chatInputRun(interation) {
-		return OWNERS.includes(interation.user.id)
+		return config.OWNERS.includes(interation.user.id)
 			? this.ok()
 			: this.error({ message: 'This command can only be used by the owner.' });
 	}
