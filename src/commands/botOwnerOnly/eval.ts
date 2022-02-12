@@ -8,6 +8,7 @@ import { Type } from '@sapphire/type';
 import { codeBlock, isThenable } from '@sapphire/utilities';
 import { send } from '@sapphire/plugin-editable-commands';
 import { VM } from 'vm2';
+import { config } from '../../config';
 
 @ApplyOptions<CommandOptions>({
 	name: 'eval',
@@ -59,7 +60,14 @@ export default class evalCommand extends Command {
 		try {
 			// eslint-disable-next-line no-eval
 			try {
-				result = new VM().run(code);
+				if (config.OWNERS.includes(message.author.id)) {
+					result = inspect(eval(code), { depth: flags.depth, showHidden: flags.showHidden });
+				} else {
+					result = inspect(new VM({ timeout: 1000, sandbox: {} }).run(code), {
+						depth: flags.depth,
+						showHidden: flags.showHidden
+					});
+				}
 			} catch (error) {}
 		} catch (error) {
 			if (error && error instanceof Error && error.stack) {

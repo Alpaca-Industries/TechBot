@@ -4,6 +4,7 @@ import type { CommandInteraction } from 'discord.js';
 import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchGuild } from '../../helpers/dbHelper';
+import { prefixCache } from '../../index';
 
 @ApplyOptions<CommandOptions>({
 	name: 'prefix',
@@ -14,6 +15,7 @@ import { fetchGuild } from '../../helpers/dbHelper';
 export default class prefixCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const prefix = interaction.options.getString('prefix');
+		prefixCache.set(interaction.guild.id, prefix);
 		await fetchGuild(interaction.guild).then((guild) => {
 			guild.prefix = prefix;
 			guild.save();

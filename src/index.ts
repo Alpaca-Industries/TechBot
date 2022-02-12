@@ -5,7 +5,7 @@ declare global {
 
 	namespace NodeJS {
 		interface ProcessEnv {
-			DEV: boolean;
+			readonly DEV: boolean;
 		}
 	}
 }
@@ -23,6 +23,8 @@ import { config } from './config';
 const client = new SapphireClient(config.sapphireConfig);
 
 export let connection: Connection;
+export const prefixCache = new Map<string, string>();
+
 if (Boolean(process.env.DEV)) console.log('Running in DEVELOPMENT mode.');
 
 String.prototype.toProperCase = function () {
@@ -37,3 +39,6 @@ String.prototype.toProperCase = function () {
 
 	connection = await createConnection(config.typeORMConfig);
 })();
+
+// Clear prefixCache every 10 minutes
+setInterval(() => prefixCache.clear(), 600_000);
