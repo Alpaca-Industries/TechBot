@@ -11,7 +11,7 @@ import { clean } from '../../helpers/clean';
 export class ChooseCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		let arg = interaction.options.getString('choices', true);
-		const splitArg = arg.split(', ');
+		const splitArg = arg.split(/,\s?/g);
 		return interaction.reply(clean(splitArg[Math.floor(Math.random() * splitArg.length)]));
 	}
 
@@ -23,7 +23,7 @@ export class ChooseCommand extends Command {
 				{
 					name: 'choices',
 					type: 'STRING',
-					description: 'The choices seperated by ", "',
+					description: 'The choices separated by ", "',
 					required: true
 				}
 			]

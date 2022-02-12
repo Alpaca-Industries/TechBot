@@ -19,12 +19,12 @@ export default class CatCommand extends Command {
 			.get('https://api.thecatapi.com/v1/images/search')
 			.then((res) => res.data);
 
-		catEmbed.setImage(cat[0].url);
+		catEmbed.setImage(cat[0].url).setTitle('Cat').setURL(cat[0].url).setColor('BLUE');
 
 		if (!isNil(cat[0].breeds[0]))
-			catEmbed.setFooter({
-				text: `Breed: ${cat[0].breeds[0].name} | life-span: ${cat[0].breeds[0].life_span} | Temperament: ${cat[0].breeds[0].temperament}`
-			});
+			catEmbed.setDescription(
+				`Breed: ${cat[0].breeds[0].name}\nLife Span: ${cat[0].breeds[0].life_span}\nTemperament: ${cat[0].breeds[0].temperament}`
+			);
 
 		return interaction.reply({ embeds: [catEmbed] });
 	}

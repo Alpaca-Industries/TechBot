@@ -12,8 +12,8 @@ export class HowGayCommand extends Command {
 	chatInputRun(interaction: CommandInteraction) {
 		const user = interaction.options.getUser('user', false) || interaction.user;
 		if (user.id === interaction.user.id)
-			return interaction.reply(`You are **${Math.floor(Math.random() * 110)}%** gay`);
-		return interaction.reply(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay`);
+			return interaction.reply(`You are **${Math.floor(Math.random() * 110)}%** gay! 🏳️‍🌈`);
+		return interaction.reply(`${user.tag} is **${Math.floor(Math.random() * 110)}%** gay! 🏳️‍🌈`);
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
@@ -24,7 +24,7 @@ export class HowGayCommand extends Command {
 				{
 					name: 'user',
 					type: 'USER',
-					description: 'The text to owoify.',
+					description: 'The user to get the gay percentage for.',
 					required: false
 				}
 			]
