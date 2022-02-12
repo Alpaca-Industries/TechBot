@@ -44,21 +44,38 @@ export default class rpsCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'choice',
-						type: 'STRING',
-						description: 'This should be either "Rock", "Paper", or "Scissors".',
-						required: true,
-						autocomplete: true
-					}
-				]
-			},
-			{ idHints: ['933521388562702427'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription('This should be either "Rock", "Paper", or "Scissors".')
+				.addStringOption((option) =>
+					option
+						.setName('choice')
+						.setDescription('Your RPS bet.')
+						.setRequired(true)
+						.addChoice('Rock', 'rock')
+						.addChoice('Paper', 'paper')
+						.addChoice('Scissors', 'scissors')
+				)
 		);
 	}
+
+	// registerApplicationCommands(registry: ApplicationCommandRegistry) {
+	// 	registry.registerChatInputCommand(
+	// 		{
+	// 			name: this.name,
+	// 			description: this.description,
+	// 			options: [
+	// 				{
+	// 					choices: { Rock: 'rock', Paper: 'paper', Scissors: 'scissors' },
+	// 					name: 'choice',
+	// 					type: 'STRING',
+	// 					description: 'This should be either "Rock", "Paper", or "Scissors".',
+	// 					required: true
+	// 				}
+	// 			]
+	// 		},
+	// 		{ idHints: ['933521388562702427'] }
+	// 	);
+	// }
 }
