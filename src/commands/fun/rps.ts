@@ -53,9 +53,11 @@ export default class rpsCommand extends Command {
 						.setName('choice')
 						.setDescription('Your RPS bet.')
 						.setRequired(true)
-						.addChoice('Rock', 'rock')
-						.addChoice('Paper', 'paper')
-						.addChoice('Scissors', 'scissors')
+						.setChoices([
+							['Rock', 'rock'],
+							['Paper', 'paper'],
+							['Scissors', 'scissors']
+						])
 				)
 		);
 	}
