@@ -17,7 +17,7 @@ export default class SettingCommand extends Command {
 		switch (option.toLowerCase()) {
 			case 'emojicolor':
 			case 'coloremoji':
-				const toggle = interaction.options.getString('toogle', true);
+				const toggle = interaction.options.getString('toggle', true);
 				let colorName: string;
 				switch (toggle) {
 					case 'default':
@@ -74,7 +74,7 @@ export default class SettingCommand extends Command {
 				.setName(this.name)
 				.setDescription(this.description)
 				.addStringOption((option) => option.setName('option').setRequired(true))
-				.addStringOption((option) => option.setName('toogle').setRequired(false))
+				.addStringOption((option) => option.setName('toggle').setRequired(false))
 		);
 	}
 }

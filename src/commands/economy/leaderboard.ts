@@ -141,20 +141,5 @@ export default class LeaderboardCommand extends Command {
 						])
 				)
 		);
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'flags',
-						type: 'STRING',
-						description: 'Toggle and Disable things',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['933555761001418852'] }
-		);
 	}
 }
