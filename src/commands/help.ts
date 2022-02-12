@@ -71,20 +71,13 @@ export default class helpCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'specific_command',
-						description: 'The name of the command you want to get help for',
-						type: 'STRING',
-						required: false
-					}
-				]
-			},
-			{ idHints: ['938983783741390959'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('specific_command').setDescription('The command to get help for.')
+				)
 		);
 	}
 }

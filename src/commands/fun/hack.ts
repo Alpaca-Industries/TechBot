@@ -119,20 +119,13 @@ export class ReverseCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'user',
-						type: 'USER',
-						description: 'User to hack.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['939307694303633409'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addUserOption((option) =>
+					option.setName('user').setDescription('The user to hack.').setRequired(true)
+				)
 		);
 	}
 }

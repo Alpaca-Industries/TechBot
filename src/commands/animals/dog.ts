@@ -30,9 +30,8 @@ export default class DogCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder.setName(this.name).setDescription(this.description)
+		);
 	}
 }

@@ -51,20 +51,13 @@ export default class BetCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'amount',
-						type: 'STRING',
-						description: 'The amount to bet.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['930278866277253170'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('amount').setDescription('The amount of money to bet.').setRequired(true)
+				)
 		);
 	}
 }

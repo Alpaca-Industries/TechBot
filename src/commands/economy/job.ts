@@ -90,45 +90,28 @@ export default class jobCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'option',
-					type: 'STRING',
-					description: 'The subset command to run.',
-					required: true,
-					choices: [
-						{
-							name: 'List',
-							value: 'list'
-						},
-						{
-							name: 'Select',
-							value: 'select'
-						},
-						{
-							name: 'XP',
-							value: 'xp'
-						},
-						{
-							name: 'Current',
-							value: 'current'
-						},
-						{
-							name: 'Help',
-							value: 'help'
-						}
-					]
-				},
-				{
-					name: 'value',
-					type: 'STRING',
-					description: 'A value to pass in to the command. Only use if needed.',
-					required: false
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option
+						.setName('option')
+						.setChoices([
+							['list', 'List'],
+							['select', 'Select'],
+							['current', 'Current'],
+							['xp', 'XP'],
+							['help', 'Help']
+						])
+						.setRequired(true)
+				)
+				.addStringOption((option) =>
+					option
+						.setName('value')
+						.setDescription('A value to pass in to the command. Only use if needed.')
+						.setRequired(false)
+				)
+		);
 	}
 }

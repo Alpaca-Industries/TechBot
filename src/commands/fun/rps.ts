@@ -59,23 +59,4 @@ export default class rpsCommand extends Command {
 				)
 		);
 	}
-
-	// registerApplicationCommands(registry: ApplicationCommandRegistry) {
-	// 	registry.registerChatInputCommand(
-	// 		{
-	// 			name: this.name,
-	// 			description: this.description,
-	// 			options: [
-	// 				{
-	// 					choices: { Rock: 'rock', Paper: 'paper', Scissors: 'scissors' },
-	// 					name: 'choice',
-	// 					type: 'STRING',
-	// 					description: 'This should be either "Rock", "Paper", or "Scissors".',
-	// 					required: true
-	// 				}
-	// 			]
-	// 		},
-	// 		{ idHints: ['933521388562702427'] }
-	// 	);
-	// }
 }

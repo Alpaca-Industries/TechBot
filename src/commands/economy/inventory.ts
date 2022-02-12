@@ -44,20 +44,13 @@ export default class InventoryCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'user',
-						type: 'USER',
-						description: 'The user to check the inventory of.',
-						required: false
-					}
-				]
-			},
-			{ idHints: ['930278952549900339'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addUserOption((option) =>
+					option.setName('user').setDescription('The user to check the inventory of.')
+				)
 		);
 	}
 }

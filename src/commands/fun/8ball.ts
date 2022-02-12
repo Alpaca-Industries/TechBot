@@ -26,17 +26,13 @@ export class ChooseCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'question',
-					type: 'STRING',
-					description: 'The question to ask.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('question').setDescription('The question to ask').setRequired(true)
+				)
+		);
 	}
 }

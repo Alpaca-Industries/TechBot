@@ -16,7 +16,7 @@ export default class clapifyCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const text = interaction.options.getString('text');
 		const user = await fetchUser(interaction.user);
-		const emoji = await replacer(
+		const emoji = replacer(
 			user.preferredEmojiColor,
 			{
 				default: '👏',
@@ -33,17 +33,13 @@ export default class clapifyCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'text',
-					type: 'STRING',
-					description: 'The text to clapify.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('text').setDescription('The text to clapify.').setRequired(true)
+				)
+		);
 	}
 }

@@ -53,17 +53,13 @@ export default class ShopCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'item',
-					type: 'STRING',
-					description: 'the item to lookup.',
-					required: false
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('item').setDescription('The item to get information on.')
+				)
+		);
 	}
 }

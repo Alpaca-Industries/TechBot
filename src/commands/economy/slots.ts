@@ -94,20 +94,16 @@ export default class SlotsCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'amount',
-						type: 'STRING',
-						description: 'The amount to bet.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['930278953950806026'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option
+						.setName('amount')
+						.setDescription('The amount of money you want to gamble')
+						.setRequired(true)
+				)
 		);
 	}
 }

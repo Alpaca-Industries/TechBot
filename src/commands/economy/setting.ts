@@ -69,26 +69,12 @@ export default class SettingCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'option',
-						type: 'STRING',
-						description: 'The thing to do.',
-						required: true
-					},
-					{
-						name: 'toggle',
-						type: 'STRING',
-						description: 'The new thing.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['933555761538281482'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) => option.setName('option').setRequired(true))
+				.addStringOption((option) => option.setName('toogle').setRequired(false))
 		);
 	}
 }

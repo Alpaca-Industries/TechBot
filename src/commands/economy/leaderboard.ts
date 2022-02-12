@@ -125,6 +125,22 @@ export default class LeaderboardCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option
+						.setName('flags')
+						.setDescription('Flags to use')
+						.setChoices([
+							['Only show guilds', 'guildOnly'],
+							['Only show wallets', 'walletOnly'],
+							['Only show banks', 'bankOnly'],
+							['Show overall money', 'overallMoney']
+						])
+				)
+		);
 		registry.registerChatInputCommand(
 			{
 				name: this.name,

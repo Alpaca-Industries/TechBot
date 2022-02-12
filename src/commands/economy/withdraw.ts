@@ -73,17 +73,16 @@ export default class withdrawCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'amount',
-					type: 'STRING',
-					description: 'The amount of coins to withdraw.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option
+						.setName('amount')
+						.setRequired(true)
+						.setDescription('The amount of money to withdraw')
+				)
+		);
 	}
 }

@@ -106,25 +106,18 @@ export default class robCommand extends Command {
 					true
 				);
 
-			interaction.reply({ embeds: [successResponse] });
+			return interaction.reply({ embeds: [successResponse] });
 		}
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'user',
-						type: 'USER',
-						description: 'The user to rob.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['931782008408002560'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addUserOption((option) =>
+					option.setName('user').setRequired(true).setDescription('The user to rob.')
+				)
 		);
 	}
 }

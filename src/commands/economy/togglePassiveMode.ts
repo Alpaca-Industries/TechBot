@@ -25,20 +25,16 @@ export default class togglePassiveModeCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'new_mode',
-						type: 'BOOLEAN',
-						description: 'The new value for passive mode.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['931788800848433212'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addBooleanOption((option) =>
+					option
+						.setName('new_mode')
+						.setDescription('The new value of passive mode')
+						.setRequired(true)
+				)
 		);
 	}
 }

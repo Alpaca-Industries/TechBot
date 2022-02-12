@@ -17,17 +17,16 @@ export class HowGayCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'user',
-					type: 'USER',
-					description: 'The user to get the gay percentage for.',
-					required: false
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((options) =>
+					options
+						.setName('user')
+						.setDescription('The user to get the gay percentage for.')
+						.setRequired(false)
+				)
+		);
 	}
 }

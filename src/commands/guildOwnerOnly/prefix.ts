@@ -24,17 +24,13 @@ export default class prefixCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'prefix',
-					type: 'STRING',
-					description: 'The new prefix.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((options) =>
+					options.setName('prefix').setRequired(true).setDescription('The new prefix.')
+				)
+		);
 	}
 }

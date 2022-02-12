@@ -67,32 +67,22 @@ export default class giveItemCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description,
-				options: [
-					{
-						name: 'user',
-						type: 'USER',
-						description: 'the user to transfer stuff to.',
-						required: true
-					},
-					{
-						name: 'amount',
-						type: 'STRING',
-						description: 'the amount of money to transfer.',
-						required: true
-					},
-					{
-						name: 'item',
-						type: 'STRING',
-						description: 'the item to transfer.',
-						required: true
-					}
-				]
-			},
-			{ idHints: ['930278867833344050'] }
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addUserOption((option) =>
+					option.setName('user').setDescription('The user to give the item to.').setRequired(true)
+				)
+				.addStringOption((option) =>
+					option
+						.setName('amount')
+						.setDescription('The amount of money to transfer.')
+						.setRequired(true)
+				)
+				.addStringOption((option) =>
+					option.setName('item').setDescription('The item to transfer.').setRequired(true)
+				)
 		);
 	}
 }

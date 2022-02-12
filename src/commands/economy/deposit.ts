@@ -88,17 +88,16 @@ export default class depositCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'amount',
-					type: 'STRING',
-					description: 'The amount of money to deposit.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option
+						.setName('amount')
+						.setDescription('The amount of money to deposit')
+						.setRequired(true)
+				)
+		);
 	}
 }

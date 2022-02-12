@@ -32,12 +32,8 @@ export class StatsCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand(
-			{
-				name: this.name,
-				description: this.description
-			},
-			{ idHints: ['936045296968949800'] }
+		registry.registerChatInputCommand((builder) =>
+			builder.setName(this.name).setDescription(this.description)
 		);
 	}
 }

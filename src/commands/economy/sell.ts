@@ -24,10 +24,10 @@ export class SellCommand extends Command {
 					embeds: [generateErrorEmbed('You do not have that much of that item!')]
 				});
 			inventory.amount -= amount;
-			inventory.save();
+			await inventory.save();
 
 			user.wallet += Math.trunc(userItem.price / 2);
-			user.save();
+			await user.save();
 
 			return interaction.reply(
 				`Sold **${amount}** of **${item}** for **$${Math.trunc(
@@ -38,23 +38,16 @@ export class SellCommand extends Command {
 	}
 
 	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand({
-			name: this.name,
-			description: this.description,
-			options: [
-				{
-					name: 'item',
-					type: 'STRING',
-					description: 'The item to sell',
-					required: true
-				},
-				{
-					name: 'amount',
-					type: 'STRING',
-					description: 'How many of that item to sell.',
-					required: true
-				}
-			]
-		});
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addStringOption((option) =>
+					option.setName('item').setRequired(true).setDescription('The item to sell.')
+				)
+				.addStringOption((option) =>
+					option.setName('amount').setRequired(true).setDescription('The amount to sell.')
+				)
+		);
 	}
 }
