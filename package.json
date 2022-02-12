@@ -15,7 +15,7 @@
 		"dev": "tsc --build && DEV=true npm start"
 	},
 	"dependencies": {
-		"@sapphire/decorators": "^4.2.0",
+		"@sapphire/decorators": "^4.2.3",
 		"@sapphire/discord.js-utilities": "^4.7.0",
 		"@sapphire/framework": "^3.0.0-next.87b9b5b.0",
 		"@sapphire/plugin-editable-commands": "^1.1.3",
