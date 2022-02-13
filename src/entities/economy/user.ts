@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
-import { Advertisement } from './ad';
+import { Advertisement } from './advertisement';
 import { Inventory } from './inventory';
 
 @Entity()
