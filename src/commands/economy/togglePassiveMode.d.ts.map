@@ -1,1 +1,0 @@
-{"version":3,"file":"togglePassiveMode.d.ts","sourceRoot":"","sources":["togglePassiveMode.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,0BAA0B,EAAE,OAAO,EAAkB,MAAM,qBAAqB,CAAC;AAC1F,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,YAAY,CAAC;AASrD,MAAM,CAAC,OAAO,OAAO,wBAAyB,SAAQ,OAAO;IACtD,YAAY,CAAC,WAAW,EAAE,kBAAkB;IAalD,2BAA2B,CAAC,QAAQ,EAAE,0BAA0B;CAahE"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"withdraw.d.ts","sourceRoot":"","sources":["withdraw.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,0BAA0B,EAAE,OAAO,EAAkB,MAAM,qBAAqB,CAAC;AAC1F,OAAO,EAAE,kBAAkB,EAA+B,MAAM,YAAY,CAAC;AAa7E,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,OAAO;IAC7C,YAAY,CAAC,WAAW,EAAE,kBAAkB;IAuDlD,2BAA2B,CAAC,QAAQ,EAAE,0BAA0B;CAahE"}

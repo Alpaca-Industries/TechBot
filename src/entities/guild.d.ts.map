@@ -1,1 +1,0 @@
-{"version":3,"file":"guild.d.ts","sourceRoot":"","sources":["guild.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAiC,MAAM,SAAS,CAAC;AAEpE,qBACa,KAAM,SAAQ,UAAU;IAEpC,EAAE,EAAG,MAAM,CAAC;IAGZ,MAAM,EAAE,MAAM,GAAG,SAAS,CAAC;IAK3B,kBAAkB,EAAG,MAAM,CAAC;IAK5B,cAAc,EAAG,MAAM,CAAC;CACxB"}

@@ -5,7 +5,7 @@ declare global {
 
 	namespace NodeJS {
 		interface ProcessEnv {
-			readonly DEV: boolean;
+			readonly DEV: string | undefined;
 		}
 	}
 }
@@ -25,7 +25,7 @@ const client = new SapphireClient(config.sapphireConfig);
 export let connection: Connection;
 export const prefixCache = new Map<string, { creationDate: Date; prefix: string }>();
 
-if (Boolean(process.env.DEV)) console.log('Running in DEVELOPMENT mode.');
+if (process.env.DEV) console.log('Running in DEVELOPMENT mode.');
 
 String.prototype.toProperCase = function () {
 	return this.replaceAll('_', ' ').replace(/\w\S*/g, function (txt) {
