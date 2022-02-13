@@ -23,7 +23,7 @@ import { config } from './config';
 const client = new SapphireClient(config.sapphireConfig);
 
 export let connection: Connection;
-export const prefixCache = new Map<string, string>();
+export const prefixCache = new Map<string, { creationDate: Date; prefix: string }>();
 
 if (Boolean(process.env.DEV)) console.log('Running in DEVELOPMENT mode.');
 
@@ -40,5 +40,11 @@ String.prototype.toProperCase = function () {
 	connection = await createConnection(config.typeORMConfig);
 })();
 
-// Clear prefixCache every 10 minutes
-setInterval(() => prefixCache.clear(), 600_000);
+// Every 10 minutes, delete all prefixes that have been unused for more than 30 minutes.
+setInterval(() => {
+	prefixCache.forEach((value, key) => {
+		if (value.creationDate.getTime() + 1800000 < Date.now()) {
+			prefixCache.delete(key);
+		}
+	});
+}, 600000);
