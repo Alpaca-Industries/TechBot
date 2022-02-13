@@ -1,7 +1,7 @@
 import { generateEmbed } from './../../helpers/embeds';
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction } from 'discord.js';
 import { Command } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { parseAmount } from '../../helpers/parseAmount';

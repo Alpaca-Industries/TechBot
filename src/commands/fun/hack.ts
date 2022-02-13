@@ -106,6 +106,17 @@ export class ReverseCommand extends Command {
 		}, 35500);
 	}
 
+	registerApplicationCommands(registry: ApplicationCommandRegistry) {
+		registry.registerChatInputCommand((builder) =>
+			builder
+				.setName(this.name)
+				.setDescription(this.description)
+				.addUserOption((option) =>
+					option.setName('user').setDescription('The user to hack.').setRequired(true)
+				)
+		);
+	}
+
 	private ip() {
 		return (
 			Math.floor(Math.random() * 255) +
@@ -115,17 +126,6 @@ export class ReverseCommand extends Command {
 			Math.floor(Math.random() * 255) +
 			'.' +
 			Math.floor(Math.random() * 255)
-		);
-	}
-
-	registerApplicationCommands(registry: ApplicationCommandRegistry) {
-		registry.registerChatInputCommand((builder) =>
-			builder
-				.setName(this.name)
-				.setDescription(this.description)
-				.addUserOption((option) =>
-					option.setName('user').setDescription('The user to hack.').setRequired(true)
-				)
 		);
 	}
 }

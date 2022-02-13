@@ -1,9 +1,8 @@
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import { Command } from '@sapphire/framework';
 import type { Item } from '../../entities/economy/item';
 import type { CommandInteraction } from 'discord.js';
-
 import { MessageEmbed } from 'discord.js';
-import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { User } from '../../entities/economy/user';
 

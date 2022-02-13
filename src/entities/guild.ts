@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Guild extends BaseEntity {

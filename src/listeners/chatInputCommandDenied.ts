@@ -4,6 +4,22 @@ import { Listener } from '@sapphire/framework';
 import { generateErrorEmbed } from '../helpers/embeds';
 
 export class CommandDeniedListener extends Listener {
+	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
+		if (error.identifier === 'preconditionCooldown') {
+			const { remaining } = error.context as { remaining: number };
+
+			const cooldownEmbed = generateErrorEmbed(
+				`You can only use this command every ${this.humanizeTime(remaining)}`,
+				error.identifier
+			);
+
+			return interaction.reply({ embeds: [cooldownEmbed] });
+		}
+
+		const errorEmbed = generateErrorEmbed(error.message, error.identifier);
+		return interaction.reply({ embeds: [errorEmbed] });
+	}
+
 	private humanizeTime(duration: number): string {
 		const portions: string[] = [];
 
@@ -27,20 +43,5 @@ export class CommandDeniedListener extends Listener {
 		}
 
 		return portions.join(' ');
-	}
-	public run(error: UserError, { interaction }: ChatInputCommandDeniedPayload) {
-		if (error.identifier === 'preconditionCooldown') {
-			const { remaining } = error.context as { remaining: number };
-
-			const cooldownEmbed = generateErrorEmbed(
-				`You can only use this command every ${this.humanizeTime(remaining)}`,
-				error.identifier
-			);
-
-			return interaction.reply({ embeds: [cooldownEmbed] });
-		}
-
-		const errorEmbed = generateErrorEmbed(error.message, error.identifier);
-		return interaction.reply({ embeds: [errorEmbed] });
 	}
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Advertisement } from './ad';
 import { Inventory } from './inventory';
 

@@ -1,6 +1,6 @@
-import { MessageEmbed, MessageActionRow, MessageButton, CommandInteraction } from 'discord.js';
+import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
-import { CommandOptions, Command, ApplicationCommandRegistry } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { fetchUser } from '../../helpers/dbHelper';
 
 @ApplyOptions<CommandOptions>({

@@ -1,7 +1,6 @@
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
-
 import { Command } from '@sapphire/framework';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { User } from '../../entities/economy/user';
 
@@ -12,45 +11,6 @@ import { User } from '../../entities/economy/user';
 	flags: ['guildOnly', 'ownerOnly', 'bankOnly', 'overallMoney']
 })
 export default class LeaderboardCommand extends Command {
-	private numToEnglish(number: number): string {
-		const num = [
-			'zero',
-			'one',
-			'two',
-			'three',
-			'four',
-			'five',
-			'six',
-			'seven',
-			'eight',
-			'nine',
-			'ten',
-			'eleven',
-			'twelve',
-			'thirteen',
-			'fourteen',
-			'fifteen',
-			'sixteen',
-			'seventeen',
-			'eighteen',
-			'nineteen'
-		];
-		if (number < 20) return num[number];
-		const tens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-
-		const digit = number % 10;
-		// 												Added strict if check here instead of ambiguous
-		if (number < 100) return `${tens[~~(number / 10) - 2]}${digit !== 0 ? '-' + num[digit] : ''}`;
-		// Changed return types to string so its actually clear whats returned
-		if (number < 1000)
-			return `${num[~~(number / 100)]} hundred ${
-				number % 100 == 0 ? '' : ' ' + this.numToEnglish(number % 100)
-			}`;
-		return `${this.numToEnglish(~~(number / 1000))} thousand ${
-			number % 1000 != 0 ? ' ' + this.numToEnglish(number % 1000) : ''
-		}`;
-	}
-
 	async chatInputRun(interaction: CommandInteraction) {
 		const flags = interaction.options.getString('flags', true).split('--');
 		const guildOnly = flags.includes('guildOnly');
@@ -141,5 +101,44 @@ export default class LeaderboardCommand extends Command {
 						])
 				)
 		);
+	}
+
+	private numToEnglish(number: number): string {
+		const num = [
+			'zero',
+			'one',
+			'two',
+			'three',
+			'four',
+			'five',
+			'six',
+			'seven',
+			'eight',
+			'nine',
+			'ten',
+			'eleven',
+			'twelve',
+			'thirteen',
+			'fourteen',
+			'fifteen',
+			'sixteen',
+			'seventeen',
+			'eighteen',
+			'nineteen'
+		];
+		if (number < 20) return num[number];
+		const tens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+		const digit = number % 10;
+		// 												Added strict if check here instead of ambiguous
+		if (number < 100) return `${tens[~~(number / 10) - 2]}${digit !== 0 ? '-' + num[digit] : ''}`;
+		// Changed return types to string so its actually clear whats returned
+		if (number < 1000)
+			return `${num[~~(number / 100)]} hundred ${
+				number % 100 == 0 ? '' : ' ' + this.numToEnglish(number % 100)
+			}`;
+		return `${this.numToEnglish(~~(number / 1000))} thousand ${
+			number % 1000 != 0 ? ' ' + this.numToEnglish(number % 1000) : ''
+		}`;
 	}
 }

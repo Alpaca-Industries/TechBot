@@ -1,7 +1,7 @@
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
+import { Command } from '@sapphire/framework';
 import { CommandInteraction, MessageEmbed, WebhookClient } from 'discord.js';
 import { parseAmount } from '../../helpers/parseAmount';
-import { Command } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/embeds';

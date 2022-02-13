@@ -1,7 +1,6 @@
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction } from 'discord.js';
-
 import { Command } from '@sapphire/framework';
+import type { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchGuild } from '../../helpers/dbHelper';
 import { prefixCache } from '../../index';

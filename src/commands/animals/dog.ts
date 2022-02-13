@@ -1,7 +1,6 @@
 import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, MessageEmbed } from 'discord.js';
-
 import { Command } from '@sapphire/framework';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { isNil } from 'lodash';
 import { Dog } from '../../types/animals';

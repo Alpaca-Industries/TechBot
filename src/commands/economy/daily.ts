@@ -1,8 +1,8 @@
+import type { CommandInteraction } from 'discord.js';
 import { MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import type { CommandInteraction } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'daily',
