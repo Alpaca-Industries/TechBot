@@ -2,7 +2,7 @@ import { generateErrorEmbed } from '../../helpers/embeds';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'setting',
@@ -18,7 +18,7 @@ export default class SettingCommand extends Command {
 			case 'emojicolor':
 			case 'coloremoji':
 				const toggle = interaction.options.getString('toggle', true);
-				let colorName: string;
+				let colorName: string | null;
 				switch (toggle) {
 					case 'default':
 					case 'yellow':
@@ -49,9 +49,9 @@ export default class SettingCommand extends Command {
 						colorName = 'black';
 						break;
 					default:
-						colorName = undefined;
+						colorName = null;
 				}
-				if (toggle === '' || colorName === undefined)
+				if (toggle === '' || colorName === null)
 					return interaction.reply({
 						embeds: [
 							generateErrorEmbed(

@@ -3,37 +3,37 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Item extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Column()
-	name: string;
+	name!: string;
 
 	@Column()
-	price: number;
+	price!: number;
 
 	@Column()
-	rarity: string;
+	rarity!: string;
 
 	@Column()
-	emoji: string;
+	emoji!: string;
 
 	@Column({
 		default: 'I was forgotten about by the devs ;('
 	})
-	description: string;
+	description!: string;
 
 	@Column({
 		default: false
 	})
-	sellable: boolean;
+	sellable!: boolean;
 
 	@Column({
 		default: false
 	})
-	tradeable: boolean;
+	tradeable!: boolean;
 
 	@Column({
 		default: false
 	})
-	collectable: boolean;
+	collectable!: boolean;
 }

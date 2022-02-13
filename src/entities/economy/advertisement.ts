@@ -3,41 +3,41 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Advertisement extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Column()
-	userID: string;
+	userID: string | undefined;
 
 	@Column()
-	messageID: string;
+	messageID: string | undefined;
 
 	@Column()
-	channelID: string;
+	channelID: string | undefined;
 
 	@Column()
-	guildID: string;
+	guildID: string | undefined;
 
 	@Column()
-	title: string;
+	title: string | undefined;
 
 	@Column()
-	description: string;
+	description: string | undefined;
 
 	@Column()
-	price: number;
+	price: number | undefined;
 
 	@Column()
-	duration: number;
+	duration: number | undefined;
 
 	@Column()
-	type: string;
+	type: string | undefined;
 
 	@Column()
-	image: string;
+	image: string | undefined;
 
 	@Column()
-	thumbnail: string;
+	thumbnail: string | undefined;
 
 	@Column()
-	color: string;
+	color: string | undefined;
 }

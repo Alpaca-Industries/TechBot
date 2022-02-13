@@ -2,7 +2,6 @@ import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/f
 import { ApplyOptions } from '@sapphire/decorators';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
-import { getPrefix } from '../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
 	name: 'help',
@@ -12,7 +11,6 @@ import { getPrefix } from '../helpers/getPrefix';
 export default class helpCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const specifiedCommand = interaction.options.getString('specific_command', false) ?? '';
-		const prefix = await getPrefix(interaction.guild);
 		// List All Commands Registered In Sapphire
 		const commands = this.container.stores.get('commands');
 
@@ -34,10 +32,8 @@ export default class helpCommand extends Command {
 
 		const categories = commands.categories;
 		const paginatedMessage = new PaginatedMessage({
-			template: new MessageEmbed()
-				.setTitle('Help')
-				.setColor('BLUE')
-				.setFooter({ text: `This server's prefix is ${prefix}` })
+			template: new MessageEmbed().setTitle('Help').setColor('BLUE')
+			// .setFooter({ text: `This server's prefix is ${prefix}` })
 		});
 
 		for (const category of categories) {
@@ -61,7 +57,7 @@ export default class helpCommand extends Command {
 					.setTitle(category.toProperCase())
 					.setColor('BLUE')
 					.setDescription(fields.map((f) => `**${f.name}:** ${f.value}`).join('\n'))
-					.setFooter({ text: `This server's prefix is ${prefix}` })
+				// .setFooter({ text: `This server's prefix is ${prefix}` })
 			);
 		}
 

@@ -1,7 +1,6 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
-import { isNil } from 'lodash';
 import type { Cat } from '../../types/animals';
 import axios from 'axios';
 
@@ -13,16 +12,17 @@ import axios from 'axios';
 export default class CatCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const catEmbed = new MessageEmbed();
-		const cat: Cat[] = await axios
+		const cat: Cat = await axios
 			.get('https://api.thecatapi.com/v1/images/search')
-			.then((res) => res.data);
+			.then((res) => res.data[0]);
 
-		catEmbed.setImage(cat[0].url).setTitle('Cat').setURL(cat[0].url).setColor('BLUE');
+		catEmbed.setImage(cat.url).setTitle('Cat').setURL(cat.url).setColor('BLUE');
 
-		if (!isNil(cat[0].breeds[0]))
+		if (cat.breeds !== null && cat.breeds !== undefined) {
 			catEmbed.setDescription(
-				`Breed: ${cat[0].breeds[0].name}\nLife Span: ${cat[0].breeds[0].life_span}\nTemperament: ${cat[0].breeds[0].temperament}`
+				`Breed: ${cat.breeds[0].name}\nLife Span: ${cat.breeds[0].life_span}\nTemperament: ${cat.breeds[0].temperament}`
 			);
+		}
 
 		return interaction.reply({ embeds: [catEmbed] });
 	}

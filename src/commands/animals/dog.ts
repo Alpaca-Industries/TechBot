@@ -1,8 +1,7 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
-import { isNil } from 'lodash';
-import { Dog } from '../../types/animals';
+import type { Dog } from '../../types/animals';
 import axios from 'axios';
 
 @ApplyOptions<CommandOptions>({
@@ -13,17 +12,17 @@ import axios from 'axios';
 export default class DogCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const dogEmbed = new MessageEmbed();
-		const dog: Dog[] = await axios
+		const dog: Dog = await axios
 			.get('https://api.thedogapi.com/v1/images/search')
-			.then((res) => res.data);
+			.then((res) => res.data[0]);
 
-		dogEmbed.setImage(dog[0].url);
+		dogEmbed.setImage(dog.url);
 
-		if (!isNil(dog[0].breeds[0]))
+		if (dog.breeds !== null && dog.breeds !== undefined) {
 			dogEmbed.setFooter({
-				text: `Breed: ${dog[0].breeds[0].name} | life-span: ${dog[0].breeds[0].life_span} | Temperament: ${dog[0].breeds[0].temperament}`
+				text: `Breed: ${dog.breeds[0].name} | life-span: ${dog.breeds[0].life_span} | Temperament: ${dog.breeds[0].temperament}`
 			});
-
+		}
 		return interaction.reply({ embeds: [dogEmbed] });
 	}
 

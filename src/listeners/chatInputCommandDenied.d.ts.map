@@ -1,0 +1,1 @@
+{"version":3,"file":"chatInputCommandDenied.d.ts","sourceRoot":"","sources":["chatInputCommandDenied.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,6BAA6B,EAAE,QAAQ,EAAE,SAAS,EAAE,MAAM,qBAAqB,CAAC;AAGzF,qBAAa,qBAAsB,SAAQ,QAAQ;IAC3C,GAAG,CAAC,KAAK,EAAE,SAAS,EAAE,EAAE,WAAW,EAAE,EAAE,6BAA6B;IAgB3E,OAAO,CAAC,YAAY;CAwBpB"}

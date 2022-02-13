@@ -1,5 +1,5 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { replacer } from '../../helpers/replacer';
 import { fetchUser } from '../../helpers/dbHelper';
@@ -12,7 +12,7 @@ import { fetchUser } from '../../helpers/dbHelper';
 })
 export default class clapifyCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const text = interaction.options.getString('text');
+		const text = interaction.options.getString('text') as string;
 		const user = await fetchUser(interaction.user);
 		const emoji = replacer(
 			user.preferredEmojiColor,

@@ -3,16 +3,16 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Inventory extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number;
+	id!: number;
 
 	@Column()
-	userId: string;
+	userId: string | undefined;
 
 	@Column()
-	itemID: number;
+	itemID: number | undefined;
 
 	@Column({
 		default: 0
 	})
-	amount: number;
+	amount!: number;
 }

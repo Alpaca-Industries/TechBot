@@ -1,4 +1,4 @@
-import { User } from '../entities/economy/user';
+import type { User } from '../entities/economy/user';
 
 export const parseAmount = (amount: string | number, user: User, useWallet: boolean = true): number => {
 	amount = String(amount).toLowerCase().replace(/\+/gi, '');

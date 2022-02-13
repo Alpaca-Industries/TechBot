@@ -11,7 +11,7 @@ import { generateErrorEmbed } from '../../helpers/embeds';
 })
 export default class robCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const userToRob = interaction.options.getUser('user');
+		const userToRob = interaction.options.getUser('user')!;
 		if (!interaction.inGuild())
 			return interaction.reply({
 				embeds: [generateErrorEmbed('Please use this command in a server.', 'Guild Only Command')],

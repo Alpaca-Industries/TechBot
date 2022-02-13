@@ -5,7 +5,6 @@ import { fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/embeds';
 import { parseAmount } from '../../helpers/parseAmount';
 import { isSafeInteger } from '../../helpers/isSafeInteger';
-import { getPrefix } from '../../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
 	name: 'withdraw',
@@ -16,7 +15,7 @@ import { getPrefix } from '../../helpers/getPrefix';
 export default class withdrawCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const user = await fetchUser(interaction.user);
-		const arg = interaction.options.getString('amount');
+		const arg = interaction.options.getString('amount') as string;
 		const amountToWithdraw = parseAmount(arg, user, false);
 		if (isNaN(amountToWithdraw))
 			return interaction.reply({
@@ -34,9 +33,7 @@ export default class withdrawCommand extends Command {
 			return interaction.reply({
 				embeds: [
 					generateErrorEmbed(
-						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`${await getPrefix(
-							interaction.guild
-						)}${this.detailedDescription}\``,
+						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`$/${this.detailedDescription}\``,
 						'Unsafe Integer'
 					)
 				],

@@ -1,0 +1,1 @@
+{"version":3,"file":"coinflip.d.ts","sourceRoot":"","sources":["coinflip.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,0BAA0B,EAAE,OAAO,EAAkB,MAAM,qBAAqB,CAAC;AAC1F,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,YAAY,CAAC;AAErD,qBAMa,eAAgB,SAAQ,OAAO;IACrC,YAAY,CAAC,WAAW,EAAE,kBAAkB;IAKlD,2BAA2B,CAAC,QAAQ,EAAE,0BAA0B;CAKhE"}

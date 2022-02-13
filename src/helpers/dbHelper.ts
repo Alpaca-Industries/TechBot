@@ -1,4 +1,4 @@
-import { Guild as DiscordGuild, User as DiscordUser } from 'discord.js';
+import type { Guild as DiscordGuild, User as DiscordUser } from 'discord.js';
 import { Inventory } from '../entities/economy/inventory';
 import { Item } from '../entities/economy/item';
 import { User as EconomyUser } from '../entities/economy/user';
@@ -20,11 +20,15 @@ const ItemRegistry = {
 */
 
 export const fetchItemByName = (name: string): Promise<Item> => {
-	return Item.findOne({ where: { name: name } });
+	const item = Item.findOne({ where: { name: name } });
+	if (item === undefined) {
+		throw new Error(`Item with name ${name} not found`);
+	}
+	return item as Promise<Item>;
 };
 
 export const fetchUser = async (user: DiscordUser): Promise<EconomyUser> => {
-	// Look for user if not exist make new one and return
+	// Look for user if doesn't already exist make new one and return
 	let userData = await EconomyUser.findOne({ where: { id: user.id } });
 	if (userData === undefined) {
 		userData = new EconomyUser();
@@ -55,6 +59,9 @@ export const fetchInventory = async (user: DiscordUser, item: Item): Promise<Inv
 };
 
 export const fetchGuild = async (guild: DiscordGuild): Promise<DBGuild> => {
+	if (guild === undefined) {
+		throw new Error('Guild is undefined');
+	}
 	let guildData = await DBGuild.findOne({ where: { id: guild.id } });
 	if (guildData === undefined) {
 		guildData = new DBGuild();

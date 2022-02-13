@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 import { fetchInventory, fetchItemByName, fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/embeds';
 
@@ -11,7 +11,7 @@ import { generateErrorEmbed } from '../../helpers/embeds';
 })
 export class SellCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const item = interaction.options.getString('item').replaceAll(' ', '_');
+		const item = (interaction.options.getString('item') as string).replaceAll(' ', '_');
 		const amount = Number(interaction.options.getString('amount'));
 		const user = await fetchUser(interaction.user);
 

@@ -1,8 +1,7 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchItemByName, fetchUser } from '../../helpers/dbHelper';
-import { getPrefix } from '../../helpers/getPrefix';
 import { generateErrorEmbed } from '../../helpers/embeds';
 
 @ApplyOptions<CommandOptions>({
@@ -12,7 +11,7 @@ import { generateErrorEmbed } from '../../helpers/embeds';
 })
 export default class BuyCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const itemToBuy = interaction.options.getString('item');
+		const itemToBuy = interaction.options.getString('item') as string;
 
 		const item = await fetchItemByName(itemToBuy.replaceAll(' ', '_'));
 		if (item === undefined)
@@ -21,17 +20,18 @@ export default class BuyCommand extends Command {
 			});
 		const user = await fetchUser(interaction.user);
 
-		if (user.wallet < item.price)
+		if (user.wallet < item.price!) {
 			return interaction.reply({
 				embeds: [
 					generateErrorEmbed(
-						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`${await getPrefix(
-							interaction.guild
-						)}${this.detailedDescription}\``
+						`You don't have enough money to purchase \`${item.name.toProperCase()}\`.\nThe item's price of \`${item.price.toLocaleString()}\` is greater than your wallet balance of \`${user.wallet.toLocaleString()}\`.\nUsage: \`/${
+							this.detailedDescription
+						}\``
 					)
 				],
 				ephemeral: true
 			});
+		}
 
 		user.wallet -= item.price;
 		await user.save();

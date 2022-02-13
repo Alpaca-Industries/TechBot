@@ -5,7 +5,6 @@ import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/embeds';
 import { isSafeInteger } from '../../helpers/isSafeInteger';
-import { getPrefix } from '../../helpers/getPrefix';
 
 @ApplyOptions<CommandOptions>({
 	name: 'deposit',
@@ -16,16 +15,14 @@ import { getPrefix } from '../../helpers/getPrefix';
 export default class depositCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const user = await fetchUser(interaction.user);
-		const arg = interaction.options.getString('amount');
+		const arg = interaction.options.getString('amount') as string;
 		const amountToDeposit = parseAmount(arg, user, true);
 
 		if (isNaN(amountToDeposit))
 			return interaction.reply({
 				embeds: [
 					generateErrorEmbed(
-						`'${arg}' is not a parsable integer.\nUsage: \`${await getPrefix(interaction.guild)}${
-							this.detailedDescription
-						}\``,
+						`'${arg}' is not a parsable integer.\nUsage: \`/${this.detailedDescription}\``,
 						'Invalid Number'
 					)
 				],
@@ -35,9 +32,7 @@ export default class depositCommand extends Command {
 			return interaction.reply({
 				embeds: [
 					generateErrorEmbed(
-						`You don't have enough money to deposit '${arg}'.\nUsage: \`${await getPrefix(
-							interaction.guild
-						)}${this.detailedDescription}\``,
+						`You don't have enough money to deposit '${arg}'.\nUsage: \`/${this.detailedDescription}\``,
 						'Invalid Amount'
 					)
 				],
@@ -47,9 +42,7 @@ export default class depositCommand extends Command {
 			return interaction.reply({
 				embeds: [
 					generateErrorEmbed(
-						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`${await getPrefix(
-							interaction.guild
-						)}${this.detailedDescription}\``,
+						`'${arg}' is a not a valid [safe integer](https://gist.github.com/DevSpen/25ef4e1098231100262f36659e80534a).\nUsage: \`/${this.detailedDescription}\``,
 						'Unsafe Integer'
 					)
 				],

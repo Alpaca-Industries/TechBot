@@ -1,6 +1,6 @@
-import { generateEmbed } from './../../helpers/embeds';
+import { generateEmbed } from '../../helpers/embeds';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { parseAmount } from '../../helpers/parseAmount';
@@ -13,7 +13,7 @@ import { parseAmount } from '../../helpers/parseAmount';
 export default class BetCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const userDetails = await fetchUser(interaction.user);
-		const betAmount = parseAmount(interaction.options.getString('amount'), userDetails);
+		const betAmount = parseAmount(interaction.options.getString('amount') as string, userDetails);
 
 		if (betAmount < 10 || isNaN(betAmount))
 			return interaction.reply('Please bet a valid amount above 10!');

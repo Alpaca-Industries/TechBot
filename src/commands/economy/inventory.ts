@@ -1,5 +1,5 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { Item } from '../../entities/economy/item';
+import type { Item } from '../../entities/economy/item';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { User } from '../../entities/economy/user';

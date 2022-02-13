@@ -1,6 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction } from 'discord.js';
+import type { CommandInteraction } from 'discord.js';
 
 @ApplyOptions<CommandOptions>({
 	name: 'reverse',
@@ -9,7 +9,7 @@ import { CommandInteraction } from 'discord.js';
 })
 export class ReverseCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const text_to_reverse = interaction.options.getString('text_to_reverse');
+		const text_to_reverse = interaction.options.getString('text_to_reverse') as string;
 		return interaction.reply(
 			text_to_reverse
 				.split('')

@@ -5,51 +5,46 @@ import { Inventory } from './inventory';
 @Entity()
 export class User extends BaseEntity {
 	@PrimaryColumn()
-	id: string;
+	id!: string;
 
 	@Column({
 		default: 0
 	})
-	wallet: number;
+	wallet!: number;
 
 	@Column({
 		default: 0
 	})
-	bank: number;
+	bank!: number;
 
-	@OneToMany((type) => Inventory, (inventory) => inventory.userId)
-	inventory: Inventory[];
+	@OneToMany(() => Inventory, (inventory) => inventory.userId)
+	inventory!: Inventory[];
 
 	@Column({
 		default: false
 	})
-	premium: boolean;
+	premium!: boolean;
 
 	@Column({
 		default: 'default'
 	})
-	preferredEmojiColor: string;
+	preferredEmojiColor!: string;
 
-	@OneToMany((type) => Advertisement, (ad) => ad.userID)
-	ads: Advertisement[];
-
-	@Column({
-		default: 0
-	})
-	adCount: number;
+	@OneToMany(() => Advertisement, (ad) => ad.userID)
+	ads?: Advertisement[];
 
 	@Column({
 		default: 'jobless'
 	})
-	currentJob: string;
+	currentJob!: string;
 
 	@Column({
 		default: 0
 	})
-	jobEXP: number;
+	jobEXP!: number;
 
 	@Column({
 		default: false
 	})
-	passiveMode: boolean;
+	passiveMode!: boolean;
 }

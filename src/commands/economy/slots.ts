@@ -13,12 +13,12 @@ import { fetchGuild, fetchUser } from '../../helpers/dbHelper';
 export default class SlotsCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
 		const user = await fetchUser(interaction.user);
-		const amount = parseAmount(interaction.options.getString('amount'), user, true);
+		const amount = parseAmount(interaction.options.getString('amount') as string, user, true);
 
 		if (amount < 20) return interaction.reply('Please gamble a proper amount, a.k.a above 20');
 		if (user.wallet < amount) return interaction.reply('You dont have enough money...');
 
-		const guild = await fetchGuild(interaction.guild);
+		const guild = await fetchGuild(interaction.guild!);
 
 		const slotEmoji = ':money_mouth:';
 		const items = ['💵', '💍', '💯'];

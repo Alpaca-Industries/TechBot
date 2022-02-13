@@ -3,18 +3,18 @@ import { BaseEntity, Column, Entity, PrimaryColumn } from 'typeorm';
 @Entity()
 export class Guild extends BaseEntity {
 	@PrimaryColumn()
-	id: string;
+	id!: string;
 
 	@Column()
-	prefix: string;
+	prefix: string | undefined;
 
 	@Column({
 		default: 0
 	})
-	slotsWinMultiplier: number;
+	slotsWinMultiplier!: number;
 
 	@Column({
 		default: 0
 	})
-	slotsMoneyPool: number;
+	slotsMoneyPool!: number;
 }

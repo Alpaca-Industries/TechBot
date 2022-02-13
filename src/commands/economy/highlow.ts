@@ -1,4 +1,10 @@
-import { CommandInteraction, MessageActionRow, MessageButton, MessageEmbed } from 'discord.js';
+import {
+	CommandInteraction,
+	MessageActionRow,
+	MessageButton,
+	MessageComponentInteraction,
+	MessageEmbed
+} from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { fetchUser } from '../../helpers/dbHelper';
@@ -26,15 +32,15 @@ export default class DailyCommand extends Command {
 		);
 
 		await interaction.reply({ content: 'Made highlow bet successfully!', ephemeral: true });
-		const msg = await interaction.channel.send({ embeds: [embed], components: [row] });
+		const msg = await interaction.channel?.send({ embeds: [embed], components: [row] });
 
 		const user = await fetchUser(interaction.user);
 
-		const filter = (interaction) =>
+		const filter = (interaction: MessageComponentInteraction) =>
 			interaction.customId === 'higher' ||
 			interaction.customId === 'jackpot' ||
 			(interaction.customId === 'lower' && interaction.user.id === interaction.user.id);
-		msg.awaitMessageComponent({ filter, time: 30_000 }).then((interaction) => {
+		msg?.awaitMessageComponent({ filter, time: 30_000 }).then((interaction) => {
 			const bet = interaction.customId;
 			const testNum = Math.floor(Math.random() * 100) + 1;
 

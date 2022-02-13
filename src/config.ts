@@ -2,7 +2,6 @@ import type { ClientOptions } from 'discord.js';
 import type { ConnectionOptions } from 'typeorm';
 
 import path from 'path';
-import { getPrefix } from './helpers/getPrefix';
 
 const typeORMConfig: ConnectionOptions = {
 	type: process.env.DEV ? 'better-sqlite3' : 'mariadb',
@@ -20,8 +19,7 @@ const sapphireConfig: ClientOptions = {
 	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_INTEGRATIONS'],
 	defaultCooldown: {
 		delay: 5000
-	},
-	fetchPrefix: async (message) => await getPrefix(message.guild)
+	}
 };
 
 export const config = {

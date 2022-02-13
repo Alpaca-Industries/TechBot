@@ -1,5 +1,5 @@
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
-import { CommandInteraction, MessageEmbed, WebhookClient } from 'discord.js';
+import { CommandInteraction, MessageEmbed, User, WebhookClient } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { generateErrorEmbed } from '../../helpers/embeds';
@@ -14,9 +14,9 @@ import { pluralize } from '../../helpers/pluralize';
 })
 export default class giveMoneyCommand extends Command {
 	async chatInputRun(interaction: CommandInteraction) {
-		const receiver = interaction.options.getUser('user');
+		const receiver = interaction.options.getUser('user') as User;
 		const author = await fetchUser(interaction.user);
-		const amount = parseAmount(interaction.options.getString('amount'), author);
+		const amount = parseAmount(interaction.options.getString('amount') as string, author);
 
 		if (receiver.bot || receiver.id === interaction.user.id)
 			return interaction.reply({ embeds: [generateErrorEmbed('Invalid User Specified!')] });
