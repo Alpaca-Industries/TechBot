@@ -1,5 +1,4 @@
-import type { CommandInteraction } from 'discord.js';
-import { MessageEmbed } from 'discord.js';
+import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchUser } from '../../helpers/dbHelper';
 import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';

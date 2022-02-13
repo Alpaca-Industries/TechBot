@@ -1,6 +1,5 @@
-import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import { Command } from '@sapphire/framework';
-import type { CommandInteraction } from 'discord.js';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
+import { CommandInteraction } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchItemByName, fetchUser } from '../../helpers/dbHelper';
 import { getPrefix } from '../../helpers/getPrefix';

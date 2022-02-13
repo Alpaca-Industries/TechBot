@@ -1,5 +1,4 @@
-import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import { Command } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { CommandInteraction, MessageEmbed, WebhookClient } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { fetchInventory, fetchItemByName } from '../../helpers/dbHelper';

@@ -1,7 +1,6 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import type { ListenerOptions } from '@sapphire/framework';
-import { Listener } from '@sapphire/framework';
-import type { Guild as DiscordGuild } from 'discord.js';
+import { Listener, ListenerOptions } from '@sapphire/framework';
+import { Guild as DiscordGuild } from 'discord.js';
 import { Guild } from '../entities/guild';
 
 @ApplyOptions<ListenerOptions>({

@@ -1,5 +1,4 @@
-import type { CommandOptions } from '@sapphire/framework';
-import { ApplicationCommandRegistry, Command } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { ApplyOptions } from '@sapphire/decorators';
 import { PaginatedMessage } from '@sapphire/discord.js-utilities';
 import { CommandInteraction, MessageEmbed } from 'discord.js';

@@ -1,6 +1,5 @@
 import { ApplyOptions } from '@sapphire/decorators';
-import type { ListenerOptions } from '@sapphire/framework';
-import { Listener } from '@sapphire/framework';
+import { Listener, ListenerOptions } from '@sapphire/framework';
 import { Message, MessageEmbed } from 'discord.js';
 
 @ApplyOptions<ListenerOptions>({

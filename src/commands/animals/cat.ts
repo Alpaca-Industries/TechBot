@@ -1,9 +1,8 @@
-import type { ApplicationCommandRegistry, CommandOptions } from '@sapphire/framework';
-import { Command } from '@sapphire/framework';
+import { ApplicationCommandRegistry, Command, CommandOptions } from '@sapphire/framework';
 import { CommandInteraction, MessageEmbed } from 'discord.js';
 import { ApplyOptions } from '@sapphire/decorators';
 import { isNil } from 'lodash';
-import { Cat } from '../../types/animals';
+import type { Cat } from '../../types/animals';
 import axios from 'axios';
 
 @ApplyOptions<CommandOptions>({

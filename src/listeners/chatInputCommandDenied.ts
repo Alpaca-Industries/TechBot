@@ -1,6 +1,4 @@
-// import { MessageEmbed } from 'discord.js';
-import type { ChatInputCommandDeniedPayload, UserError } from '@sapphire/framework';
-import { Listener } from '@sapphire/framework';
+import { ChatInputCommandDeniedPayload, Listener, UserError } from '@sapphire/framework';
 import { generateErrorEmbed } from '../helpers/embeds';
 
 export class CommandDeniedListener extends Listener {
