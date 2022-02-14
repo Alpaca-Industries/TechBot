@@ -1,6 +1,8 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, /* OneToMany, */ PrimaryColumn } from 'typeorm';
+/*
 import { Advertisement } from './advertisement';
 import { Inventory } from './inventory';
+ */
 
 @Entity()
 export class User extends BaseEntity {
@@ -17,8 +19,11 @@ export class User extends BaseEntity {
 	})
 	bank!: number;
 
-	@OneToMany(() => Inventory, (inventory) => inventory.userId)
+	/*
+	@OneToMany((type) => Inventory, (inventory) => inventory.userId)
 	inventory!: Inventory[];
+
+	 */
 
 	@Column({
 		default: false
@@ -30,8 +35,10 @@ export class User extends BaseEntity {
 	})
 	preferredEmojiColor!: string;
 
-	@OneToMany(() => Advertisement, (ad) => ad.userID)
+	/*
+	@OneToMany((type) => Advertisement, (ad) => ad.userID)
 	ads?: Advertisement[];
+	 */
 
 	@Column({
 		default: 'jobless'

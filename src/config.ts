@@ -19,7 +19,7 @@ const typeORMConfig: ConnectionOptions = {
 
 const sapphireConfig: ClientOptions = {
 	loadMessageCommandListeners: true,
-	intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_INTEGRATIONS'],
+	intents: ['GUILDS', 'GUILD_INTEGRATIONS'],
 	defaultCooldown: {
 		delay: 5000
 	}
