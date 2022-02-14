@@ -6,6 +6,13 @@ declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			readonly DEV: string | undefined;
+			readonly TOKEN: string;
+			readonly DB_HOST: string;
+			readonly DB_TYPE: string;
+			readonly DB_PORT: number;
+			readonly DB_USER: string;
+			readonly DB_PASS: string;
+			readonly DB_NAME: string;
 		}
 	}
 }
