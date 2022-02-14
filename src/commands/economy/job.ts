@@ -95,6 +95,7 @@ export default class jobCommand extends Command {
 				.addStringOption((option) =>
 					option
 						.setName('option')
+						.setDescription('The option you want to do.')
 						.setChoices([
 							['list', 'List'],
 							['select', 'Select'],

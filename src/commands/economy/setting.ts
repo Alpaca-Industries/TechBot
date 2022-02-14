@@ -73,8 +73,12 @@ export default class SettingCommand extends Command {
 			builder
 				.setName(this.name)
 				.setDescription(this.description)
-				.addStringOption((option) => option.setName('option').setRequired(true))
-				.addStringOption((option) => option.setName('toggle').setRequired(false))
+				.addStringOption((option) =>
+					option.setName('option').setDescription('What to Do.').setRequired(true)
+				)
+				.addStringOption((option) =>
+					option.setName('toggle').setDescription('Color?').setRequired(false)
+				)
 		);
 	}
 }

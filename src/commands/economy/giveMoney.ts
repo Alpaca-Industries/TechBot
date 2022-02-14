@@ -84,7 +84,12 @@ export default class giveMoneyCommand extends Command {
 				.addUserOption((option) =>
 					option.setName('user').setDescription('The user to give money to.').setRequired(true)
 				)
-				.addStringOption((option) => option.setName('amount').setRequired(true))
+				.addStringOption((option) =>
+					option
+						.setName('amount')
+						.setDescription('The amount of money to give to the user.')
+						.setRequired(true)
+				)
 		);
 	}
 }

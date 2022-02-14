@@ -9,12 +9,15 @@ dotenv.config({ path: path.resolve(process.env.DEV ? '.env.test' : '.env') });
 const typeORMConfig: ConnectionOptions = {
 	type: process.env.DB_TYPE as 'better-sqlite3' | 'mariadb',
 	host: process.env.DB_HOST,
-	port: process.env.DB_PORT,
+	port: process.env.DB_PORT as unknown as number,
 	username: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	database: process.env.DB_NAME,
 	synchronize: true,
-	entities: [path.join(__dirname + '/entities/**/*.{ts,js}'), path.join(__dirname + '/entities/*.{ts,js}')]
+	entities: [
+		path.join(__dirname + '/entities_die/**/*.{ts,js}'),
+		path.join(__dirname + '/entities_die/*.{ts,js}')
+	]
 };
 
 const sapphireConfig: ClientOptions = {

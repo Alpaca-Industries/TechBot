@@ -2,5 +2,13 @@
   "extends": "@sapphire/ts-config",
   "compilerOptions": {
     "outDir": "./dist",
+    "target": "ESNext",
+    "incremental": true,
+    "importHelpers": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
