@@ -17,8 +17,8 @@ export default class LeaderboardCommand extends Command {
 		const bankOnly = flags.includes('bankOnly');
 		const overallMoney = flags.includes('overallMoney');
 
-		if (guildOnly === true && walletOnly === true) {
-			return interaction.reply('Please Only Specify Either Bank or Wallet or Overalll');
+		if (guildOnly && walletOnly) {
+			return interaction.reply('Please Only Specify Either Bank or Wallet or Overall');
 		}
 
 		const topUsers = await User.createQueryBuilder('user')
@@ -46,7 +46,7 @@ export default class LeaderboardCommand extends Command {
 			};
 
 			switch (counter) {
-				// Removed unecceary {} around case statements
+				// Removed unnecessary {} around case statements
 				case 1:
 					// Made all lines single lines so its actually readable, for the love of god change your max line length
 					leaderboardData.push(
@@ -93,10 +93,10 @@ export default class LeaderboardCommand extends Command {
 						.setName('flags')
 						.setDescription('Flags to use')
 						.setChoices([
-							['Only show guilds', 'guildOnly'],
-							['Only show wallets', 'walletOnly'],
-							['Only show banks', 'bankOnly'],
-							['Show overall money', 'overallMoney']
+							['Only show guilds', '--guildOnly'],
+							['Only show wallets', '--walletOnly'],
+							['Only show banks', '--bankOnly'],
+							['Show overall money', '--overallMoney']
 						])
 				)
 		);

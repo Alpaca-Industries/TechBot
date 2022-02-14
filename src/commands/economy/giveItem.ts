@@ -38,7 +38,7 @@ export default class giveItemCommand extends Command {
 			inventory.save();
 			return null;
 		});
-		// Recievers Inventory
+		// Receivers Inventory
 		fetchInventory(userToGiveTo, await fetchItemByName(itemToGive)).then((inventory) => {
 			inventory.amount += amount;
 			inventory.save();

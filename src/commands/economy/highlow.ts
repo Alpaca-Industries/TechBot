@@ -58,7 +58,7 @@ export default class DailyCommand extends Command {
 				amount = Math.round(Math.random() * (800 - 75) + 75);
 			}
 
-			if (won === true) {
+			if (won) {
 				user.wallet += amount;
 			} else {
 				user.wallet -= amount;
